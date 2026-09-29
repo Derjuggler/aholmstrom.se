@@ -1,15 +1,16 @@
 @use "./variables.scss" as *;
 
 :root {
-  --paper: #efe0b4;
-  --paper-deep: #e3cf97;
-  --ink: #102f34;
-  --ink-soft: #29464a;
-  --rule: rgba(16, 47, 52, 0.26);
-  --rule-strong: rgba(16, 47, 52, 0.62);
-  --brass: #9a7124;
-  --risk: #963e32;
-  --trace: rgba(255, 250, 232, 0.36);
+  --paper: #0a0a0a;
+  --paper-deep: #161616;
+  --ink: #edede8;
+  --ink-soft: #a8a8a0;
+  --rule: rgba(237, 237, 232, 0.26);
+  --rule-strong: rgba(237, 237, 232, 0.62);
+  --brass: #f5c800;
+  --risk: #ff5a36;
+  --trace: rgba(10, 10, 10, 0.36);
+  --signal: #f5c800;
 }
 
 * {
@@ -19,8 +20,8 @@
 body {
   background-color: var(--paper);
   background-image:
-    linear-gradient(rgba(16, 47, 52, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 47, 52, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(237, 237, 232, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 237, 232, 0.045) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -30,14 +31,14 @@ body {
 
 .page > #quartz-body .sidebar.left {
   border-right: 1px solid var(--rule);
-  background: rgba(239, 224, 180, 0.93);
+  background: rgba(10, 10, 10, 0.93);
   padding-left: 2.2rem;
   padding-right: 1.7rem;
 }
 
 .page > #quartz-body .sidebar.right {
   border-left: 1px solid var(--rule);
-  background: rgba(239, 224, 180, 0.66);
+  background: rgba(10, 10, 10, 0.66);
 }
 
 .page-title {
@@ -73,7 +74,7 @@ body {
 
 .search .search-button {
   border: 1px solid var(--rule) !important;
-  background: rgba(255, 250, 232, 0.2) !important;
+  background: rgba(10, 10, 10, 0.2) !important;
 }
 
 .explorer {
@@ -332,14 +333,14 @@ body[data-slug="index"] .center article > .home-shell {
 }
 
 .action-primary {
-  background: var(--ink);
+  background: var(--signal);
   color: var(--paper) !important;
   box-shadow: 4px 4px 0 var(--risk);
 }
 
 .action-secondary {
   color: var(--ink) !important;
-  background: rgba(255, 250, 232, 0.22);
+  background: rgba(10, 10, 10, 0.22);
 }
 
 .dependency-plate {
@@ -347,9 +348,9 @@ body[data-slug="index"] .center article > .home-shell {
   min-height: 590px;
   margin: 0;
   border: 1px solid var(--rule-strong);
-  background: rgba(255, 250, 232, 0.22);
+  background: rgba(10, 10, 10, 0.22);
   overflow: hidden;
-  box-shadow: 8px 8px 0 rgba(16, 47, 52, 0.08);
+  box-shadow: 8px 8px 0 rgba(237, 237, 232, 0.08);
 }
 
 .dependency-plate figcaption {
@@ -369,8 +370,8 @@ body[data-slug="index"] .center article > .home-shell {
   position: absolute;
   inset: 2.5rem 0 0;
   background-image:
-    linear-gradient(rgba(16, 47, 52, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 47, 52, 0.09) 1px, transparent 1px);
+    linear-gradient(rgba(237, 237, 232, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 237, 232, 0.09) 1px, transparent 1px);
   background-size: 34px 34px;
 }
 
@@ -396,7 +397,7 @@ body[data-slug="index"] .center article > .home-shell {
   padding: 0.75rem 0.9rem;
   border: 1px solid var(--rule-strong);
   border-radius: 0;
-  background: rgba(239, 224, 180, 0.94);
+  background: rgba(10, 10, 10, 0.94);
   color: var(--ink);
   cursor: pointer;
   transition:
@@ -427,13 +428,13 @@ body[data-slug="index"] .center article > .home-shell {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
   transform: translateX(5px);
-  background: #f7eccd;
+  background: #141414;
   box-shadow: -5px 0 0 var(--risk);
 }
 
 .dep-node.is-impacted {
   border-color: var(--risk);
-  background: rgba(150, 62, 50, 0.08);
+  background: rgba(255, 90, 54, 0.08);
 }
 .dep-node.is-impacted small {
   color: var(--risk);
@@ -444,13 +445,15 @@ body[data-slug="index"] .center article > .home-shell {
   height: 34px;
   margin-left: 1.5rem;
   background: var(--rule-strong);
-  transition: background-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .dep-line.is-active,
 .dep-risk {
   background: var(--risk);
-  box-shadow: 0 0 0 1px rgba(150, 62, 50, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 90, 54, 0.12);
 }
 
 .failure-note {
@@ -571,7 +574,7 @@ body[data-slug="index"] .center article > .home-shell {
 }
 
 .mapper-section {
-  background: var(--ink);
+  background: var(--signal);
   color: var(--paper);
 }
 
@@ -584,7 +587,7 @@ body[data-slug="index"] .center article > .home-shell {
 
 .spec-label {
   font-size: 0.64rem;
-  color: #e3b85f !important;
+  color: #0a0a0a !important;
 }
 
 .text-link {
@@ -599,17 +602,17 @@ body[data-slug="index"] .center article > .home-shell {
 
 .mapper-readout {
   align-self: center;
-  border: 1px solid rgba(239, 224, 180, 0.55);
-  background: rgba(239, 224, 180, 0.06);
+  border: 1px solid rgba(10, 10, 10, 0.55);
+  background: rgba(10, 10, 10, 0.06);
 }
 
 .readout-head {
   display: flex;
   justify-content: space-between;
   padding: 0.8rem 1rem;
-  border-bottom: 1px solid rgba(239, 224, 180, 0.28);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.28);
   font-size: 0.58rem;
-  color: #e3b85f;
+  color: #0a0a0a;
 }
 
 .readout-question {
@@ -632,7 +635,7 @@ body[data-slug="index"] .center article > .home-shell {
   display: grid;
   grid-template-columns: 8rem 1fr;
   padding: 0.8rem 1rem;
-  border-top: 1px solid rgba(239, 224, 180, 0.2);
+  border-top: 1px solid rgba(10, 10, 10, 0.2);
 }
 
 .mapper-readout li span {
@@ -640,7 +643,7 @@ body[data-slug="index"] .center article > .home-shell {
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #e3b85f;
+  color: #0a0a0a;
 }
 
 .mapper-readout li strong {
@@ -653,7 +656,7 @@ body[data-slug="index"] .center article > .home-shell {
   padding: 2rem;
   border: 0;
   border-top: 6px solid var(--risk);
-  background: rgba(255, 250, 232, 0.35);
+  background: rgba(10, 10, 10, 0.35);
   font-family: var(--bodyFont);
   font-size: clamp(1.35rem, 2vw, 2rem);
   line-height: 1.45;
@@ -717,7 +720,7 @@ body[data-slug="index"] .center article > .home-shell {
   align-items: end;
   padding: 5rem clamp(2rem, 5vw, 6rem);
   background: var(--risk);
-  color: #fff4d7;
+  color: #0a0a0a;
 }
 
 .contact-band h2 {
@@ -726,18 +729,18 @@ body[data-slug="index"] .center article > .home-shell {
   font-size: clamp(2.6rem, 4.5vw, 5rem);
   line-height: 0.98;
   letter-spacing: -0.035em;
-  color: #fff4d7;
+  color: #0a0a0a;
 }
 
 .contact-band > div > span {
   font-size: 0.62rem;
-  color: #fff4d7;
+  color: #0a0a0a;
 }
 
 .contact-band > a {
   min-width: 220px;
-  border-color: #fff4d7;
-  color: #fff4d7 !important;
+  border-color: #0a0a0a;
+  color: #0a0a0a !important;
   box-shadow: 5px 5px 0 var(--ink);
 }
 
@@ -770,7 +773,7 @@ body[data-slug="index"] .center article > .home-shell {
   border: 1px solid var(--rule-strong);
   border-radius: 0;
   padding: 0.85rem;
-  background: rgba(255, 250, 232, 0.28);
+  background: rgba(10, 10, 10, 0.28);
   color: var(--ink);
   font: inherit;
 }
@@ -786,7 +789,7 @@ body[data-slug="index"] .center article > .home-shell {
   padding: 0.9rem 1.2rem;
   border: 1px solid var(--ink);
   border-radius: 0;
-  background: var(--ink);
+  background: var(--signal);
   color: var(--paper);
   font-family: var(--headerFont);
   font-weight: 650;

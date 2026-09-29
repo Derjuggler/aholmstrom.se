@@ -15,30 +15,30 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Saira Semi Condensed
-      body: Literata
-      code: Azeret Mono
+      header: Inter Tight
+      body: Inter Tight
+      code: JetBrains Mono
     colors:
       lightMode:
-        light: "#efe0b4"
-        lightgray: "#d7c38d"
-        gray: "#84785e"
-        darkgray: "#29464a"
-        dark: "#102f34"
-        secondary: "#0d555b"
-        tertiary: "#963e32"
-        highlight: rgba(13, 85, 91, 0.12)
-        textHighlight: "#d7a74766"
+        light: "#0a0a0a"
+        lightgray: "#262626"
+        gray: "#8a8a84"
+        darkgray: "#d4d4ce"
+        dark: "#f2f2ec"
+        secondary: "#f5c800"
+        tertiary: "#ff5a36"
+        highlight: rgba(245, 200, 0, 0.10)
+        textHighlight: "#f5c80055"
       darkMode:
-        light: "#102f34"
-        lightgray: "#29464a"
-        gray: "#9e967d"
-        darkgray: "#e0d1a6"
-        dark: "#f4e9ca"
-        secondary: "#e3b85f"
-        tertiary: "#d98270"
-        highlight: rgba(227, 184, 95, 0.13)
-        textHighlight: "#963e3266"
+        light: "#0a0a0a"
+        lightgray: "#262626"
+        gray: "#8a8a84"
+        darkgray: "#d4d4ce"
+        dark: "#f2f2ec"
+        secondary: "#f5c800"
+        tertiary: "#ff5a36"
+        highlight: rgba(245, 200, 0, 0.10)
+        textHighlight: "#f5c80055"
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true

@@ -55,7 +55,7 @@ components:
 
 ## Overview
 
-Den visuella världen för **aholmstrom.se** bygger på riktningen *Verksamhetens sektionsritning*. Sajten behandlas som en genomskärning av organisationen där arbetsuppgifter, människor, system och infrastruktur redovisas i en sammanhängande, läsbar teknisk konstruktion.
+Den visuella världen för **aholmstrom.se** bygger på riktningen _Verksamhetens sektionsritning_. Sajten behandlas som en genomskärning av organisationen där arbetsuppgifter, människor, system och infrastruktur redovisas i en sammanhängande, läsbar teknisk konstruktion.
 
 Världen avvisar standardmallen med porträtthjälte och generiska tjänstekort, liksom svarta "hacker-teman" med neonfärger. Istället etableras en varm, intellektuell och trovärdig arbetsyta präglad av ritlinne, kalkerlager, plotterbläck och diskreta mässingsmarkeringar.
 
@@ -73,6 +73,7 @@ Världen avvisar standardmallen med porträtthjälte och generiska tjänstekort,
 ## Typography
 
 Typografin speglar mötet mellan teknisk ritning och humaniora:
+
 1. **Saira Semi Condensed**: Tät, konstruktiv och skarp displaytypografi för rubriker, sektionsrubriker och knappar.
 2. **Literata**: Varm, läsbar serif med litterär stringens för brödtext, citat och personliga reflektioner. Kursiva inslag används för teser och emfas.
 3. **Azeret Mono**: Ingenjörsmässiga stämplar, koordinater, registerkoder, statusmarkörer och metainformation.
@@ -87,6 +88,7 @@ Typografin speglar mötet mellan teknisk ritning och humaniora:
 ## Elevation & Depth
 
 Inga mjuka diffusa skuggor eller artificiella 3D-effekter tillåts. Djup skapas uteslutande genom:
+
 - Hårda offset-skuggor (`4px 4px 0 var(--risk)`, `8px 8px 0 rgba(16, 47, 52, 0.08)`).
 - Semi-transparenta kalkerlager (`var(--trace)`).
 - Överlappande ritningsramar med precisionstjocklekar.
@@ -106,12 +108,14 @@ Inga mjuka diffusa skuggor eller artificiella 3D-effekter tillåts. Djup skapas 
 ## Do's and Don'ts
 
 ### Do
+
 - Använd sammansatta svenska begrepp utan felaktig orddelning eller klippning.
 - Låt den akademiska tyngden bevisa erbjudandet utan att låta som ett torrt CV.
 - Håll ritningsstrukturen konsekvent och lugn.
 - Reservera oxblood (`#963e32`) för risker och huvudsakliga interaktionspunkter.
 
 ### Don't
+
 - Skapa inga generiska "konsultkort" med stockikoner.
 - Använd inte neon, mörka "cyberhacker"-paletter eller digitala linsöverstrålningar.
 - Använd inte mjuka generiska box-shadows eller rundade hörn (`border-radius > 0`).
