@@ -719,7 +719,7 @@ body[data-slug="index"] .center article > .home-shell {
   gap: 3rem;
   align-items: end;
   padding: 5rem clamp(2rem, 5vw, 6rem);
-  background: var(--risk);
+  background: var(--signal);
   color: #0a0a0a;
 }
 
@@ -740,8 +740,9 @@ body[data-slug="index"] .center article > .home-shell {
 .contact-band > a {
   min-width: 220px;
   border-color: #0a0a0a;
-  color: #0a0a0a !important;
-  box-shadow: 5px 5px 0 var(--ink);
+  background: #0a0a0a;
+  color: var(--signal) !important;
+  box-shadow: 5px 5px 0 rgba(10, 10, 10, 0.35);
 }
 
 .contact-form {
