@@ -8,7 +8,7 @@
   --rule: rgba(237, 237, 232, 0.26);
   --rule-strong: rgba(237, 237, 232, 0.62);
   --brass: #f5c800;
-  --risk: #ff5a36;
+  --risk: #8fb3d9;
   --trace: rgba(10, 10, 10, 0.36);
   --signal: #f5c800;
 }
@@ -434,7 +434,7 @@ body[data-slug="index"] .center article > .home-shell {
 
 .dep-node.is-impacted {
   border-color: var(--risk);
-  background: rgba(255, 90, 54, 0.08);
+  background: rgba(143, 179, 217, 0.08);
 }
 .dep-node.is-impacted small {
   color: var(--risk);
@@ -453,7 +453,7 @@ body[data-slug="index"] .center article > .home-shell {
 .dep-line.is-active,
 .dep-risk {
   background: var(--risk);
-  box-shadow: 0 0 0 1px rgba(255, 90, 54, 0.12);
+  box-shadow: 0 0 0 1px rgba(143, 179, 217, 0.12);
 }
 
 .failure-note {
