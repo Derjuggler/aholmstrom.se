@@ -3,7 +3,7 @@ configuration:
   pageTitle: Anton Holmström
   pageTitleSuffix: " · informationssäkerhet bortom IT"
   enableSPA: true
-  enablePopovers: true
+  enablePopovers: false
   analytics: null
   locale: en-GB
   baseUrl: aholmstrom.se
