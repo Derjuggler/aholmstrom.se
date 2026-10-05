@@ -444,7 +444,9 @@ body[data-slug="index"] .center article > .home-shell {
   height: 34px;
   margin-left: 1.5rem;
   background: var(--rule-strong);
-  transition: background-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .dep-line.is-active,
