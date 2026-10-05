@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -161,9 +162,233 @@ body{
 .nav-btn{ all:unset; cursor:pointer; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:1.5px solid var(--line); border-radius:50%; color:var(--ink); font-size:1.1rem; }
 .nav-btn:hover{ border-color:var(--accent); color:var(--accent); }
 .nav-btn:disabled{ opacity:.3; cursor:default; }
-.dots{ display:flex; gap:7px; flex-wrap:wrap; max-width:520px; justify-content:center; }
+.dots{ display:flex; gap:6px; flex-wrap:wrap; max-width:820px; justify-content:center; }
 .dot{ all:unset; cursor:pointer; width:8px; height:8px; border-radius:50%; background:var(--card); border:1px solid var(--line); }
 .dot.active{ background:var(--accent); width:18px; border-radius:5px; border-color:var(--accent); }
+
+/* händelseförlopp (horisontell tidslinje) */
+.tl-h{ display:grid; grid-template-columns:repeat(6,1fr); gap:18px; position:relative; margin-top:4px; }
+.tl-h::before{ content:""; position:absolute; left:0; right:0; top:8px; height:1px; background:var(--line); }
+.tl-h-item{ display:flex; flex-direction:column; gap:6px; position:relative; }
+.tl-h-dot{ width:17px; height:17px; border-radius:50%; border:1.5px solid var(--accent); background:var(--paper); position:relative; z-index:1; margin-bottom:8px; }
+.tl-h-item.bad .tl-h-dot{ background:var(--accent-deep); border-color:var(--accent-deep); }
+.tl-h-time{ font-size:.95rem; color:var(--accent); font-style:italic; letter-spacing:.02em; }
+.tl-h-title{ font-size:1.25rem; font-weight:600; line-height:1.25; }
+.tl-h-item.bad .tl-h-title{ color:var(--accent-deep); }
+.tl-h-desc{ font-size:1.08rem; color:var(--muted); line-height:1.4; }
+@media (max-width: 900px){ .tl-h{ grid-template-columns:repeat(2,1fr); } .tl-h::before{ display:none; } }
+
+/* offline-bild (dramatisk, svart) */
+body:has(.offline-slide.active), body:has(.offline-slide.active) .deck{ background:#0d0c0a; transition:background .4s ease; }
+body:has(.offline-slide.active) .course-tag, body:has(.offline-slide.active) .slide-number{ color:#5c574c; }
+body:has(.offline-slide.active) .ltu-logo{ opacity:.25; }
+body:has(.offline-slide.active) .progress-track{ background:#2a2722; }
+body:has(.offline-slide.active) .progress-fill{ background:#5c574c; }
+body:has(.offline-slide.active) .nav-btn{ border-color:#3a362f; color:#5c574c; }
+body:has(.offline-slide.active) .dot{ background:#1d1b17; border-color:#3a362f; }
+body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e5483a; }
+.offline-slide{ background:#0d0c0a; align-items:center; text-align:center; gap:18px; }
+.slide h1.offline-word{ max-width:none; font-size:clamp(4.5rem,15vw,11rem); font-weight:700; letter-spacing:.14em; color:#e5483a; line-height:1; margin:0; padding-left:.14em; text-shadow:0 0 28px rgba(229,72,58,.35); animation:offlineFlicker 6s infinite; }
+.offline-sub{ font-size:1.2rem; letter-spacing:.12em; text-transform:uppercase; color:#77705f; font-style:italic; }
+@keyframes offlineFlicker{ 0%,91%,100%{ opacity:1; } 92%{ opacity:.25; } 93%{ opacity:1; } 95%{ opacity:.5; } 96%{ opacity:1; } }
+@media (prefers-reduced-motion: reduce){ .offline-word{ animation:none; } }
+
+/* beslut under press (2x2) */
+.dec-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.dec-card{ border:1.5px solid var(--line); padding:18px 22px; display:flex; flex-direction:column; gap:6px; }
+.dec-card.filled{ background:var(--card); }
+.dec-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.dec-title{ font-size:1.4rem; font-weight:600; line-height:1.25; }
+.dec-big{ font-size:2rem; font-weight:600; line-height:1.1; color:var(--accent-deep); }
+.dec-desc{ font-size:1.12rem; color:var(--muted); line-height:1.4; }
+.dec-prio{ margin:0; padding-left:1.4em; font-size:1.4rem; font-weight:600; line-height:1.3; }
+@media (max-width: 760px){ .dec-grid{ grid-template-columns:1fr; } }
+
+/* resiliensvägar (org A / org B) */
+.res-fig{ width:100%; }
+.res-fig svg{ display:block; width:100%; height:auto; max-height:52vh; overflow:visible; }
+.res-org{ font-family:"EB Garamond", serif; font-size:26px; font-weight:600; fill:var(--ink); }
+.res-burst{ fill:var(--accent-deep); stroke:var(--accent-deep); stroke-width:1.5; stroke-linejoin:round; }
+.res-cap{ font-family:"EB Garamond", serif; font-size:18px; font-style:italic; text-anchor:middle; fill:var(--muted); }
+.res-cap.bad{ fill:var(--accent-deep); }
+.res-cap.good{ fill:var(--good); font-weight:600; }
+.res-q{ font-family:"EB Garamond", serif; font-size:44px; fill:var(--muted); text-anchor:middle; }
+.res-path{ fill:none; stroke:var(--ink); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:0; }
+.res-check{ fill:none; stroke:var(--good); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+.slide.active .res-path.a{ animation:resDraw 1.2s ease-out both; }
+.slide.active .res-path.b{ animation:resDraw 5s ease-in-out 1.4s both; }
+.slide.active .res-end.a{ animation:resPop .4s ease-out 1.2s both; }
+.slide.active .res-end.b{ animation:resPop .4s ease-out 6.4s both; }
+@keyframes resDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+@keyframes resPop{ from{ opacity:0; } to{ opacity:1; } }
+@media (prefers-reduced-motion: reduce){ .slide.active .res-path, .slide.active .res-end{ animation:none; } }
+
+/* lärdomar: listor, spärrar, brygga */
+.box-list{ margin:6px 0 0; padding-left:1.1em; display:flex; flex-direction:column; gap:6px; font-size:1.2rem; line-height:1.4; }
+.fix-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:12px 18px; align-items:center; }
+.fix-head{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.fix-from{ background:var(--bad-soft); border-left:3px solid var(--accent-deep); padding:12px 16px; font-size:1.2rem; line-height:1.35; }
+.fix-arrow{ font-size:1.4rem; color:var(--muted); }
+.fix-to{ border:1.5px solid var(--line); padding:12px 16px; font-size:1.2rem; font-weight:600; line-height:1.35; }
+.fix-to.good{ background:var(--good-soft); border-color:var(--good); color:#1f6b3b; }
+.bridge{ display:grid; grid-template-columns:200px 1fr 200px; gap:16px; align-items:stretch; }
+.bridge-end{ border:1.5px solid var(--line); padding:18px; display:flex; align-items:center; justify-content:center; text-align:center; font-size:1.3rem; font-weight:600; line-height:1.3; }
+.bridge-end.filled{ background:var(--card); }
+.bridge-mid{ display:flex; flex-direction:column; justify-content:center; gap:16px; }
+.bridge-row{ display:flex; flex-direction:column; gap:2px; border-bottom:1.5px dashed var(--line); padding-bottom:8px; }
+.bridge-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; text-align:center; }
+.bridge-line{ font-size:1.25rem; text-align:center; }
+@media (max-width: 760px){ .fix-grid{ grid-template-columns:1fr; } .fix-arrow{ display:none; } .bridge{ grid-template-columns:1fr; } }
+
+/* dependency mapper */
+.dm-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+.dm-text{ display:flex; flex-direction:column; gap:18px; }
+.dm-lede{ font-size:1.35rem; color:var(--muted); line-height:1.45; margin:0; }
+.dm-lede b{ color:var(--ink); }
+.dm-list{ margin:0; padding-left:1.4em; display:flex; flex-direction:column; gap:12px; font-size:1.3rem; }
+.dm-list li::marker{ color:var(--accent); font-weight:600; }
+.dm-list b{ display:block; line-height:1.3; }
+.dm-list span{ display:block; font-size:1.08rem; color:var(--muted); line-height:1.35; margin-top:2px; }
+.dm-cta{ border:1.5px dashed var(--line); padding:12px 16px; font-size:1.15rem; line-height:1.45; color:var(--muted); }
+.dm-cta b{ color:var(--accent-deep); }
+.dm-shot{ margin:0; display:flex; flex-direction:column; gap:8px; align-items:center; min-height:0; }
+.dm-shot img{ max-width:100%; max-height:56vh; width:auto; height:auto; border:1.5px solid var(--line); box-shadow:0 6px 24px rgba(30,27,22,.12); display:block; }
+.dm-shot figcaption{ font-size:.98rem; color:var(--muted); font-style:italic; text-align:center; line-height:1.35; max-width:48ch; }
+@media (max-width: 900px){ .dm-grid{ grid-template-columns:1fr; } }
+
+/* stegvis attackkedja */
+.tchain .tstep-old{ opacity:.42; transition:opacity .4s ease; }
+.tchain .tstep-old .net-packet{ display:none; }
+.slide.active.tchain-full .tstep-old{ animation:tUndim .6s ease-out 1.6s both; }
+@keyframes tUndim{ from{ opacity:.42; } to{ opacity:1; } }
+.slide.active .tstep-new .tedge{ stroke-dasharray:1; animation:tDraw .55s ease-out both; }
+.slide.active .tstep-new .tnode{ animation:tFade .45s ease-out both; }
+.slide.active .tstep-new .tnode.late{ animation-delay:.45s; }
+.slide.active .tstep-new .tcap{ animation:tFade .45s ease-out .3s both; }
+.slide.active .tstep-new .net-edge.bad{ animation:tFade .5s ease-out .35s both; }
+.slide.active .tstep-new .tlock{ animation:tLock 1.8s ease-in-out .9s infinite both; }
+.tlock rect{ fill:var(--accent-deep); }
+.tlock text{ font-family:"EB Garamond", serif; font-size:12.5px; font-weight:700; letter-spacing:.12em; fill:var(--paper); text-anchor:middle; }
+.tx-mark{ font-size:20px; font-weight:700; fill:var(--accent-deep); text-anchor:middle; }
+@keyframes tDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+@keyframes tFade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@keyframes tLock{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+.tstep-cap{ display:flex; align-items:center; gap:14px; font-size:1.35rem; line-height:1.35; }
+.slide.active .tstep-cap .tstep-text{ animation:tFade .5s ease-out .2s both; }
+.tstep-num{ flex:none; width:36px; height:36px; border-radius:50%; background:var(--accent-deep); color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:1.05rem; }
+.tstep-text{ flex:1; }
+.tdots{ display:flex; gap:6px; flex:none; }
+.tdot{ width:22px; height:4px; border-radius:2px; background:var(--card); }
+.tdot.on{ background:var(--accent-deep); }
+@media (prefers-reduced-motion: reduce){ .slide.active .tstep-new *, .slide.active .tstep-cap .tstep-text{ animation:none !important; } }
+
+/* hantering steg för steg */
+.hstep .pill-stage{ transition:opacity .4s ease, transform .4s ease; }
+.hstep .pill-stage.past{ opacity:.5; }
+.hstep .pill-stage.future{ opacity:.22; }
+.hstep .pill-stage.past .pill-num::after{ content:" \2713"; }
+.hstep .pill-stage.cur .pill-head{ background:var(--lavender-deep); }
+.hstep .pill-stage.cur .pill-head .pill-num, .hstep .pill-stage.cur .pill-head .pill-title{ color:var(--paper); }
+.hstep .pill-stage.cur .pill-body{ background:var(--paper); outline:1.5px solid var(--lavender-deep); }
+.slide.active.hstep .pill-stage.cur{ animation:hLift .5s ease-out both; }
+@keyframes hLift{ from{ opacity:.4; transform:translateY(8px); } to{ opacity:1; transform:translateY(-4px); } }
+.slide.hstep .pill-stage.cur{ transform:translateY(-4px); }
+@media (prefers-reduced-motion: reduce){ .slide.active.hstep .pill-stage.cur{ animation:none; } }
+
+/* beslut under press steg för steg */
+.dec-grid.three{ grid-template-columns:repeat(3,1fr); }
+.dec-grid.three .dec-card{ min-height:220px; }
+.dstep .dec-card{ transition:opacity .4s ease; }
+.dstep .dec-card.past{ opacity:.5; }
+.dstep .dec-card.future{ opacity:.2; }
+.dstep .dec-card.past .dec-label::after{ content:" \2713"; }
+.dstep .dec-card.cur{ border-color:var(--accent-deep); box-shadow:0 0 0 1.5px var(--accent-deep), 0 8px 22px rgba(30,27,22,.10); background:var(--paper); }
+.dstep .dec-card.cur.filled{ background:var(--card); }
+.slide.active.dstep .dec-card.cur{ animation:hLift .5s ease-out both; }
+.slide.dstep .dec-card.cur{ transform:translateY(-4px); }
+@media (prefers-reduced-motion: reduce){ .slide.active.dstep .dec-card.cur{ animation:none; } }
+
+/* tidslinje steg för steg */
+.tlstep .tl-h-item.future{ visibility:hidden; }
+.tlstep .tl-h-item.past{ opacity:.45; }
+.tlstep .tl-h-item.cur .tl-h-dot{ transform:scale(1.25); box-shadow:0 0 0 5px rgba(224,96,74,.18); }
+.tlstep .tl-h-item.cur:not(.bad) .tl-h-dot{ background:var(--accent); }
+.slide.active.tlstep .tl-h-item.cur{ animation:tFade .5s ease-out both; }
+.tlstep .tl-h::before{ right:auto; width:var(--tlw,100%); }
+@media (prefers-reduced-motion: reduce){ .slide.active.tlstep .tl-h-item.cur{ animation:none; } }
+
+/* lärdomar 2 */
+.summary-list li.sum-key{ color:var(--accent-deep); }
+.summary-list li.sum-key b{ color:var(--accent-deep); }
+.summary-list li.sum-key::after{ content:"Viktigast"; margin-left:10px; white-space:nowrap; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--accent); vertical-align:middle; }
+.fruit-tag{ display:inline-block; font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; font-style:italic; color:var(--good); margin:-2px 0 4px; }
+.who-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; }
+.who{ border-top:3px solid var(--line); padding-top:12px; display:flex; flex-direction:column; gap:6px; }
+.who.key{ border-top-color:var(--accent-deep); }
+.who-l{ font-size:1.35rem; font-weight:600; }
+.who.key .who-l{ color:var(--accent-deep); }
+.who-d{ font-size:1.15rem; color:var(--muted); line-height:1.4; }
+.slide.active .who{ animation:tFade .5s ease-out both; }
+.slide.active .who:nth-child(2){ animation-delay:.25s; }
+.slide.active .who:nth-child(3){ animation-delay:.5s; }
+@media (max-width: 760px){ .who-grid{ grid-template-columns:1fr; } }
+.src-note{ font-size:.95rem; color:var(--muted); font-style:italic; }
+.kx-line{ margin:0; font-size:1.2rem; color:var(--muted); border-left:3px solid var(--accent); padding-left:14px; }
+.thx-grid{ display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center; }
+.thx-text{ display:flex; flex-direction:column; gap:22px; }
+.thx-contact{ display:flex; flex-direction:column; gap:4px; border-left:3px solid var(--accent-deep); padding-left:18px; }
+.thx-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.thx-mail{ font-size:clamp(1.6rem,2.6vw,2.2rem); font-weight:600; color:var(--ink); }
+.thx-qr{ margin:0; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.thx-qr img{ width:min(300px,30vw); height:auto; display:block; background:#fff; border:1.5px solid var(--line); }
+.thx-qr figcaption{ font-size:1rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+@media (max-width: 760px){ .thx-grid{ grid-template-columns:1fr; } }
+
+/* sammanfattning B -> A */
+.res-kalix{ font-family:"EB Garamond", serif; font-size:20px; font-style:italic; fill:var(--accent-deep); }
+.slide.active .res-kalix{ animation:resPop .5s ease-out 6.8s both; }
+.sum-fig svg{ max-height:46vh; }
+.sum-b{ fill:none; stroke:var(--muted); stroke-width:3; stroke-dasharray:6 6; opacity:.35; }
+.sum-a{ stroke:var(--ink); stroke-width:5; }
+.slide.active .sum-a{ animation:resDraw 2.2s ease-in-out .6s both; }
+.sw circle{ fill:var(--paper); stroke:var(--ink); stroke-width:2; }
+.sw.key circle{ fill:var(--accent-deep); stroke:var(--accent-deep); }
+.sw-num{ font-family:"EB Garamond", serif; font-size:13px; font-weight:700; text-anchor:middle; fill:var(--ink); }
+.sw.key .sw-num{ fill:var(--paper); }
+.sw line{ stroke:var(--muted); stroke-width:1.2; }
+.sw-l{ font-family:"EB Garamond", serif; font-size:20px; font-weight:600; text-anchor:middle; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:6px; stroke-linejoin:round; }
+.sw.key .sw-l{ fill:var(--accent-deep); }
+.sw-tag{ font-family:"EB Garamond", serif; font-size:12px; letter-spacing:.14em; font-style:italic; text-anchor:middle; fill:var(--accent); }
+.slide.active .sw1{ animation:resPop .45s ease-out .9s both; }
+.slide.active .sw2{ animation:resPop .45s ease-out 1.4s both; }
+.slide.active .sw3{ animation:resPop .45s ease-out 2.3s both; }
+.slide.active .sw4{ animation:resPop .45s ease-out 2.7s both; }
+.slide.active .sum-end{ animation:resPop .45s ease-out 3.0s both; }
+.sum-legend text{ font-family:"EB Garamond", serif; font-size:16px; fill:var(--muted); font-style:italic; }
+.lg-b{ stroke:var(--muted); stroke-width:3; stroke-dasharray:6 6; opacity:.5; }
+.lg-a{ stroke:var(--ink); stroke-width:4; }
+.sum-phase text{ font-family:"EB Garamond", serif; font-size:13px; letter-spacing:.16em; font-style:italic; text-anchor:middle; fill:var(--accent); }
+.sum-phase line{ stroke:var(--accent); stroke-width:1; opacity:.5; }
+.sum-start{ fill:var(--ink); }
+.slide.active .sum-attack{ animation:resPop .45s ease-out 1.85s both; }
+.sum-pre{ font-size:1.15rem; color:var(--muted); border-left:3px solid var(--line); padding-left:14px; line-height:1.45; }
+.sum-pre .dec-label{ margin-right:8px; }
+@media (prefers-reduced-motion: reduce){ .slide.active .sum-a, .slide.active .sw, .slide.active .sum-end, .slide.active .res-kalix{ animation:none; } }
+
+/* glappet */
+.gap-mid{ display:flex; flex-direction:column; justify-content:center; gap:14px; padding:6px 26px; border-left:2px dashed var(--accent-deep); border-right:2px dashed var(--accent-deep); background:repeating-linear-gradient(135deg, transparent 0 14px, rgba(163,51,37,.05) 14px 16px); }
+.gap-item{ display:flex; gap:14px; align-items:flex-start; transition:opacity .4s ease; }
+.gap-x{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--bad-soft); color:var(--accent-deep); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.95rem; margin-top:2px; }
+.gap-t{ font-size:1.3rem; font-weight:600; line-height:1.3; }
+.gap-d{ font-size:1.08rem; color:var(--muted); line-height:1.35; }
+.gstep .gap-item.future{ visibility:hidden; }
+.gstep .gap-item.past{ opacity:.45; }
+.slide.active.gstep .gap-item.cur{ animation:tFade .5s ease-out both; }
+.bridge.gap .bridge-end, .bridge.built .bridge-end{ min-height:150px; }
+.bridge.built .bridge-row{ border-bottom:2px solid var(--ink); }
+.slide.active .bridge.built .bridge-row{ animation:tFade .5s ease-out both; }
+.slide.active .bridge.built .bridge-row + .bridge-row{ animation-delay:.25s; }
+@media (prefers-reduced-motion: reduce){ .slide.active.gstep .gap-item.cur, .slide.active .bridge.built .bridge-row{ animation:none; } }
 
 .slide-notes{ display:none; }
 
@@ -191,12 +416,12 @@ body{
         <span class="name">Anton Holmström</span>
         <span class="role">Doktorand, informationssäkerhet — Luleå tekniska universitet</span>
       </div>
-      <div class="slide-notes"><p>Arbetstitel — hälsa välkommen, presentera dig kort som doktorand vid LTU, och sätt ramen för vad föreläsningen kommer handla om.</p></div>
+      <div class="slide-notes"><p>Hej och välkomna!!</p></div>
     </section>
 
     <section class="slide question-slide" aria-label="Öppningsfråga">
       <span class="slide-eyebrow">En fråga innan vi börjar</span>
-      <h1>Vem räddade egentligen Kalix kommun?</h1>
+      <h1>Vem bär bördan för cyberresiliens?</h1>
       <div class="dashed">Ha den i bakhuvudet under föreläsningen — vi landar i svaret på den allra sista bilden.</div>
       <div class="slide-notes"><p>Ställ frågan högt och låt tystnaden sitta kvar en stund innan du går vidare — inget svar förväntas här och nu. Möjliga svar som brukar komma upp: IT-avdelningen (de stoppade spridningen och byggde om), ledningen (de höll ihop organisationen och tog de stora besluten), eller personalen längst ut i verksamheten (de höll vården igång för hand). Alla tre är rimliga — men vi knyter ihop det riktiga svaret på den sista bilden.</p></div>
     </section>
@@ -216,7 +441,7 @@ body{
           <div class="about-contact"><span>anton.holmstrom@ltu.se</span></div>
         </div>
       </div>
-      <div class="slide-notes"><p>Kort presentation — vem du är, vad du forskar på, och varför cyberresiliens och den mänskliga faktorn är relevant för dagens ämne.</p></div>
+      <div class="slide-notes"><p>Anton Holmström heter jag och är doktorand på Luleå Tekniska Universitet<br>“Mitt forskningsfokus ligger på att förstå och stärka cyberresiliens, med särskilt intresse för den mänskliga faktorn och balansen mellan teknik och människa. Jag arbetar med att operationalisera cyberresiliens genom att identifiera arbetssätt och strategier som gör organisationer mer motståndskraftiga mot cyberhot. Kort sagt, jag undersöker hur vi kan bygga upp en flexibel och effektiv cyberresiliens som integrerar både tekniska lösningar och mänskliga faktorer.”</p><p>Jag drivs av frågan: Hur blir vi cyber resilienta?</p></div>
     </section>
 
     <section class="slide case-slide" aria-label="Fallet och agenda">
@@ -252,6 +477,276 @@ body{
       <div class="slide-notes"><p>Kort bakgrund: natten mellan 15–16 december 2021 upptäcktes en storskalig ransomware-attack mot Kalix kommun (~15 500 invånare, Norrbotten). Attacken krypterade nästan alla servrar, tvingade IT att bygga om infrastrukturen från grunden och satte hela socialförvaltningen i analogt läge under flera veckor.</p><p>Presentera strukturen för resten av föreläsningen: vi går igenom de tre perspektiven i tur och ordning — IT, ledning, socialförvaltning — och landar sedan i vad vi kan lära oss och koppla till vårt eget säkerhetsarbete.</p></div>
     </section>
 
+    <section class="slide tlstep" aria-label="Händelseförloppet" style="--tlw:8%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Natten mot 16 december: nattpersonalen i hemtjänsten kan inte logga in i verksamhets- och planeringssystemen. Rapporteras vidare, men tolkas som en tillfällig driftstörning.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 2" style="--tlw:25%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Morgonen: dagspersonalen fortsätter rapportera att systemen är nere — via enhets- och områdeschefer till socialchefen och vidare till kommundirektören. Läget bedöms så allvarligt att krisledningen i centrala ledningsgruppen kopplas in direkt. Samtidigt får IT samma signaler från hela kommunen, anar en attack och kallar in sina IT-konsulter och Microsoft.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 3" style="--tlw:42%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Förmiddagen: krisledningsstaben samlas för en lägesbild. Helt analog stabsmetodik — säkerhetschefen och krisledningen bygger lägesbilden på whiteboard, som blir navet i krisarbetet (åtgärder, resursfördelning, vem gör vad). Kommunen går upp i stabsläge, med ett 48-timmarsperspektiv — man tror fortfarande att det är en driftstörning.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 4" style="--tlw:59%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Mitt på dagen: IT och konsulterna konstaterar att det är en omfattande cyberattack — ransomware. Servrar och databaser som styr verksamhetssystemen är krypterade. Första kontrollen: backuperna — de har klarat sig. Planeringen av återställningen börjar.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 5" style="--tlw:76%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Eftermiddagen: stabsmöte, krisledningen informeras om attacken. Politikerna involveras — av demokratiska skäl ska detta inte hanteras enbart av tjänstepersoner. Normal beslutsgång, krisledningen med kommundirektören i spetsen. Beslut: ingen lösensumma betalas, polisanmälan görs, kommunen ska vara transparent om vad som händer.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 6" style="--tlw:100%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Dag 2 (17 december): återställningen kommer ta betydligt längre tid än väntat — från 48-timmarsperspektiv till långsiktig krisplan. Krisledningen möts två gånger dagligen. Under dagen beslutas att hela interna nätverket tas offline för grundlig utredning och ombyggnad — stora delar av kommunens verksamhet hamnar offline.</p></div>
+    </section>
+
+    <section class="slide offline-slide" aria-label="Offline">
+      <h1 class="offline-word">OFFLINE</h1>
+      <span class="offline-sub">Hela kommunens interna nätverk · december 2021</span>
+      <div class="slide-notes"><p>Hela interna IT-nätverket offline — inga verksamhetssystem fungerar.</p><p>Kalix.se nere — information måste spridas på andra sätt.</p><p>Mejlen fungerar bara delvis — opålitlig kommunikationskanal.</p><p>Socialförvaltningen hårt drabbad — helt analogt arbete, planering med papper och penna.</p><p>Ekonomiavdelningen: problem att betala ut löner och fakturor.</p><p>Lokaler där ventilationssystemet låg nere — mitten av december, mycket kallt i Kalix.</p><p>Allt detta mitt i coronapandemin.</p></div>
+    </section>
+
     <section class="slide method-slide" aria-label="Om fallstudien">
       <span class="slide-eyebrow">Om fallstudien</span>
       <h1>Vad bygger det här på?</h1>
@@ -274,84 +769,369 @@ body{
         </div>
       </div>
       <div class="method-sources">Polisrapport · Interndokumentation · Mediebevakning · Konsultrapporter</div>
-      <div class="slide-notes"><p>Understryk att detta inte är en anekdot — det är en fallstudie byggd på 19 semistrukturerade intervjuer med nyckelpersoner inom IT, ledning och socialförvaltning, där flera intervjuades både initialt och i uppföljning. Det kompletteras med polisrapport, interndokumentation, mediebevakning och konsultrapporter för att kunna trianguleras mot varandra.</p></div>
+      <div class="slide-notes"><p>det är en fallstudie byggd på 19 semistrukturerade intervjuer med nyckelpersoner inom IT, ledning och socialförvaltning, där flera intervjuades både initialt och i uppföljning.</p><p>Det kompletteras med polisrapport, interndokumentation, mediebevakning och konsultrapporter för att kunna trianguleras mot varandra.</p></div>
     </section>
 
-    <section class="slide" aria-label="Tekniskt händelseförlopp">
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp">
       <span class="slide-eyebrow">IT-avdelningen</span>
       <h1>Det tekniska händelseförloppet</h1>
       <div class="net-diagram">
-        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 1 av 6: Stulna inloggningsuppgifter — password spray mot ett konto med domänadminrättigheter">
           <defs>
-            <marker id="arrowInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <marker id="arrowInk0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
             </marker>
-            <marker id="arrowBad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <marker id="arrowBad0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
             </marker>
           </defs>
-
-          <!-- edges -->
-          <line class="net-edge" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk)"></line>
-          <text class="net-caption" x="237" y="204">Bruteforce /</text>
-          <text class="net-caption" x="237" y="222">password spray</text>
-
-          <line class="net-edge" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk)"></line>
-          <text class="net-caption" x="537" y="222">Inloggning</text>
-
-          <line class="net-edge" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk)"></line>
-          <text class="net-caption" x="757" y="204">Åtkomst till</text>
-          <text class="net-caption" x="757" y="222">nätverket</text>
-
-          <line class="net-edge" x1="915" y1="186" x2="915" y2="94" marker-end="url(#arrowInk)"></line>
-          <text class="net-caption start" x="935" y="130">Inaktiverar</text>
-          <text class="net-caption start" x="935" y="150">endpoint-skydd</text>
-
-          <line class="net-edge" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk)"></line>
-          <text class="net-caption start" x="935" y="310">Skapar dolt</text>
-          <text class="net-caption start" x="935" y="330">adminkonto</text>
-
-          <line class="net-edge bad" x1="1010" y1="230" x2="1164" y2="230" marker-end="url(#arrowBad)" marker-start="url(#arrowBad)"></line>
-          <text class="net-caption" x="1087" y="196">Hämtar &amp; kör</text>
-          <text class="net-caption" x="1087" y="214">ransomware (PsExec)</text>
-
-          <!-- nodes -->
-          <rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect>
-          <text class="net-node-label bad" x="95" y="236">Antagonister</text>
-
-          <rect class="net-node-box" x="310" y="198" width="170" height="64"></rect>
-          <text class="net-node-label" x="395" y="222">Domänadmin-</text>
-          <text class="net-node-label" x="395" y="246">konto</text>
-
-          <rect class="net-node-box" x="600" y="198" width="100" height="64"></rect>
-          <text class="net-node-label" x="650" y="236">VPN</text>
-
-          <rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect>
-          <text class="net-node-label" x="915" y="224">AD &amp;</text>
-          <text class="net-node-label" x="915" y="248">servrar</text>
-
-          <rect class="net-node-box" x="825" y="26" width="180" height="64"></rect>
-          <text class="net-node-label" x="915" y="64">Klienter</text>
-
-          <rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect>
-          <text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text>
-          <text class="net-node-label bad" x="915" y="414">konto</text>
-
-          <rect class="net-node-box bad" x="1170" y="198" width="170" height="64"></rect>
-          <text class="net-node-label bad" x="1255" y="222">Okänd</text>
-          <text class="net-node-label bad" x="1255" y="246">extern aktör</text>
-
-          <circle class="net-packet" r="5">
-            <animateMotion dur="2.4s" repeatCount="indefinite" path="M 1164,230 L 1010,230"></animateMotion>
-          </circle>
+<g class="tstep tstep-new"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk0)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
         </svg>
       </div>
-      <div class="slide-notes"><p>Gå igenom kedjan steg för steg: angriparen kommer in via ett komprometterat konto (troligen läckt lösenord, brute force eller password spray — exakt metod är okänd), eskalerar till domänadmin, tar sig in via VPN, och får därmed full åtkomst till Active Directory och servrar.</p><p>Därifrån går de åt två håll: uppåt mot klienterna för att inaktivera endpoint-skydd via Group Policy, och nedåt för att skapa ett dolt extra domänadminkonto som säkerhet. Slutligen hämtas och körs ransomware via PsExec, initierat utifrån.</p></div>
+      <div class="tstep-cap"><span class="tstep-num">1</span><span class="tstep-text">Stulna inloggningsuppgifter — password spray mot ett konto med domänadminrättigheter</span><span class="tdots"><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Vi börjar med att titta på hur attacken initierades och utvecklades över tid. Dock, den tekniska rapporten som skickades till polisen är sekretessbelagd, men efter omfattande intervjuer med IT-personal och konsulter, samt granskning av både interna och externa dokument, har jag lyckats återskapa händelseförloppet.</p><p>Antagonisterna får tillgång till ett användarnamn och ett lösenord på något sätt. Exakt hur detta gick till kan inte fastställas, men baserat på den information som finns är den mest troliga teorin att användarnamn hämtades från en läckt databas eller genom en social engineering-attack, som till exempel phishing.  Med detta användarnamn börjar man logga in på systemet, använder bruteforce eller passwordspray</p><p>Så småningom lyckas de komma in på domänkonto, med omfattande rättigheter inom systemet.</p></div>
     </section>
 
-    <section class="slide" aria-label="Återställningen">
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 2">
       <span class="slide-eyebrow">IT-avdelningen</span>
-      <h1>Vägen tillbaka till drift</h1>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 2 av 6: Inloggning via kommunens VPN — utan MFA">
+          <defs>
+            <marker id="arrowInk1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk1)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk1)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">2</span><span class="tstep-text">Inloggning via kommunens VPN — utan MFA</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med dessa inloggningsuppgifter får de dessutom tillgång till kommunens VPN.</p><p>VPN:en saknade MFA — användarnamn och lösenord räckte.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 3">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 3 av 6: Full åtkomst till nätverket, servrarna och Active Directory">
+          <defs>
+            <marker id="arrowInk2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">3</span><span class="tstep-text">Full åtkomst till nätverket, servrarna och Active Directory</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med tillgång till VPN:en och ett administratörskonto har antagonisterna nu full åtkomst till det interna nätverket, och därmed också tillgång till kritiska servrar och databaser, inklusive Active Directory.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 4">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 4 av 6: Ett dolt domänadminkonto skapas">
+          <defs>
+            <marker id="arrowInk3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">4</span><span class="tstep-text">Ett dolt domänadminkonto skapas</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med denna åtkomst påbörjar de förberedelserna för sin attack. De skapar ett nytt domänadministratörskonto. Syftet med detta steg är att dölja deras aktivitet så mycket som möjligt och minimera risken för att trigga larm i säkerhetssystemet.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 5">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 5 av 6: Endpoint-skyddet stängs av via grupprinciper">
+          <defs>
+            <marker id="arrowInk4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="915" y1="186" x2="915" y2="94" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption start" x="935" y="130">Inaktiverar</text><text class="net-caption start" x="935" y="150">endpoint-skydd</text></g><g class="tnode late"><rect class="net-node-box" x="825" y="26" width="180" height="64"></rect><text class="net-node-label" x="915" y="64">Klienter</text><text class="tx-mark" x="993" y="44">&#10005;</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">5</span><span class="tstep-text">Endpoint-skyddet stängs av via grupprinciper</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Nästa steg är att de går in i gruppolicyhanteringen (Group Policy) och avaktiverar alla endpoint-säkerhetspolicys. Detta är ett kritiskt moment som gör att de kan neutralisera alla säkerhetssystem som annars skulle kunna stoppa deras attack.</p></div>
+    </section>
+
+    <section class="slide tchain tchain-full" aria-label="Tekniskt händelseförlopp 6">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 6 av 6: Ransomware hämtas och körs — servrarna krypteras">
+          <defs>
+            <marker id="arrowInk5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="186" x2="915" y2="94" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption start" x="935" y="130">Inaktiverar</text><text class="net-caption start" x="935" y="150">endpoint-skydd</text></g><g class="tnode late"><rect class="net-node-box" x="825" y="26" width="180" height="64"></rect><text class="net-node-label" x="915" y="64">Klienter</text><text class="tx-mark" x="993" y="44">&#10005;</text></g></g>
+<g class="tstep tstep-new"><g class="tnode"><rect class="net-node-box bad" x="1170" y="198" width="170" height="64"></rect><text class="net-node-label bad" x="1255" y="222">Okänd</text><text class="net-node-label bad" x="1255" y="246">extern aktör</text></g><line class="net-edge bad" x1="1010" y1="230" x2="1164" y2="230" marker-end="url(#arrowBad5)" marker-start="url(#arrowBad5)"></line><g class="tcap"><text class="net-caption" x="1087" y="196">Hämtar &amp; kör</text><text class="net-caption" x="1087" y="214">ransomware (PsExec)</text></g><circle class="net-packet" r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M 1164,230 L 1010,230"></animateMotion></circle><g class="tlock"><rect x="812" y="152" width="92" height="26" rx="4"></rect><text x="858" y="170">KRYPTERAS</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">6</span><span class="tstep-text">Ransomware hämtas och körs — servrarna krypteras</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span></span></div>
+      <div class="slide-notes"><p>Därefter använder de PowerShell-kommandon för att hämta ner och exekvera skadlig kod på varje server, som i sin tur leder till att alla servrar börjar krypteras, steg för steg.</p><p>Ransomwaren raderade shadow copies och systembackuper, ändrade boot-konfigurationen och raderade sig själv efter krypteringen — försvårar återställning och spårning.</p><p>Medan krypteringen sprider sig, börjar verksamhetens kritiska system slås ut ett efter ett, och IT-avdelningen upptäcker till slut att stora delar av nätverket är under attack.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Initial hantering: Ett “war-room” sattes upp och ett specialistteam samordnades. Den skadliga koden isolerades och forensiska bevis (loggar, minnesbilder) säkrades och överlämnades till polis.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 2">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Analys och urval av säkerhetskopior: Backuper undersöktes för att identifiera opåverkade kopior från tiden före attacken. (Om nån frågar så fångade dem ransomwaren och fick &quot;digitala fingeravtrycket&quot; och kunde se om den var aktiv på backupen)</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 3">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Isolerad återställning: Systemen återställdes från dessa säkerhetskopior i en isolerad IT-miljö för att undvika ytterligare infektion.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 4">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Manuell återinstallation: Datorer och servrar installerades om manuellt med hjälp av Microsoft Defender for Endpoint, i nätverksmiljöer med begränsad trafik.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 5">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Modernisering av IT-miljö: Istället för att återgå till den gamla infrastrukturen byggdes en ny, mer säker miljö med molntjänster (Microsoft 365) och nätverkssegmentering.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 6">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Gradvis återgång till drift: Efter säkerhetstest återställdes systemen stegvis till full drift, med fortsatt övervakning via Defender.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Återställningen — tidsåtgång">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
       <div class="pill-flow">
         <div class="pill-stage">
           <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
@@ -375,7 +1155,7 @@ body{
         <div class="pill-arrow">&#8594;</div>
         <div class="pill-stage">
           <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
-          <div class="pill-body">Molntjänster och nätverkssegmentering — inte en återgång</div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
         </div>
         <div class="pill-arrow">&#8594;</div>
         <div class="pill-stage">
@@ -383,31 +1163,123 @@ body{
           <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
         </div>
       </div>
-      <div class="slide-notes"><p>Gå igenom stegen kort — betona särskilt steg 3 (isolerad återställning, för att inte återinfektera) och steg 5 (man byggde inte tillbaka det gamla, utan passade på att modernisera med molntjänster och nätverkssegmentering). Koppla till att detta tog flera veckor i verkligheten, se tidslinjen i artikeln om ni vill gå djupare.</p></div>
+      <div class="method-stat">
+        <span class="method-stat-num" style="color:var(--accent-deep)">Över 4 veckor</span>
+        <span class="method-stat-label">Hanteringen skedde inte på ett par dagar — den pågick i över fyra veckor</span>
+      </div>
+      <div class="slide-notes"><p>Inte två dagar, det här är fyra veckor<br>Alla användarkonton nollstäldes och användarna fick skapa nytt lösenord med hjälp av BankID och dem som inte hade tillgång till det fick komma med legitimation till IT-avdelningen</p></div>
     </section>
 
-    <section class="slide" aria-label="Ledningsgruppen">
+    <section class="slide dstep" aria-label="Ledningsgruppen">
       <span class="slide-eyebrow">Ledningsgruppen</span>
       <h1>Beslut under press</h1>
-      <div class="flow">
-        <div class="flow-node">Upptäckt &amp; stabsläge</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Öppen kommunikation</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Bygga nytt, inte laga gammalt</div>
+      <div class="dec-grid">
+        <div class="dec-card cur">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
       </div>
-      <div class="flow-captions">
-        <div class="flow-caption">Krisledning aktiveras, möten två gånger om dagen</div>
-        <div class="flow-caption spacer"></div>
-        <div class="flow-caption">Tar ägarskap över informationen tidigt för att stoppa rykten</div>
-        <div class="flow-caption spacer"></div>
-        <div class="flow-caption">Hela IT-miljön byggs om i grunden, trots kostnaden</div>
+      <div class="slide-notes"><p>LEDA I OVISSHET<br>Ingen kunde förutse vilka effekter attacken skulle få → tidigt stabsläge. Central krisledningsgrupp med representanter från alla förvaltningar: samordning och informationsdelning. Varje förvaltning hade också en egen lokal krisledning parallellt → informationen nådde snabbt ut och verksamheterna kunde ställa om.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 2">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card cur">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
       </div>
-      <div class="method-stat">
-        <span class="method-stat-num">2,5 Mkr</span>
-        <span class="method-stat-label">i direkta kostnader för ombyggnaden — mestadels konsultarvoden</span>
+      <div class="slide-notes"><p>PRIORITERINGAR<br>Kommunledningen med kommundirektören i spetsen: få förvaltningarna att samarbeta. Personal från hela kommunen, även de som inte jobbar operativt, kallades in för att stötta, t.ex. i hemtjänsten.<br>1. Liv och hälsa: äldreomsorg och hemtjänst ska fungera.<br>2. Demokratin: politiska beslut ska kunna fattas trots attacken.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 3">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card cur">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
       </div>
-      <div class="slide-notes"><p>Ledningen (kommundirektören) förstod snabbt att detta inte var en vanlig driftstörning och aktiverade stabsläge samma förmiddag, med krismöten två gånger per dag under den mest intensiva perioden.</p><p>Man valde att vara proaktivt öppna med information för att inte lämna fält för rykten — presskonferenser redan samma eftermiddag/kväll. Det mest avgörande beslutet var att inte bara laga det gamla nätverket utan bygga om hela IT-miljön i grunden (moln, segmentering) — en investering på cirka 2,5 miljoner kronor i direkta kostnader, mestadels konsultarvoden, som man såg som rimlig givet vad de just varit med om.</p></div>
+      <div class="slide-notes"><p>PENGARNA MÅSTE UT<br>Manuella rutiner för löner och försörjningsstöd så att de betalades ut i tid. De systemen var bland de första som återställdes.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 4">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled cur">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>TRE ÅR PÅ FYRA VECKOR<br>IT-säkerhetsinvesteringar planerade över tre år genomfördes på fyra veckor: uppgraderade system och utbildning av personalen i cybersäkerhet.</p><p>———</p></div>
     </section>
 
     <section class="slide" aria-label="Öppenhet som strategi">
@@ -444,55 +1316,67 @@ body{
           </div>
         </div>
       </div>
-      <div class="slide-notes"><p>Den centrala krisledningsgruppen bestod av kommundirektören, säkerhetschefen och representanter från varje förvaltning, och möttes regelbundet — säkerhetschefen ledde arbetet med att löpande kartlägga vilka delar av verksamheten som var drabbade.</p><p>Flera intervjuade (bland andra chefen för socialförvaltningen) lyfte fram att krisen faktiskt gav en ökad öppenhet och transparens i organisationen som varken fanns eller efterfrågades på samma sätt innan. Poängen att ta med sig: transparens var inte bara kommunikation utåt, det var även en arbetsmetod internt — man tvingades jobba analogt och synligt, på whiteboard, i brist på fungerande digitala verktyg.</p></div>
+      <div class="slide-notes"><p>ÄGA INFORMATIONEN<br>En av de första punkterna på agendan: hålla anställda och medborgare uppdaterade om läget och åtgärderna. Kommunen ville äga sin egen information för att förhindra rykten och förvirring.</p><p>Två kontaktpersoner för media och andra intressenter: kommundirektören och informationsansvarig. Gemensam kommunikationsstrategi inför uttalanden, pressträffar och inslag i egna tv-kanalen.</p><p>Kanaler: pressmeddelanden, direktsända presskonferenser, tillfällig webbplats, sociala medier, Kalix-TV och externa medier.</p></div>
     </section>
 
     <section class="slide" aria-label="Konsekvensen av en avstängning">
       <span class="slide-eyebrow">Socialförvaltningen</span>
-      <h1>Konsekvensen av en avstängning</h1>
-      <div class="flow">
-        <div class="flow-node">Stoppa spridningen</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Nätverket stängs av</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Socialförvaltningen går analogt</div>
+      <h1>Samtidigt på socialförvaltningen</h1>
+      <p class="lede">När nätverket var nere stod förvaltningen utan sina digitala verktyg — men vården kunde inte vänta.</p>
+      <div class="perspective-grid">
+        <div class="perspective-box">
+          <span class="perspective-title">Inga verksamhetssystem</span>
+          <span class="perspective-desc">Verksamhets- och planeringssystemen låg nere</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Opålitlig mejl</span>
+          <span class="perspective-desc">Ingen kunde vara säker på att informationen nådde fram</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Vården måste fortsätta</span>
+          <span class="perspective-desc">Hemtjänst och äldreomsorg dygnet runt — strax före jul</span>
+        </div>
       </div>
-      <div class="flow-captions">
-        <div class="flow-caption">IT vidtar nödvändiga åtgärder mot ransomwaren</div>
-        <div class="flow-caption spacer"></div>
-        <div class="flow-caption">Hela kommunens interna nätverk kopplas bort</div>
-        <div class="flow-caption spacer"></div>
-        <div class="flow-caption">Från förmiddagen den 16 december — och stora delar av kommunen med den</div>
-      </div>
-      <div class="slide-notes"><p>Den här kopplingen är viktig att göra tydlig: det var inte ransomwaren i sig som tvingade socialförvaltningen analogt, utan IT:s egna motåtgärd — att stänga av hela det interna nätverket för att stoppa spridningen och säkra bevis. En rimlig och nödvändig teknisk åtgärd, men med en direkt praktisk konsekvens för hela den kommunala verksamheten, inte minst vården.</p><p>Nästa bilder går igenom hur det faktiskt gick till i praktiken på socialförvaltningen.</p></div>
+      <div class="slide-notes"><p>SAMTIDIGT PÅ SOCIALFÖRVALTNINGEN<br>Nätverket nere → inga verksamhets- och planeringssystem. Mejlen fungerade bara delvis — opålitlig kanal.<br>Vården kunde inte pausas: hemtjänst och äldreomsorg måste fungera dygnet runt, strax före jul.<br>Nästa bilder: hur det gick till i praktiken.</p></div>
     </section>
 
     <section class="slide" aria-label="Vården på minnet">
       <span class="slide-eyebrow">Socialförvaltningen</span>
       <h1>Vården på minnet</h1>
-      <p class="lede">Redan på förmiddagen bestämde sig enhetschefer och personal för att jobba helt analogt — och prioritera det som inte kunde vänta: mediciner och måltider.</p>
-      <ul class="summary-list">
-        <li>Hemtjänstpersonal förlitade sig på minne och tidigare erfarenhet — systemen var helt nere</li>
-        <li>Att samordna vikarier blev extra svårt mitt i julledigheter, i en redan vikarietung verksamhet</li>
-      </ul>
-      <div class="box filled">En enhetschef sökte igenom kommunens sekretesstunnor — där sekretessbelagd information väntar på dokumentförstöring — <span class="flag">för att hitta patientlistor och scheman att arbeta efter</span>.</div>
-      <div class="slide-notes"><p>Understryk hur omedelbart omställningen skedde — redan förmiddagen den 16:e organiserade enhetschefer och anställda tillsammans scheman och prioriterade vårdinsatser för hand, med fokus på det livsviktiga: mediciner och måltider.</p><p>Sekretesstunne-detaljen är en bra konkret bild att dröja vid: en enhetschef letade bokstavligen i papperskorgarna för sekretessbelagt material (på väg till dokumentförstöring) efter gamla patientlistor och scheman — allt digitalt var borta.</p><p>Vikariesamordningen var extra jobbig eftersom attacken skedde strax före jul, när många ordinarie var lediga — att analogt hålla koll på vem som skulle vart och när blev en stor logistisk utmaning.</p></div>
+      <p class="lede">Helt analogt från första förmiddagen — mediciner och måltider först.</p>
+      <div class="perspective-grid">
+        <div class="perspective-box">
+          <span class="perspective-title">Minnet</span>
+          <span class="perspective-desc">Hemtjänsten planerade utifrån minne och erfarenhet</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Sekretesstunnorna</span>
+          <span class="perspective-desc">Patientlistor och scheman letades fram ur papper på väg till förstöring</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Vikariepusslet</span>
+          <span class="perspective-desc">Strax före jul, när många ordinarie var lediga</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>påbörjar helt analogt arbete, <br>Enhetschefer tillsammans med anställda började omedelbart att organisera scheman och prioritera vårdinsatser, särskilt livsviktiga delar som mediciner och måltider.</p><p>Hemtjänstpersonal fick förlita sig på sitt minne och tidigare erfarenhet för att organisera arbetet, eftersom systemen var helt nere. En enhetschef berättar att hon var ute i sekretesstunnorna, där man slänger sekretessbelagd information som ska till dokumentförstöraren, för att leta efter information att arbeta med, t.ex. patientlistor och scheman.</p><p>En del i planeringsarbetet på socialförvaltningen är att koordinera var man behöver vikarier, då hemtjänsten är en ganska vikarietung del av kommunen och då många ordinarie personal hade sökt ledigt under just julen blev det en utmaning att analogt koordinera vilka vikarier som skulle vart och när.</p></div>
     </section>
 
     <section class="slide" aria-label="Mobilen som livlina">
       <span class="slide-eyebrow">Socialförvaltningen</span>
-      <h1>Mobilen som livlina</h1>
-      <p class="lede">Med systemen nere blev mobiltelefonen förvaltningens enda fungerande kanal.</p>
-      <div class="mindmap">
-        <div class="mindmap-center">Mobiltelefonen</div>
-        <span class="mindmap-connector">&#8594;</span>
-        <div class="mindmap-branches">
-          <div class="mindmap-node"><b>Enhetschefer &amp; personal</b> — tät samplanering, i realtid</div>
-          <div class="mindmap-node"><b>Personal</b> — löpande information via SMS och telefonsamtal</div>
-          <div class="mindmap-node"><b>Allmänheten</b> — ett telefonnummer att nå förvaltningen på</div>
+      <h1>Nära varandra — och i mobilen</h1>
+      <p class="lede">När systemen och mejlen svek fick kommunikationen ske ansikte mot ansikte och via telefon.</p>
+      <div class="pair-grid">
+        <div class="box">
+          <h2 class="inline">På plats</h2>
+          Planeringen skedde i nära samspel mellan enhetschefer och anställda.
+        </div>
+        <div class="box">
+          <h2 class="inline">Via mobilen</h2>
+          SMS och samtal till personalen — och ett telefonnummer för vårdtagare och anhöriga.
         </div>
       </div>
-      <div class="slide-notes"><p>Kommunikationen var en av de största utmaningarna för socialförvaltningen under krisen — inte teknisk kommunikation, utan den mänskliga: att hålla ihop planeringen när ingen kunde maila eller logga in någonstans.</p><p>Glöm inte kontexten: detta hände mitt under coronapandemin, som redan pressade vårdpersonalen. Flera rapporterade också att den ökade medienärvaron gjorde situationen jobbigare rent personligt, utöver själva krisarbetet.</p></div>
+      <div class="dashed">Allt detta mitt i coronapandemin — och med medierna på plats.</div>
+      <div class="slide-notes"><p>KOMMUNIKATIONEN — EN AV DE STÖRSTA UTMANINGARNA</p><p>PÅ PLATS<br>Tvungna att arbeta nära varandra — planeringen skedde i samspel mellan enhetschefer och anställda, ansikte mot ansikte.</p><p>VIA MOBILEN<br>Löpande information till anställda via SMS och telefonsamtal.<br>Mailen låg till största delen nere, man kunde inte lita på att folk kom åt sina mail och således inte säker att alla fick mailen</p><p>VÅRDTAGARE OCH ANHÖRIGA<br>Ett telefonnummer gick ut till allmänheten så att vårdtagare och närstående kunde nå förvaltningen om något missades.</p><p>KONTEXTEN<br>Mitt i coronapandemin — den analoga omställningen pressade vårdpersonalen ytterligare. Flera rapporterade att den ökade medienärvaron gjorde situationen jobbigare.</p></div>
     </section>
 
     <section class="slide" aria-label="Ett nytt normalläge">
@@ -504,110 +1388,234 @@ body{
         <span class="method-stat-label">De flesta IT-system var stabila nog för att verksamheten skulle kunna återgå till mer normal drift</span>
       </div>
       <div class="dashed">Även efter det fortsatte mindre störningar under en tid — personalen förblev i hög beredskap.</div>
-      <div class="slide-notes"><p>Avsluta socialförvaltningens del på den här mer hoppfulla noten: trots allt gick det stegvis mot det bättre. Den 10 januari 2022 — nästan en månad efter attacken — var de flesta IT-system tillräckligt stabila för att verksamheten skulle kunna återgå till ett mer normalt läge.</p><p>Men understryk att "normalt" var relativt: mindre störningar fortsatte ytterligare en tid, och personalen fick hålla i den höga beredskapen längre än man kanske hade önskat.</p></div>
+      <div class="slide-notes"><p>ÅTERGÅNG TILL DIGITALT ARBETE<br>Systemen återställdes successivt. 10 januari 2022: de flesta IT-system stabila nog för att återgå till ett mer normalt läge.</p><p>SLUTLIG ÅTERSTÄLLNING<br>Små störningar fortsatte ännu en tid — personalen förblev i hög beredskap.</p></div>
     </section>
 
-    <section class="slide" aria-label="En avdelnings beslut, hela organisationens problem">
+    <section class="slide res-slide" aria-label="Två organisationer, samma attack">
       <span class="slide-eyebrow">Lärdomar</span>
-      <h1>En avdelnings beslut, hela organisationens problem</h1>
-      <p class="lede">Krisen visade hur tätt sammankopplade kommunens delar egentligen var — vad IT gjorde för att skydda systemen fick direkta konsekvenser långt bortom IT.</p>
-      <div class="flow">
-        <div class="flow-node">IT stänger nätet</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Socialförvaltningen tvingas analogt</div>
-        <div class="flow-arrow">&#8594;</div>
-        <div class="flow-node">Risk för patientvård — mitt i en pandemi</div>
+      <h1>Två organisationer, samma attack</h1>
+      <div class="res-fig">
+        <svg viewBox="0 0 1160 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Organisation A och B utsätts båda för en cyberattack">
+          <text class="res-org" x="20" y="128">Organisation A</text>
+          <text class="res-org" x="20" y="328">Organisation B</text>
+          <polygon class="res-burst" points="250.0,94.0 253.8,109.7 266.7,100.1 259.5,114.5 275.6,115.5 260.8,121.9 272.5,133.0 257.1,128.4 258.9,144.4 250.0,131.0 241.1,144.4 242.9,128.4 227.5,133.0 239.2,121.9 224.4,115.5 240.5,114.5 233.3,100.1 246.2,109.7"></polygon>
+          <polygon class="res-burst" points="250.0,294.0 253.8,309.7 266.7,300.1 259.5,314.5 275.6,315.5 260.8,321.9 272.5,333.0 257.1,328.4 258.9,344.4 250.0,331.0 241.1,344.4 242.9,328.4 227.5,333.0 239.2,321.9 224.4,315.5 240.5,314.5 233.3,300.1 246.2,309.7"></polygon>
+          <text class="res-cap bad" x="250" y="78">Cyberattack</text>
+          <text class="res-cap bad" x="250" y="372">Cyberattack</text>
+          <text class="res-q" x="1100" y="134">?</text>
+          <text class="res-q" x="1100" y="334">?</text>
+        </svg>
       </div>
-      <div class="box filled">Samma mönster gällde ledningen: <span class="flag">resiliens visade sig vara ett delat ansvar för hela organisationen</span> — inte en enskild avdelnings uppgift.</div>
-      <div class="slide-notes"><p>Det här är den röda tråden i studiens analys (Holmström, 2025): en teknisk åtgärd i ett hörn av organisationen (IT stänger nätet för att stoppa spridningen) fick en kaskadeffekt som slutade i en verksamhetsrisk i ett helt annat hörn (patientvården). Samma sak gällde ledningens sida — deras krisaktivering och resursallokering var lika avgörande som IT:s tekniska arbete.</p><p>Poängen att landa: ingen enskild avdelning "äger" cyberresiliens. Det är en systemegenskap som uppstår ur hur avdelningarna samverkar under press.</p></div>
+      <div class="slide-notes"><p>Organisation A och organisation B utsätts för samma cyberattack.</p><p>Båda visar sig i slutändan vara resilienta — de överlever attacken och klarar av att hantera den.</p></div>
     </section>
 
-    <section class="slide" aria-label="Två typer av motståndskraft">
+    <section class="slide res-slide" aria-label="Olika vägar till resiliens">
       <span class="slide-eyebrow">Lärdomar</span>
-      <h1>Två typer av motståndskraft</h1>
-      <p class="lede">Krisledningens planer och undersköterskornas improvisation löste olika delar av samma kris — båda behövdes.</p>
+      <h1>Samma mål — olika vägar dit</h1>
+      <div class="res-fig">
+        <svg viewBox="0 0 1160 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Organisation A tar en rak väg från cyberattack till resiliens, organisation B en lång och krokig väg till samma mål">
+          <path class="res-path a" pathLength="1" d="M 250,120 L 1060,120"></path>
+          <path class="res-path b" pathLength="1" d="M 250,320 C 256.7,317.0 278.0,311.7 290,302 C 302.0,292.3 311.7,262.3 322,262 C 332.3,261.7 350.7,288.0 352,300 C 353.3,312.0 338.7,334.0 330,334 C 321.3,334.0 294.7,314.0 300,300 C 305.3,286.0 341.7,253.0 362,250 C 382.3,247.0 415.3,266.3 422,282 C 428.7,297.7 410.3,337.3 402,344 C 393.7,350.7 367.0,331.0 372,322 C 377.0,313.0 413.7,280.0 432,290 C 450.3,300.0 467.0,363.3 482,382 C 497.0,400.7 518.7,407.3 522,402 C 525.3,396.7 512.0,355.0 502,350 C 492.0,345.0 455.3,375.0 462,372 C 468.7,369.0 518.7,349.3 542,332 C 565.3,314.7 595.3,283.7 602,268 C 608.7,252.3 590.3,237.7 582,238 C 573.7,238.3 545.3,259.3 552,270 C 558.7,280.7 600.3,286.7 622,302 C 643.7,317.3 675.3,345.0 682,362 C 688.7,379.0 672.0,400.7 662,404 C 652.0,407.3 615.3,392.3 622,382 C 628.7,371.7 678.7,363.7 702,342 C 725.3,320.3 745.3,268.7 762,252 C 778.7,235.3 793.7,235.3 802,242 C 810.3,248.7 815.3,277.0 812,292 C 808.7,307.0 777.0,327.0 782,332 C 787.0,337.0 822.3,330.3 842,322 C 861.7,313.7 883.3,285.7 900,282 C 916.7,278.3 927.8,292.8 942,300 C 956.2,307.2 965.3,321.7 985,325 C 1004.7,328.3 1047.5,320.8 1060,320"></path>
+          <text class="res-org" x="20" y="128">Organisation A</text>
+          <text class="res-org" x="20" y="328">Organisation B</text>
+          <text class="res-kalix" x="20" y="356">= Kalix</text>
+          <polygon class="res-burst" points="250.0,94.0 253.8,109.7 266.7,100.1 259.5,114.5 275.6,115.5 260.8,121.9 272.5,133.0 257.1,128.4 258.9,144.4 250.0,131.0 241.1,144.4 242.9,128.4 227.5,133.0 239.2,121.9 224.4,115.5 240.5,114.5 233.3,100.1 246.2,109.7"></polygon>
+          <polygon class="res-burst" points="250.0,294.0 253.8,309.7 266.7,300.1 259.5,314.5 275.6,315.5 260.8,321.9 272.5,333.0 257.1,328.4 258.9,344.4 250.0,331.0 241.1,344.4 242.9,328.4 227.5,333.0 239.2,321.9 224.4,315.5 240.5,314.5 233.3,300.1 246.2,309.7"></polygon>
+          <text class="res-cap bad" x="250" y="78">Cyberattack</text>
+          <text class="res-cap bad" x="250" y="372">Cyberattack</text>
+          <g class="res-end a"><path class="res-check" d="M 1084,120 L 1096,134 L 1120,100"></path><text class="res-cap good" x="1102" y="172">Resilient</text></g>
+          <g class="res-end b"><path class="res-check" d="M 1084,320 L 1096,334 L 1120,300"></path><text class="res-cap good" x="1102" y="372">Resilient</text></g>
+        </svg>
+      </div>
+      <div class="slide-notes"><p>Båda når resiliens — skillnaden är vägen dit.</p><p>A: väl förberedd, har förmågan att hantera attacken effektivt → rak väg.</p><p>B: saknar förberedelse och förmåga → lång, krokig väg till samma mål.</p><p>KALIX VAR ORGANISATION B: fyra veckor med papper, minne och mobil, patientlistor ur sekretesstunnorna. De klarade sig — tack vare personalen.</p><p>För kalix del så är målet att gå från Organisation B till Organisation A</p><p>och det gör man så här</p></div>
+    </section>
+
+    <section class="slide" aria-label="Vad Kalix gjorde efteråt">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Vad Kalix gjorde efteråt</h1>
       <div class="pair-grid">
         <div class="box">
-          <h2 class="inline">Formell resiliens</h2>
-          Krisledningsgruppen, tidigare krisövningar och dokumenterade planer gav strukturen på ledningsnivå.
+          <h2 class="inline">Tekniken</h2>
+          <span class="fruit-tag">Plockade de lågt hängande frukterna</span>
+          <ul class="box-list">
+            <li>Microsoft 365 och molntjänster</li>
+            <li>Defender for Endpoint och isolerad SIEM</li>
+            <li>Nätverkssegmentering och nivåindelade behörigheter</li>
+            <li>Ny VPN med MFA och geo-fencing</li>
+            <li>Alla lösenord bytta via BankID</li>
+          </ul>
         </div>
         <div class="box filled">
-          <h2 class="inline">Informell resiliens</h2>
-          Frontlinjepersonalens vardagsflexibilitet, erfarenhet och improvisation blev de faktiska verktygen längst ut i verksamheten.
+          <h2 class="inline">Verksamheten</h2>
+          <ul class="box-list">
+            <li>Nano learning — korta säkerhetslektioner via mejl</li>
+            <li>Analoga kopior av nycklarna till de digitala låsen</li>
+            <li>Ny informationssäkerhetspolicy för hela kommunen</li>
+            <li>Ny planering — bort från minut-för-minut-scheman</li>
+          </ul>
         </div>
       </div>
-      <div class="slide-notes"><p>Holmström och Große (2025) beskriver detta som två helt olika lager av organisationen som förlitade sig på olika typer av resiliens — en formell och procedurbaserad, en praktisk och kroppsligt förankrad. Krisövningarna innan attacken gav struktur åt ledningsnivån, men det var undersköterskornas och enhetschefernas förmåga att improvisera för hand som faktiskt höll vården igång dag för dag.</p><p>Gruppsammansättning spelade också roll — arbetsgrupper med fler vikarier eller nyanställda hade det tyngre, vilket pekar på erfarenhet och lagsammanhållning som en resiliensfaktor i sig.</p></div>
+      <div class="slide-notes"><p>TEKNIKEN: hela IT-miljön byggdes om — M365/molntjänster, Defender for Endpoint, alla klienter ominstallerade via isolerad SIEM. Segmentering och nivåindelade användarnivåer. Ny VPN med MFA och geo-fencing (17 jan). Alla lösenord bytta via BankID, eller legitimation på plats.</p><p>Ombyggnad planerad över tre år — klar på fyra veckor.</p><p>DE LÅGT HÄNGANDE FRUKTERNA — samma kedja som attacken: VPN utan MFA → nu MFA. Domänadminkonto → nivåindelade behörigheter. Endpoint-skydd avstängt via GPO → Defender och övervakning. Backuperna klarade sig — det gjorde Kalix rätt.</p><p>VERKSAMHETEN: nano learning — korta lektioner via mejl som man klickar sig igenom. Upplevs positivt, men risk att man bara klickar förbi.</p><p>Digitala lås i hemtjänsten: analoga kopior av alla nycklar — de var på väg att fasas ut innan attacken.</p><p>Ny informationssäkerhetspolicy — fanns inte vid attacken.</p><p>Schemaläggning bort från minut-för-minut-planering.</p></div>
     </section>
 
-    <section class="slide" aria-label="Analogt är inte omodernt — det är en livlina">
+    <section class="slide" aria-label="Analog redundans och lärdomar som bleknar">
       <span class="slide-eyebrow">Lärdomar</span>
-      <h1>Analogt är inte omodernt — det är en livlina</h1>
-      <p class="lede">Beroendet av digitala system hade tagits för givet, ända tills det blev krisens största sårbarhet.</p>
-      <ul class="summary-list">
-        <li>Kritiska processer behöver en analog reservväg — inte bara en teknisk backup</li>
-        <li>Kommunikationskanaler behöver redundans, precis som system — &rdquo;call chains&rdquo; och fysiska möten ersatte mejl och inloggning</li>
-        <li>Viktig information (scheman, patientlistor) bör kunna finnas i icke-digitalt format, inte bara i molnet</li>
-      </ul>
-      <div class="dashed">Frånvaron av analoga alternativ var precis det som gjorde de första dagarna så svåra för socialförvaltningen.</div>
-      <div class="slide-notes"><p>Det här är kärnan i avsnitt 5.2 i Holmström och Große (2025): organisationer måste identifiera vilka kritiska processer som är starkt digitalt beroende och säkerställa att fungerande reserver finns — både analoga och digitala. Redundans handlar inte bara om servrar, utan lika mycket om kommunikationsvägar.</p></div>
-    </section>
-
-    <section class="slide" aria-label="Lärdomar som fastnar">
-      <span class="slide-eyebrow">Lärdomar</span>
-      <h1>Lärdomar som fastnar — eller inte</h1>
-      <p class="lede">Krisen väckte säkerhetsmedvetenheten hos personalen. Men utan systematisk uppföljning bleknade den igen.</p>
-      <div class="box filled">Uppföljningen efter attacken blev till stor del teknisk och stannade inom IT-avdelningen — <span class="flag">en organisationsövergripande genomlysning uteblev, och lärdomar gick förlorade</span>.</div>
+      <h1>Analog reserv — och lärdomar som bleknar</h1>
+      <div class="pair-grid">
+        <div class="box">
+          <h2 class="inline">Analog redundans</h2>
+          <ul class="box-list">
+            <li>Kritiska processer behöver en analog reservväg — inte bara teknisk backup</li>
+            <li>Kommunikation behöver redundans: call chains och fysiska möten ersatte mejl</li>
+            <li>Scheman och patientlistor i icke-digitalt format</li>
+          </ul>
+        </div>
+        <div class="box filled">
+          <h2 class="inline">Men lärdomarna bleknar</h2>
+          <ul class="box-list">
+            <li>Medvetenheten ökade efter krisen — och avtog sedan</li>
+            <li>Analoga backuper gjordes i början — inte idag</li>
+            <li>Uppföljningen blev teknisk och stannade inom IT</li>
+          </ul>
+        </div>
+      </div>
       <div class="dashed">&rdquo;Vi är nu i en normaliseringsfas … det är nu vi inte får slappna av.&rdquo; &mdash; anställd, socialförvaltningen</div>
-      <div class="slide-notes"><p>En av de mer oroande observationerna i Holmström och Große (2025): medvetenheten som väcktes av krisen (papper i bakfickan, allmän vaksamhet) klingade successivt av när minnet av krisen blev mindre närvarande, i brist på systematisk uppföljning. Uppföljningen som gjordes var till stor del teknisk och isolerad till IT — vilket innebar att värdefulla erfarenheter från socialförvaltningens golv aldrig samlades in eller spreds vidare.</p><p>Forskarnas rekommendation: involvera frontlinjepersonal (undersköterskor, enhetschefer) direkt i risk- och kontinuitetsplaneringen — de ser konsekvenserna av digitala avbrott som ledningen och IT annars missar.</p></div>
+      <div class="slide-notes"><p>ANALOG REDUNDANS: kritiska processer behöver en analog reservväg — inte bara teknisk backup. Kommunikationskanaler behöver redundans: call chains och fysiska möten ersatte mejl och inloggning. Scheman och patientlistor bör finnas i icke-digitalt format.</p><p>Digitala lås: analoga kopior av alla nycklar — var på väg att fasas ut innan attacken.</p><p>MEN LÄRDOMAR BLEKNAR: medvetenheten ökade efter krisen men avtog över tid. ”I början var vi vaksamma, men det har börjat avta.” — undersköterska</p><p>Analoga backuper gjordes i början — inte idag. Uppföljningen blev till stor del teknisk och stannade inom IT.</p><p>Citat: ”Vi är nu i en normaliseringsfas … det är nu vi inte får slappna av.” — anställd, socialförvaltningen</p></div>
+    </section>
+
+    <section class="slide gstep" aria-label="Glappet">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Tekniken lagades — glappet fanns kvar</h1>
+      <div class="bridge gap">
+        <div class="bridge-end">IT &amp; informationssäkerhet</div>
+        <div class="gap-mid">
+          <div class="gap-item cur"><span class="gap-x">&#10005;</span><div><div class="gap-t">Krisövningarna saknade cyberscenario</div><div class="gap-d">Kalix övade personalbortfall — aldrig att det digitala försvann</div></div></div>
+          <div class="gap-item future"><span class="gap-x">&#10005;</span><div><div class="gap-t">Var och en bar sin del — samordningen saknades</div><div class="gap-d">IT byggde om systemen, verksamheten höll vården igång — men krisledningen var inte förberedd på samverkan</div></div></div>
+          <div class="gap-item future"><span class="gap-x">&#10005;</span><div><div class="gap-t">Uppföljningen skedde i silos</div><div class="gap-d">Varje del följde upp sitt — erfarenheterna samlades aldrig ihop</div></div></div>
+        </div>
+        <div class="bridge-end filled">Verksamheten</div>
+      </div>
+      <span class="src-note">Holmström &amp; Große (2025), <i>Not All Heroes Wear Capes</i></span>
+      <div class="slide-notes"><p>GLAPPET — 1: ÖVNINGARNA</p><p>IT gjorde ett enormt jobb — hela miljön ombyggd på fyra veckor. Glappet handlar inte om att någon del brast, utan om kopplingen mellan delarna.</p><p>Krisprocess sedan 2018, kontinuitetsplaner och krisövningar 2020 — scenariot var personalbortfall (hälften borta). Aldrig cyberattack.</p><p>Dokumentationen sa vad som skulle göras — inte hur.</p><p>Det som bar: erfarenhet och flexibilitet i arbetsgrupperna — en del av yrket, inte resultat av krisplanen. Stabila grupper klarade sig bättre än grupper med många vikarier och nyanställda.</p></div>
+    </section>
+
+    <section class="slide gstep" aria-label="Glappet 2">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Tekniken lagades — glappet fanns kvar</h1>
+      <div class="bridge gap">
+        <div class="bridge-end">IT &amp; informationssäkerhet</div>
+        <div class="gap-mid">
+          <div class="gap-item past"><span class="gap-x">&#10005;</span><div><div class="gap-t">Krisövningarna saknade cyberscenario</div><div class="gap-d">Kalix övade personalbortfall — aldrig att det digitala försvann</div></div></div>
+          <div class="gap-item cur"><span class="gap-x">&#10005;</span><div><div class="gap-t">Var och en bar sin del — samordningen saknades</div><div class="gap-d">IT byggde om systemen, verksamheten höll vården igång — men krisledningen var inte förberedd på samverkan</div></div></div>
+          <div class="gap-item future"><span class="gap-x">&#10005;</span><div><div class="gap-t">Uppföljningen skedde i silos</div><div class="gap-d">Varje del följde upp sitt — erfarenheterna samlades aldrig ihop</div></div></div>
+        </div>
+        <div class="bridge-end filled">Verksamheten</div>
+      </div>
+      <span class="src-note">Holmström &amp; Große (2025), <i>Not All Heroes Wear Capes</i></span>
+      <div class="slide-notes"><p>GLAPPET — 2: SAMORDNINGEN</p><p>Alla gjorde sin del: IT tog nätet offline — rätt beslut — och byggde om miljön. Socialförvaltningen höll vården igång.</p><p>Men delarna arbetade parallellt: konsekvenserna i verksamheten hanterades av verksamheten själv.</p><p>Krisledningen var inte tillräckligt förberedd på samverkan mellan förvaltningar.</p><p>Ansvarsprincipen: den som ansvarar i normalläge ansvarar även i kris. Kritik: en kris är inte normalläge — den ansvariga behöver stöd.</p></div>
+    </section>
+
+    <section class="slide gstep" aria-label="Glappet 3">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Tekniken lagades — glappet fanns kvar</h1>
+      <div class="bridge gap">
+        <div class="bridge-end">IT &amp; informationssäkerhet</div>
+        <div class="gap-mid">
+          <div class="gap-item past"><span class="gap-x">&#10005;</span><div><div class="gap-t">Krisövningarna saknade cyberscenario</div><div class="gap-d">Kalix övade personalbortfall — aldrig att det digitala försvann</div></div></div>
+          <div class="gap-item past"><span class="gap-x">&#10005;</span><div><div class="gap-t">Var och en bar sin del — samordningen saknades</div><div class="gap-d">IT byggde om systemen, verksamheten höll vården igång — men krisledningen var inte förberedd på samverkan</div></div></div>
+          <div class="gap-item cur"><span class="gap-x">&#10005;</span><div><div class="gap-t">Uppföljningen skedde i silos</div><div class="gap-d">Varje del följde upp sitt — erfarenheterna samlades aldrig ihop</div></div></div>
+        </div>
+        <div class="bridge-end filled">Verksamheten</div>
+      </div>
+      <span class="src-note">Holmström &amp; Große (2025), <i>Not All Heroes Wear Capes</i></span>
+      <div class="slide-notes"><p>GLAPPET — 3: UPPFÖLJNINGEN</p><p>Ingen samlad uppföljning i hela organisationen. IT följde upp tekniken; socialchefen skrev en egen rapport.</p><p>Undersköterska: chefen informerade om incidenten — men ingen frågade efter personalens erfarenheter. Erfarenheterna från olika delar samlades aldrig ihop.</p><p>Förändringarna efteråt blev till stor del tekniska.</p><p>Nästa bild: bron över glappet.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Koppla ihop IT och verksamheten">
+      <span class="slide-eyebrow">Lärdomar · Viktigast</span>
+      <h1>Koppla ihop IT och verksamheten</h1>
+      <p class="lede">Informations- och cybersäkerhet måste bli en del av <span class="flag">verksamhetens</span> risk- och krisplanering — inte bara IT:s.</p>
+      <div class="bridge built">
+        <div class="bridge-end">IT &amp; informationssäkerhet</div>
+        <div class="bridge-mid">
+          <div class="bridge-row"><span class="bridge-label">Riskbedömning</span><span class="bridge-line">Vilka arbetsuppgifter bär systemet? &#8594;</span></div>
+          <div class="bridge-row"><span class="bridge-label">Krisövning</span><span class="bridge-line">&#8592; Vad gör vi när det digitala försvinner?</span></div>
+        </div>
+        <div class="bridge-end filled">Verksamheten</div>
+      </div>
+      <p class="kx-line">I Kalix: en enhetschef från äldreomsorgen blev informationssäkerhetssamordnare — en bro mellan verksamheten och IT.</p>
+      <div class="slide-notes"><p>DEN VIKTIGASTE LÄRDOMEN</p><p>Bron över glappet: informations- och cybersäkerhet måste bli en del av verksamhetens risk- och krisplanering — inte bara IT:s.</p><p>IT → VERKSAMHET</p><p>Riskbedömningar ska kartlägga vilka arbetsuppgifter varje system bär. Exempel: ärendesystemet är inte bara en server — det är hela försörjningsstödet.</p><p>VERKSAMHET → IT</p><p>Krisövningar ska innehålla digitala störningar. Exempel: nätet offline i fyra veckor — inte bara personalbortfall.</p><p>SÅ GJORDE KALIX</p><p>En enhetschef inom äldreomsorgen anställdes som informationssäkerhetssamordnare för socialförvaltningen. Utbildas inom informationssäkerhet. Arbetar med krisplanerna tillsammans med IT och kommunledningen.</p></div>
     </section>
 
     <section class="slide" aria-label="Praktisk tillämpning — kartläggning av verksamheten">
-      <span class="slide-eyebrow">Resultat · Praktisk tillämpning</span>
-      <h1>Att se sårbarheten i förväg</h1>
-      <div class="map-result">
-        <img src="map-result.png" alt="Kartläggning i map.aholmstrom.se av Kalix kommuns försörjningsstödsprocess: tre delprocesser kopplas till systemet för socialtjänstärenden, markerat som single point of failure, som i sin tur kopplas till klientregister markerat offline utan backup">
+      <span class="slide-eyebrow">Från lärdom till verktyg</span>
+      <div class="dm-grid">
+        <div class="dm-text">
+          <h1>Se beroendena innan attacken gör det</h1>
+          <p class="dm-lede"><b>Dependency Mapper</b> kartlägger verksamheten — från arbetsuppgift till IT-infrastruktur — och simulerar störningar.</p>
+          <ol class="dm-list">
+            <li><b>Identifiera digitala beroenden</b><span>Vilka system, data och leverantörer bär varje arbetsuppgift?</span></li>
+            <li><b>Tydliggör single points of failure</b><span>Ta ett system offline och se vad som stannar</span></li>
+            <li><b>Grund för kontinuitets-, risk- och krisplanering</b><span>Samma karta för IT och verksamhet</span></li>
+          </ol>
+          <div class="dm-cta">Läs mer och signa upp: <b>map.aholmstrom.se</b><br>— eller kom och surra efteråt!</div>
+        </div>
+        <figure class="dm-shot">
+          <img src="dm-simulation.png" alt="Simulering i Dependency Mapper: klientregistret utan backup tas offline, ärendesystemet markeras som single point of failure och hela försörjningsstödsprocessen stoppar">
+          <figcaption>Klientregistret offline → ärendesystemet (single point of failure) → hela försörjningsstödet stannar</figcaption>
+        </figure>
       </div>
-      <div class="dashed"><b>map.aholmstrom.se</b> — Kalix-fallet återskapat i mitt eget kartläggningsverktyg. Kartan pekar direkt ut kedjan som slog ut socialförvaltningen: ett system markerat <span class="flag">single point of failure</span>, kopplat till ett klientregister som är <span class="flag">offline — utan backup</span>.</div>
-      <div class="slide-notes"><p>Det här är mitt eget försök att omsätta fallstudiens lärdom i något praktiskt användbart: map.aholmstrom.se, ett verktyg där man kartlägger en verksamhets affärsprocesser, system, data, människor och information för att se hur arbetsuppgifterna faktiskt hänger ihop — och var sårbarheterna sitter innan något händer.</p><p>Bilden visar Kalix-fallet återskapat i verktyget i efterhand: försörjningsstödsprocessen (ansökan, behovsbedömning, beslut/utbetalning) bryter ner till ett och samma ärendehanteringssystem — markerat som single point of failure — som i sin tur är beroende av ett klientregister utan digital backup. Exakt den sårbarheten som gjorde att hela socialförvaltningen fick gå över till papper och penna när systemen krypterades.</p><p>Poängen att lyfta: hade den här typen av kartläggning funnits innan attacken, hade sårbarheten synts i förväg — inte först efteråt.</p></div>
+      <div class="slide-notes"><p>Bygger direkt på förra bilden: kopplingen mellan IT och verksamhet — i praktiken.</p><p>Dependency Mapper: mitt eget verktyg för risk- och krishantering. Tre steg: inventera (processer, system, data, människor, leverantörer) → koppla beroenden på en karta → simulera störning.</p><p>1. Identifiera digitala beroenden — från arbetsuppgift ner till IT-infrastruktur.</p><p>2. Tydliggöra single points of failure — ta en resurs offline och se hur effekten sprider sig.</p><p>3. Grund för kontinuitets-, risk- och krisplanering — IT och verksamhet tittar på samma karta.</p><p>Exemplet: försörjningsstöd. Klientregistret utan backup tas offline → ärendesystemet är single point of failure → ansökan, behovsbedömning och beslut/utbetalning stannar. Samma typ av kedja som i Kalix.</p><p>Hade kartan funnits innan attacken hade sårbarheten synts i förväg — inte efteråt.</p><p>Läs mer och signa upp på map.aholmstrom.se — eller kom och surra efteråt.</p></div>
     </section>
 
     <section class="slide" aria-label="Vad kan vi ta med oss?">
       <span class="slide-eyebrow">Lärdomar · Sammanfattning</span>
-      <h1>Vad kan vi ta med oss?</h1>
-      <ul class="summary-list">
-        <li><b>Cyberresiliens är hela organisationens ansvar</b> — inte bara IT:s</li>
-        <li><b>Formell planering och informell improvisation</b> löser olika delar av samma kris — ni behöver båda</li>
-        <li><b>Analog redundans</b> är inte omodernt — det är det som håller verksamheten igång när det digitala inte gör det</li>
-        <li><b>Lärdomar fastnar bara</b> om uppföljningen är systematisk och når hela organisationen — inte bara IT</li>
-      </ul>
-      <div class="slide-notes"><p>Sammanfatta kort de fyra lärdomarna innan diskussionsfrågorna. Ge det ett ögonblick att sätta sig — detta är den del av föreläsningen publiken bör ta med sig.</p></div>
+      <h1>Från organisation B till A</h1>
+      <div class="res-fig sum-fig">
+        <svg viewBox="0 0 1160 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Två lärdomar före attacken och två efter: med dem rätas Kalix krokiga väg (organisation B) ut till en rak väg (organisation A)">
+          <g class="sum-phase"><text x="335" y="40">FÖRE ATTACKEN</text><line x1="110" y1="52" x2="530" y2="52"></line><text x="785" y="40">EFTER ATTACKEN</text><line x1="590" y1="52" x2="1010" y2="52"></line></g>
+          <path class="sum-b" d="M 560,205 C 563.7,202.4 575.6,197.9 582,190 C 588.9,181.5 594.3,156.0 600,156 C 605.7,155.4 615.9,177.8 617,188 C 617.4,198.2 609.3,216.9 604,217 C 599.6,216.9 584.8,199.9 588,188 C 590.7,176.1 610.9,148.1 622,146 C 633.5,142.9 651.9,159.4 656,173 C 659.3,186.0 649.1,219.7 644,225 C 639.8,231.1 625.0,214.3 628,207 C 630.6,199.0 650.9,171.0 661,180 C 671.3,188.0 680.6,241.8 689,258 C 697.2,273.6 709.3,279.2 711,275 C 713.0,270.2 705.6,234.8 700,230 C 694.4,226.2 674.1,251.8 678,249 C 681.5,246.6 709.3,229.9 722,215 C 735.2,200.5 751.9,174.1 756,161 C 759.3,147.5 749.1,135.0 744,135 C 739.8,135.6 724.1,153.4 728,162 C 731.5,171.6 754.6,176.7 767,190 C 778.7,202.7 796.3,226.2 800,241 C 803.7,255.1 794.4,273.6 789,276 C 783.3,279.2 763.0,266.5 767,258 C 770.4,248.9 798.1,242.1 811,224 C 824.1,205.3 835.2,161.4 844,147 C 853.7,133.0 862.0,133.0 867,139 C 871.3,144.4 874.1,168.4 872,181 C 870.4,193.9 852.8,210.9 856,215 C 858.3,219.4 878.0,213.8 889,207 C 899.8,199.6 911.9,175.8 921,173 C 930.4,169.6 936.6,181.9 944,188 C 952.3,194.1 957.4,206.4 968,209 C 979.3,212.1 1003.1,205.7 1010,205"></path>
+          <path class="res-path sum-a" pathLength="1" d="M 110,205 L 1010,205"></path>
+          <circle class="sum-start" cx="110" cy="205" r="6"></circle>
+          <g class="sw sw1 key"><circle cx="220" cy="205" r="9"></circle><text class="sw-num" x="220" y="209.5">1</text><line x1="220" y1="193" x2="220" y2="175"></line><text class="sw-l" x="220" y="143">Verksamheten in i</text><text class="sw-l" x="220" y="165">risk- &amp; krisplaneringen</text><text class="sw-tag" x="220" y="119">VIKTIGAST</text></g><g class="sw sw2"><circle cx="420" cy="205" r="9"></circle><text class="sw-num" x="420" y="209.5">2</text><line x1="420" y1="217" x2="420" y2="235"></line><text class="sw-l" x="420" y="255">Öva på att det</text><text class="sw-l" x="420" y="277">digitala försvinner</text></g><g class="sw sw3"><circle cx="720" cy="205" r="9"></circle><text class="sw-num" x="720" y="209.5">3</text><line x1="720" y1="193" x2="720" y2="175"></line><text class="sw-l" x="720" y="143">Analoga</text><text class="sw-l" x="720" y="165">reservvägar</text></g><g class="sw sw4"><circle cx="900" cy="205" r="9"></circle><text class="sw-num" x="900" y="209.5">4</text><line x1="900" y1="217" x2="900" y2="235"></line><text class="sw-l" x="900" y="255">Följ upp i hela</text><text class="sw-l" x="900" y="277">organisationen</text></g>
+          <g class="sum-attack"><polygon class="res-burst" points="560.0,181.0 563.4,195.6 575.4,186.6 568.7,200.0 583.6,200.8 569.8,206.7 580.8,217.0 566.4,212.7 568.2,227.6 560.0,215.0 551.8,227.6 553.6,212.7 539.2,217.0 550.2,206.7 536.4,200.8 551.3,200.0 544.6,186.6 556.6,195.6"></polygon><text class="res-cap bad" x="560" y="255">Cyberattack</text></g>
+          <g class="res-end sum-end"><path class="res-check" d="M 1034,205 L 1046,219 L 1070,185"></path><text class="res-cap good" x="1052" y="257">Resilient</text></g>
+          <g class="sum-legend"><line class="lg-b" x1="110" y1="372" x2="150" y2="372"></line><text x="160" y="378">Kalix väg (B)</text><line class="lg-a" x1="320" y1="372" x2="360" y2="372"></line><text x="370" y="378">Med lärdomarna (A)</text></g>
+        </svg>
+      </div>
+      <div class="sum-pre"><span class="dec-label">Också före attacken</span> Minska skadan med de enkla spärrarna — MFA, separata adminkonton, isolerade backuper.</div>
+      <div class="slide-notes"><p>Tillbaka till figuren: Kalix tog den krokiga vägen (B). Lärdomarna är det som rätar ut vägen — två före attacken, två efter.</p><p>FÖRE ATTACKEN</p><p>1. VIKTIGAST — informations- och cybersäkerhet in i verksamhetens risk- och krisplanering. IT:s riskbedömningar ska visa vilka arbetsuppgifter systemen bär.</p><p>2. Krisövningar med digitala störningar — Kalix övade personalbortfall, aldrig cyberattack.</p><p>EFTER ATTACKEN</p><p>3. Analoga reservvägar: scheman, patientlistor, nycklar, call chains.</p><p>4. Systematisk uppföljning i hela organisationen — fråga frontlinjen, annars bleknar lärdomarna.</p><p>Innan attacken: de enkla spärrarna (MFA på VPN, separata adminkonton, isolerade backuper) minskar skadan — och risken att alls behöva gå vägen.</p></div>
     </section>
 
-    <section class="slide" aria-label="Diskussion">
-      <span class="slide-eyebrow">Diskussion</span>
-      <h1>En fråga att ta med er</h1>
-      <ul class="disc-list">
-        <li>Om er organisation bara fick investera i EN åtgärd inför nästa kris — en ny brandvägg, analoga reservrutiner för de mest kritiska processerna, eller krisövningar som inkluderar frontlinjepersonal — vilken väljer ni? Och varför är det egentligen ett dåligt val, oavsett vilket ni väljer?</li>
-        <li>Vet ni vilka av era processer som skulle stanna helt om det digitala försvann imorgon — och vem som skulle upptäcka det först?</li>
-      </ul>
-      <div class="slide-notes"><p>Ge publiken faktisk tid att fundera — det här är avsett att kännas som ett dilemma utan ett rent svar, inte en quiz med rätt svar. Poängen med den första frågan: varje enskilt val är ofullständigt, vilket är precis lärdomen från Kalix — resiliens byggs av flera saker samtidigt, inte en investering.</p></div>
-    </section>
-
-    <section class="slide" aria-label="Tillbaka till frågan">
+    <section class="slide question-slide" aria-label="Tillbaka till frågan">
       <span class="slide-eyebrow">Tillbaka till frågan</span>
-      <h1>Vem räddade Kalix kommun?</h1>
-      <p class="lede">IT stoppade spridningen. Ledningen höll ihop organisationen. Men det var något annat som gjorde att kommunen aldrig kollapsade.</p>
-      <div class="box filled">Enligt forskarna själva var det <span class="flag">inte med hjälp av, utan tack vare, insatsen från personalen</span> längst ut i verksamheten — de som höll vården igång för hand, utan att någon bad dem om det.</div>
-      <div class="slide-notes"><p>Detta är nästan en direkt återgivning av slutsatsen i Holmström och Große (2025): "It was not with the help of, but thanks to, the effort of the employees that the organization was able to avoid a total collapse of business functions critical to the citizens." Låt den sitta kvar ett par sekunder innan du går vidare till tack-bilden.</p></div>
+      <h1>Vem bar bördan för cyberresiliensen?</h1>
+      <p class="lede">Alla — på olika sätt.</p>
+      <div class="who-grid">
+        <div class="who"><span class="who-l">IT</span><span class="who-d">Byggde om hela miljön på fyra veckor</span></div>
+        <div class="who"><span class="who-l">Ledningen</span><span class="who-d">Höll ihop organisationen och informationen</span></div>
+        <div class="who"><span class="who-l">Personalen längst ut</span><span class="who-d">Höll vården igång med papper, minne och mobil</span></div>
+      </div>
+      <div class="slide-notes"><p>Svar: alla — på olika sätt. Resiliens var ett delat ansvar för hela organisationen (Holmström, 2025).</p><p>IT: byggde om hela IT-miljön på fyra veckor — ett enormt jobb.</p><p>Ledningen: stabsläge, prioriteringar, öppen kommunikation.</p><p>Personalen längst ut: höll vården igång utan system. Holmström &amp; Große (2025): ”It was not with the help of, but thanks to, the effort of the employees that the organization was able to avoid a total collapse of business functions critical to the citizens.”</p><p>Poängen: bördan bars av alla — men den var inte planerad att delas. Det är det glappet vi kan stänga.</p></div>
     </section>
 
     <section class="slide" aria-label="Tack">
       <span class="slide-eyebrow">Tack</span>
-      <h1>Tack för att ni lyssnade</h1>
-      <p class="lede">Frågor, tankar eller något ni vill grotta ner er mer i? Hör av er.</p>
-      <div class="about-contact"><span>anton.holmstrom@ltu.se</span></div>
-      <div class="dashed">Fallstudien finns publicerad i sin helhet — hör av er om ni vill läsa artiklarna.</div>
-      <div class="slide-notes"><p>Avsluta med att öppna för frågor. Nämn gärna att fallstudien bygger på två publicerade artiklar (Holmström, 2025 och Holmström &amp; Große, 2025) för den som vill läsa vidare eller använda caset i egen undervisning.</p></div>
+      <div class="thx-grid">
+        <div class="thx-text">
+          <h1>Tack för att ni lyssnade</h1>
+          <p class="lede">Frågor, tankar eller vill läsa artiklarna? Hör av er.</p>
+          <div class="thx-contact">
+            <span class="thx-label">E-post</span>
+            <span class="thx-mail">anton.holmstrom@ltu.se</span>
+          </div>
+        </div>
+        <figure class="thx-qr">
+          <img src="linkedin-qr.png" alt="QR-kod till Anton Holmströms LinkedIn-profil">
+          <figcaption>LinkedIn</figcaption>
+        </figure>
+      </div>
+      <div class="slide-notes"><p>Öppna för frågor.</p><p>Fallstudien: Holmström (2025) och Holmström &amp; Große (2025) — mejla för artiklarna.</p><p>QR-koden leder till LinkedIn.</p></div>
     </section>
 
   </main>
@@ -711,6 +1719,14 @@ body{
 
   var notesDb = null;
   var notesSaveTimers = {};
+  // notes are keyed by a stable id derived from each slide's aria-label, not its position,
+  // so inserting or reordering slides never shifts saved notes onto the wrong slide
+  function noteKey(i){
+    var l = (slides[i] && slides[i].getAttribute('aria-label')) || ('slide-' + i);
+    return l.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  var keyToIndex = {};
+  slides.forEach(function(_, i){ keyToIndex[noteKey(i)] = i; });
   function initNotesDb(){
     if (typeof window.claude === 'undefined' || !window.claude.use) return;
     window.claude.use('db').then(function(db){
@@ -719,7 +1735,8 @@ body{
       db.collection('notes').get().then(function(snap){
         snap.docs.forEach(function(d){
           var data = d.data();
-          if (data && typeof data.text === 'string') notesStore[d.id] = data.text;
+          var idx = keyToIndex[d.id];
+          if (idx !== undefined && data && typeof data.text === 'string') notesStore[idx] = data.text;
         });
         updatePresenterWindow();
       }).catch(function(){});
@@ -729,13 +1746,13 @@ body{
     if (!notesDb) return;
     clearTimeout(notesSaveTimers[slideIndex]);
     notesSaveTimers[slideIndex] = setTimeout(function(){
-      notesDb.doc('notes/' + slideIndex).set({ text: text }).catch(function(){});
+      notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){});
     }, 600);
   }
   function flushNotesSave(slideIndex, text){
     if (!notesDb) return;
     clearTimeout(notesSaveTimers[slideIndex]);
-    notesDb.doc('notes/' + slideIndex).set({ text: text }).catch(function(){});
+    notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){});
   }
   initNotesDb();
 
@@ -911,3 +1928,5 @@ body{
 </script>
 </body>
 </html>
+
+</body></html>
