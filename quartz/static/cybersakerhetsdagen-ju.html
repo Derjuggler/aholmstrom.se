@@ -1515,22 +1515,6 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
       <div class="slide-notes"><p>GLAPPET — 2: SAMORDNINGEN</p><p>Alla gjorde sin del: IT tog nätet offline — rätt beslut — och byggde om miljön. Socialförvaltningen höll vården igång.</p><p>Men delarna arbetade parallellt: konsekvenserna i verksamheten hanterades av verksamheten själv.</p><p>Krisledningen var inte tillräckligt förberedd på samverkan mellan förvaltningar.</p><p>Ansvarsprincipen: den som ansvarar i normalläge ansvarar även i kris. Kritik: en kris är inte normalläge — den ansvariga behöver stöd.</p></div>
     </section>
 
-    <section class="slide gstep" aria-label="Glappet 3">
-      <span class="slide-eyebrow">Lärdomar</span>
-      <h1>Tekniken lagades — glappet fanns kvar</h1>
-      <div class="bridge gap">
-        <div class="bridge-end">IT &amp; informationssäkerhet</div>
-        <div class="gap-mid">
-          <div class="gap-item past"><span class="gap-x">&#10005;</span><div><div class="gap-t">Krisövningarna saknade cyberscenario</div><div class="gap-d">Kalix övade personalbortfall — aldrig att det digitala försvann</div></div></div>
-          <div class="gap-item past"><span class="gap-x">&#10005;</span><div><div class="gap-t">Var och en bar sin del — samordningen saknades</div><div class="gap-d">IT byggde om systemen, verksamheten höll vården igång — men krisledningen var inte förberedd på samverkan</div></div></div>
-          <div class="gap-item cur"><span class="gap-x">&#10005;</span><div><div class="gap-t">Uppföljningen skedde i silos</div><div class="gap-d">Varje del följde upp sitt — erfarenheterna samlades aldrig ihop</div></div></div>
-        </div>
-        <div class="bridge-end filled">Verksamheten</div>
-      </div>
-      <span class="src-note">Holmström &amp; Große (2025), <i>Not All Heroes Wear Capes</i></span>
-      <div class="slide-notes"><p>GLAPPET — 3: UPPFÖLJNINGEN</p><p>Ingen samlad uppföljning i hela organisationen. IT följde upp tekniken; socialchefen skrev en egen rapport.</p><p>Undersköterska: chefen informerade om incidenten — men ingen frågade efter personalens erfarenheter. Erfarenheterna från olika delar samlades aldrig ihop.</p><p>Förändringarna efteråt blev till stor del tekniska.</p><p>Nästa bild: bron över glappet.</p></div>
-    </section>
-
     <section class="slide" aria-label="Koppla ihop IT och verksamheten">
       <span class="slide-eyebrow">Lärdomar · Viktigast</span>
       <h1>Koppla ihop IT och verksamheten</h1>
@@ -1639,10 +1623,12 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
   var I18N = {
     en: { goTo:'Go to slide ', correct:'Correct — this is exactly what the right answer demonstrates.', wrong:'Not quite — the correct answer is highlighted above.',
           presenter:'Presenter view', slide:'Slide', now:'Now', next:'Next', prev:'Prev', notesPh:'Notes for this slide...',
-          smaller:'Smaller notes text', larger:'Larger notes text', popup:'Please allow pop-ups for this page to use the presenter view.' },
+          smaller:'Smaller notes text', larger:'Larger notes text', popup:'Please allow pop-ups for this page to use the presenter view.',
+          resize:'Drag to resize panels, or use arrow keys', resetSize:'Double-click to reset panel sizes' },
     sv: { goTo:'Gå till bild ', correct:'Rätt — det här är precis vad rätt svar visar.', wrong:'Inte riktigt — rätt svar är markerat ovan.',
           presenter:'Presentatörsvy', slide:'Bild', now:'Nu', next:'Nästa', prev:'Föregående', notesPh:'Anteckningar för den här bilden...',
-          smaller:'Mindre anteckningstext', larger:'Större anteckningstext', popup:'Tillåt popup-fönster för den här sidan för att använda presentatörsvyn.' }
+          smaller:'Mindre anteckningstext', larger:'Större anteckningstext', popup:'Tillåt popup-fönster för den här sidan för att använda presentatörsvyn.',
+          resize:'Dra för att ändra storlek på rutorna, eller använd piltangenterna', resetSize:'Dubbelklicka för att återställa storlekarna' }
   };
   var LANG = (document.documentElement.lang || 'en').slice(0, 2);
   var T = I18N[LANG] || I18N.en;
@@ -1713,6 +1699,17 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
   var presenterWin = null;
   var notesStore = {};
   var notesFontSize = 1.05;
+  var DEFAULT_PREVIEW_HEIGHT = 200;
+  var previewHeight = loadPreviewHeight();
+  function loadPreviewHeight(){
+    try {
+      var v = parseInt(localStorage.getItem('presenterPreviewHeight'), 10);
+      return (v && v > 0) ? v : DEFAULT_PREVIEW_HEIGHT;
+    } catch(e){ return DEFAULT_PREVIEW_HEIGHT; }
+  }
+  function savePreviewHeight(h){
+    try { localStorage.setItem('presenterPreviewHeight', String(h)); } catch(e){}
+  }
   var deckStyleHTML = document.querySelector('style').outerHTML;
   var fontLinkHTML = '<link rel="preconnect" href="https://fonts.googleapis.com">'
     + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">';
@@ -1791,13 +1788,17 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
       + '  .p-frame{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--card); font-style:italic; }'
       + '  .p-fontctrls button{ all:unset; cursor:pointer; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center; border:1px solid #55503f; border-radius:50%; color:var(--card); font-size:.75rem; margin-left:6px; }'
       + '  .p-fontctrls button:hover{ border-color:var(--accent); color:var(--accent); }'
-      + '  .p-previews{ display:flex; gap:16px; padding:16px 20px 6px; flex:none; }'
-      + '  .p-preview-col{ flex:1; min-width:0; }'
+      + '  .p-previews{ display:flex; gap:16px; padding:16px 20px 6px; flex:none; min-height:80px; }'
+      + '  .p-preview-col{ flex:1; min-width:0; display:flex; flex-direction:column; }'
       + '  .p-preview-col.p-next{ flex:0 0 34%; }'
-      + '  .p-preview-label{ font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#a49c86; margin-bottom:6px; }'
-      + '  .p-preview-frame{ position:relative; width:100%; aspect-ratio:16/9; background:var(--paper); border:1.5px solid #3a352c; overflow:hidden; }'
+      + '  .p-preview-label{ font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#a49c86; margin-bottom:6px; flex:none; }'
+      + '  .p-preview-frame{ position:relative; width:100%; flex:1; min-height:0; background:var(--paper); border:1.5px solid #3a352c; overflow:hidden; }'
       + '  .p-preview-scale{ position:absolute; top:0; left:0; transform-origin:top left; pointer-events:none; color:var(--ink); }'
-      + '  .p-notes-wrap{ flex:1; min-height:0; padding:10px 20px 14px; display:flex; }'
+      + '  .p-resizer{ flex:none; height:14px; margin:0 20px; cursor:row-resize; display:flex; align-items:center; justify-content:center; touch-action:none; }'
+      + '  .p-resizer::before{ content:""; width:48px; height:4px; border-radius:2px; background:#55503f; }'
+      + '  .p-resizer:hover::before, .p-resizer:focus-visible::before{ background:var(--accent); }'
+      + '  .p-resizer:focus-visible{ outline:1.5px solid var(--accent); outline-offset:2px; }'
+      + '  .p-notes-wrap{ flex:1; min-height:60px; padding:4px 20px 14px; display:flex; }'
       + '  .p-notes-area{ flex:1; min-height:0; resize:none; width:100%; background:#211e18; color:var(--paper); border:1.5px solid #3a352c; padding:14px 16px; font-family:"EB Garamond", Georgia, serif; line-height:1.6; }'
       + '  .p-navbar{ display:flex; gap:10px; justify-content:center; padding:0 20px 18px; flex:none; }'
       + '  .p-navbar button{ all:unset; cursor:pointer; padding:8px 18px; border:1.5px solid #55503f; color:var(--card); font-size:.85rem; }'
@@ -1809,10 +1810,11 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
       + '    <span class="p-frame" id="pFrameNum"></span>'
       + '    <div class="p-fontctrls"><button id="pFontDown" title="' + T.smaller + '">A&minus;</button><button id="pFontUp" title="' + T.larger + '">A+</button></div>'
       + '  </div>'
-      + '  <div class="p-previews">'
+      + '  <div class="p-previews" id="pPreviews">'
       + '    <div class="p-preview-col p-current"><div class="p-preview-label">' + T.now + '</div><div class="p-preview-frame" id="pCurrentFrame"></div></div>'
       + '    <div class="p-preview-col p-next"><div class="p-preview-label">' + T.next + '</div><div class="p-preview-frame" id="pNextFrame"></div></div>'
       + '  </div>'
+      + '  <div class="p-resizer" id="pResizer" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="' + T.resize + '" title="' + T.resetSize + '"></div>'
       + '  <div class="p-notes-wrap"><textarea class="p-notes-area" id="pNotesArea" placeholder="' + T.notesPh + '"></textarea></div>'
       + '  <div class="p-navbar"><button id="pPrevBtn">&lsaquo; ' + T.prev + '</button><button id="pNextBtn">' + T.next + ' &rsaquo;</button></div>'
       + '</body></html>';
@@ -1885,6 +1887,34 @@ body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e
 
     presenterWin.document.getElementById('pPrevBtn').addEventListener('click', function(){ goTo(current - 1); });
     presenterWin.document.getElementById('pNextBtn').addEventListener('click', function(){ goTo(current + 1); });
+
+    var previewsEl = presenterWin.document.getElementById('pPreviews');
+    var resizer = presenterWin.document.getElementById('pResizer');
+    function applyPreviewHeight(h){
+      var maxH = Math.max(80, presenterWin.innerHeight - 260);
+      previewHeight = Math.min(Math.max(h, 80), maxH);
+      previewsEl.style.height = previewHeight + 'px';
+      updatePresenterWindow();
+    }
+    applyPreviewHeight(previewHeight);
+    var dragStartY = 0, dragStartHeight = 0;
+    resizer.addEventListener('pointerdown', function(e){
+      dragStartY = e.clientY;
+      dragStartHeight = previewHeight;
+      resizer.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    resizer.addEventListener('pointermove', function(e){
+      if (e.buttons === 0) return;
+      applyPreviewHeight(dragStartHeight + (e.clientY - dragStartY));
+    });
+    resizer.addEventListener('pointerup', function(){ savePreviewHeight(previewHeight); });
+    resizer.addEventListener('dblclick', function(){ applyPreviewHeight(DEFAULT_PREVIEW_HEIGHT); savePreviewHeight(previewHeight); });
+    resizer.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowUp'){ applyPreviewHeight(previewHeight - 20); savePreviewHeight(previewHeight); e.preventDefault(); }
+      if (e.key === 'ArrowDown'){ applyPreviewHeight(previewHeight + 20); savePreviewHeight(previewHeight); e.preventDefault(); }
+    });
+
     var ta = presenterWin.document.getElementById('pNotesArea');
     ta.style.fontSize = notesFontSize + 'rem';
     ta.addEventListener('input', function(e){
