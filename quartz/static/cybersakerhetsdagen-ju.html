@@ -1,0 +1,1930 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyberkrisen i Kalix kommun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<style>
+:root{
+  --paper:#f7f2e6;
+  --ink:#1e1b16;
+  --muted:#77705f;
+  --line:#2a2620;
+  --card:#eae4d5;
+  --accent:#e0604a;
+  --accent-deep:#a33325;
+  --lavender:#cdc4f5;
+  --lavender-deep:#4d3fa0;
+  --navy:#1c3149;
+  --good:#2f8f52;
+  --good-soft:#dcefdf;
+  --bad-soft:#f6dedb;
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"EB Garamond", Georgia, "Times New Roman", serif;
+  -webkit-font-smoothing:antialiased;
+}
+.deck{ min-height:100vh; display:flex; flex-direction:column; }
+
+.deck-header{ display:flex; align-items:center; justify-content:space-between; padding:20px clamp(16px,4vw,56px) 0; }
+.course-tag{ font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-style:italic; }
+.header-right{ display:flex; align-items:center; gap:26px; }
+.slide-number{ font-size:.85rem; letter-spacing:.06em; color:var(--muted); font-style:italic; white-space:nowrap; }
+.ltu-logo{ height:40px; width:auto; display:block; opacity:.92; }
+.progress-track{ width:180px; height:3px; background:var(--card); }
+.progress-fill{ height:100%; background:var(--ink); width:3.33%; transition:width .25s ease; }
+
+.slides{ flex:1; min-height:0; display:flex; align-items:stretch; padding:10px clamp(16px,4vw,56px) 14px; overflow:hidden; }
+.slide{ display:none; width:100%; max-width:1140px; margin:0 auto; min-height:0; flex-direction:column; justify-content:center; gap:24px; padding-block:6px; overflow:hidden; }
+.slide.active{ display:flex; }
+
+.slide-eyebrow{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.slide h1{ font-size:clamp(2rem,4vw,2.9rem); font-weight:600; line-height:1.14; margin:0; max-width:22ch; text-wrap:balance; }
+.slide .lede{ font-size:1.71rem; color:var(--muted); max-width:70ch; margin:0; line-height:1.5; }
+.slide h2.inline{ font-size:1.4rem; font-weight:600; margin:0 0 4px; }
+.box{ border:1.5px solid var(--line); padding:22px 26px; font-size:1.39rem; line-height:1.55; max-width:78ch; }
+.box.filled{ background:var(--card); }
+.flag{ color:var(--accent-deep); font-weight:600; }
+
+/* title slide */
+.title-slide{ gap:32px; }
+.title-kicker{ font-size:1rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.title-slide h1{ max-width:18ch; font-size:clamp(2.6rem,6vw,4.4rem); }
+.title-meta{ display:flex; flex-direction:column; gap:4px; margin-top:8px; }
+.title-meta .name{ font-size:1.53rem; font-weight:600; }
+.title-meta .role{ font-size:1.3rem; color:var(--muted); }
+
+/* öppningsfråga */
+.question-slide h1{ max-width:20ch; font-size:clamp(2.2rem,4.5vw,3.4rem); }
+.dashed{ border:1.5px dashed var(--line); padding:18px 22px; font-size:1.39rem; line-height:1.5; color:var(--muted); font-style:italic; max-width:62ch; }
+
+/* om mig */
+.about-grid{ display:grid; grid-template-columns:280px 1fr; gap:44px; align-items:start; }
+.about-photo{ width:280px; height:340px; overflow:hidden; border:1.5px solid var(--line); flex:none; }
+.about-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.about-content{ display:flex; flex-direction:column; gap:14px; }
+.about-content h1{ margin:0; max-width:none; }
+.about-role{ font-size:1.25rem; color:var(--muted); margin:0; }
+.about-meta{ display:flex; flex-wrap:wrap; gap:6px 24px; font-size:1.08rem; color:var(--muted); margin-top:2px; }
+.about-meta b{ color:var(--ink); font-weight:600; }
+.about-bio{ font-size:1.22rem; line-height:1.55; margin:0; max-width:62ch; }
+.about-contact{ display:flex; gap:22px; flex-wrap:wrap; margin-top:4px; font-size:1.15rem; }
+
+/* fallet + agenda */
+.roadmap{ display:flex; flex-direction:column; margin-top:6px; }
+.roadmap-item{ display:grid; grid-template-columns:40px 1fr; gap:16px; padding-block:11px; position:relative; }
+.roadmap-item:not(:last-child)::after{ content:""; position:absolute; left:19px; top:48px; bottom:-11px; width:1px; background:var(--line); }
+.roadmap-num{ width:38px; height:38px; border-radius:50%; border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:.92rem; background:var(--paper); position:relative; z-index:1; flex:none; }
+.roadmap-label{ font-size:1.32rem; font-weight:600; }
+.roadmap-desc{ color:var(--muted); font-size:1.27rem; margin-top:2px; }
+.case-grid{ display:grid; grid-template-columns:1fr 240px; gap:48px; align-items:start; }
+.case-main{ display:flex; flex-direction:column; gap:24px; min-width:0; }
+.case-map{ display:flex; flex-direction:column; align-items:center; gap:10px; flex:none; }
+.case-map img{ width:100%; max-width:240px; height:auto; display:block; border:1.5px solid var(--line); }
+.case-map-caption{ font-size:1rem; color:var(--muted); font-style:italic; text-align:center; }
+
+/* resultat — map.aholmstrom.se skärmdump */
+.map-result{ display:flex; min-height:0; align-items:center; justify-content:center; }
+.map-result img{ max-width:min(100%,560px); max-height:400px; width:auto; height:auto; object-fit:contain; border:1.5px solid var(--line); display:block; }
+
+/* om fallstudien */
+.method-stat{ display:flex; align-items:baseline; gap:22px; }
+.method-stat-num{ font-size:3.2rem; font-weight:600; line-height:1; color:var(--ink); }
+.method-stat-label{ font-size:1.22rem; color:var(--muted); max-width:34ch; line-height:1.4; }
+.perspective-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.perspective-box{ border:1.5px solid var(--line); padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+.perspective-title{ font-size:1.2rem; font-weight:600; }
+.perspective-desc{ font-size:1.05rem; color:var(--muted); line-height:1.4; }
+.method-sources{ font-size:1.05rem; color:var(--muted); letter-spacing:.02em; }
+
+/* nätverksdiagram (attackflöde) */
+.net-diagram{ width:100%; }
+.net-diagram svg{ display:block; width:100%; height:auto; overflow:visible; }
+.net-edge{ fill:none; stroke:var(--line); stroke-width:1.5; }
+.net-edge.bad{ stroke:var(--accent-deep); stroke-dasharray:5 4; }
+.net-node-box{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; }
+.net-node-box.hl{ fill:var(--card); }
+.net-node-box.bad{ fill:var(--bad-soft); stroke:var(--accent-deep); }
+.net-node-label{ font-family:"EB Garamond", serif; font-size:21px; font-weight:600; fill:var(--ink); text-anchor:middle; }
+.net-node-label.bad{ fill:var(--accent-deep); }
+.net-caption{ font-family:"EB Garamond", serif; font-size:16px; fill:var(--muted); text-anchor:middle; font-style:italic; }
+.net-caption.start{ text-anchor:start; }
+.net-packet{ fill:var(--accent-deep); }
+@media (prefers-reduced-motion: reduce){ .net-packet{ display:none; } }
+
+/* pill-flow (stegvis process) */
+.pill-flow{ display:flex; gap:8px; flex-wrap:wrap; align-items:flex-start; }
+.pill-stage{ flex:1; min-width:150px; display:flex; flex-direction:column; }
+.pill-head{ background:var(--lavender); border-radius:14px; padding:12px 8px; text-align:center; }
+.pill-num{ display:block; font-size:.72rem; letter-spacing:.06em; color:var(--lavender-deep); margin-bottom:2px; }
+.pill-title{ font-size:1.15rem; font-weight:600; }
+.pill-body{ background:var(--card); padding:12px 10px; font-size:1.2rem; color:var(--ink); margin-top:8px; text-align:center; line-height:1.4; flex:1; }
+.pill-arrow{ align-self:center; margin:0 -2px; font-size:1.1rem; color:var(--muted); padding-top:20px; flex:0 0 auto; }
+
+/* flow (3-nods kedja) */
+.flow{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.flow-node{ border:1.5px solid var(--line); padding:20px 22px; text-align:center; font-size:1.36rem; font-weight:600; flex:1; min-width:150px; background:var(--paper); }
+.flow-arrow{ font-size:1.4rem; padding:0 6px; color:var(--ink); flex:0 0 auto; }
+.flow-captions{ display:flex; gap:6px; margin-top:2px; }
+.flow-caption{ flex:1; min-width:150px; font-size:1.27rem; color:var(--muted); padding:0 4px; line-height:1.4; }
+.flow-caption.spacer{ flex:0 0 auto; width:34px; }
+.summary-list{ display:flex; flex-direction:column; gap:12px; font-size:1.5rem; padding:0; margin:0; list-style:none; max-width:66ch; }
+.summary-list li{ line-height:1.5; padding-left:22px; position:relative; }
+.summary-list li::before{ content:"\2013"; color:var(--accent); position:absolute; left:0; }
+
+/* lärdomar */
+.pair-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.disc-list{ display:flex; flex-direction:column; gap:16px; font-size:1.45rem; padding:0; margin:0; list-style:none; max-width:76ch; }
+.disc-list li{ padding-left:22px; position:relative; line-height:1.5; }
+.disc-list li::before{ content:"\2013"; color:var(--accent); position:absolute; left:0; }
+.timeline-col{ display:flex; flex-direction:column; gap:10px; flex:none; }
+.timeline{ display:flex; flex-direction:column; margin-top:2px; }
+.timeline-item{ display:grid; grid-template-columns:14px 1fr; gap:14px; padding-block:9px; position:relative; }
+.timeline-item:not(:last-child)::after{ content:""; position:absolute; left:6px; top:24px; bottom:-9px; width:1px; background:var(--line); }
+.timeline-dot{ width:13px; height:13px; border-radius:50%; border:1.5px solid var(--accent); background:var(--paper); margin-top:3px; position:relative; z-index:1; }
+.timeline-time{ font-size:.85rem; color:var(--accent); font-style:italic; letter-spacing:.02em; }
+.timeline-label{ font-size:1.05rem; font-weight:600; line-height:1.32; margin-top:1px; }
+
+/* mindmap (mobilen som livlina) */
+.mindmap{ display:flex; align-items:center; gap:28px; }
+.mindmap-center{ border:1.5px dashed var(--line); border-radius:16px; padding:28px 32px; text-align:center; font-size:1.55rem; font-weight:600; flex:0 0 auto; white-space:nowrap; }
+.mindmap-connector{ font-size:1.6rem; color:var(--muted); flex:0 0 auto; }
+.mindmap-branches{ display:flex; flex-direction:column; gap:16px; flex:1; min-width:0; }
+.mindmap-node{ border:1.5px dashed var(--line); border-radius:16px; padding:16px 22px; font-size:1.22rem; line-height:1.45; }
+
+.deck-nav{ display:flex; align-items:center; justify-content:center; gap:14px; padding:12px 0 22px; }
+.nav-btn{ all:unset; cursor:pointer; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:1.5px solid var(--line); border-radius:50%; color:var(--ink); font-size:1.1rem; }
+.nav-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.nav-btn:disabled{ opacity:.3; cursor:default; }
+.dots{ display:flex; gap:6px; flex-wrap:wrap; max-width:820px; justify-content:center; }
+.dot{ all:unset; cursor:pointer; width:8px; height:8px; border-radius:50%; background:var(--card); border:1px solid var(--line); }
+.dot.active{ background:var(--accent); width:18px; border-radius:5px; border-color:var(--accent); }
+
+/* händelseförlopp (horisontell tidslinje) */
+.tl-h{ display:grid; grid-template-columns:repeat(6,1fr); gap:18px; position:relative; margin-top:4px; }
+.tl-h::before{ content:""; position:absolute; left:0; right:0; top:8px; height:1px; background:var(--line); }
+.tl-h-item{ display:flex; flex-direction:column; gap:6px; position:relative; }
+.tl-h-dot{ width:17px; height:17px; border-radius:50%; border:1.5px solid var(--accent); background:var(--paper); position:relative; z-index:1; margin-bottom:8px; }
+.tl-h-item.bad .tl-h-dot{ background:var(--accent-deep); border-color:var(--accent-deep); }
+.tl-h-time{ font-size:.95rem; color:var(--accent); font-style:italic; letter-spacing:.02em; }
+.tl-h-title{ font-size:1.25rem; font-weight:600; line-height:1.25; }
+.tl-h-item.bad .tl-h-title{ color:var(--accent-deep); }
+.tl-h-desc{ font-size:1.08rem; color:var(--muted); line-height:1.4; }
+@media (max-width: 900px){ .tl-h{ grid-template-columns:repeat(2,1fr); } .tl-h::before{ display:none; } }
+
+/* offline-bild (dramatisk, svart) */
+body:has(.offline-slide.active), body:has(.offline-slide.active) .deck{ background:#0d0c0a; transition:background .4s ease; }
+body:has(.offline-slide.active) .course-tag, body:has(.offline-slide.active) .slide-number{ color:#5c574c; }
+body:has(.offline-slide.active) .ltu-logo{ opacity:.25; }
+body:has(.offline-slide.active) .progress-track{ background:#2a2722; }
+body:has(.offline-slide.active) .progress-fill{ background:#5c574c; }
+body:has(.offline-slide.active) .nav-btn{ border-color:#3a362f; color:#5c574c; }
+body:has(.offline-slide.active) .dot{ background:#1d1b17; border-color:#3a362f; }
+body:has(.offline-slide.active) .dot.active{ background:#e5483a; border-color:#e5483a; }
+.offline-slide{ background:#0d0c0a; align-items:center; text-align:center; gap:18px; }
+.slide h1.offline-word{ max-width:none; font-size:clamp(4.5rem,15vw,11rem); font-weight:700; letter-spacing:.14em; color:#e5483a; line-height:1; margin:0; padding-left:.14em; text-shadow:0 0 28px rgba(229,72,58,.35); animation:offlineFlicker 6s infinite; }
+.offline-sub{ font-size:1.2rem; letter-spacing:.12em; text-transform:uppercase; color:#77705f; font-style:italic; }
+@keyframes offlineFlicker{ 0%,91%,100%{ opacity:1; } 92%{ opacity:.25; } 93%{ opacity:1; } 95%{ opacity:.5; } 96%{ opacity:1; } }
+@media (prefers-reduced-motion: reduce){ .offline-word{ animation:none; } }
+
+/* beslut under press (2x2) */
+.dec-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.dec-card{ border:1.5px solid var(--line); padding:18px 22px; display:flex; flex-direction:column; gap:6px; }
+.dec-card.filled{ background:var(--card); }
+.dec-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.dec-title{ font-size:1.4rem; font-weight:600; line-height:1.25; }
+.dec-big{ font-size:2rem; font-weight:600; line-height:1.1; color:var(--accent-deep); }
+.dec-desc{ font-size:1.12rem; color:var(--muted); line-height:1.4; }
+.dec-prio{ margin:0; padding-left:1.4em; font-size:1.4rem; font-weight:600; line-height:1.3; }
+@media (max-width: 760px){ .dec-grid{ grid-template-columns:1fr; } }
+
+/* resiliensvägar (org A / org B) */
+.res-fig{ width:100%; }
+.res-fig svg{ display:block; width:100%; height:auto; max-height:52vh; overflow:visible; }
+.res-org{ font-family:"EB Garamond", serif; font-size:26px; font-weight:600; fill:var(--ink); }
+.res-burst{ fill:var(--accent-deep); stroke:var(--accent-deep); stroke-width:1.5; stroke-linejoin:round; }
+.res-cap{ font-family:"EB Garamond", serif; font-size:18px; font-style:italic; text-anchor:middle; fill:var(--muted); }
+.res-cap.bad{ fill:var(--accent-deep); }
+.res-cap.good{ fill:var(--good); font-weight:600; }
+.res-q{ font-family:"EB Garamond", serif; font-size:44px; fill:var(--muted); text-anchor:middle; }
+.res-path{ fill:none; stroke:var(--ink); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:0; }
+.res-check{ fill:none; stroke:var(--good); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+.slide.active .res-path.a{ animation:resDraw 1.2s ease-out both; }
+.slide.active .res-path.b{ animation:resDraw 5s ease-in-out 1.4s both; }
+.slide.active .res-end.a{ animation:resPop .4s ease-out 1.2s both; }
+.slide.active .res-end.b{ animation:resPop .4s ease-out 6.4s both; }
+@keyframes resDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+@keyframes resPop{ from{ opacity:0; } to{ opacity:1; } }
+@media (prefers-reduced-motion: reduce){ .slide.active .res-path, .slide.active .res-end{ animation:none; } }
+
+/* lärdomar: listor, spärrar, brygga */
+.box-list{ margin:6px 0 0; padding-left:1.1em; display:flex; flex-direction:column; gap:6px; font-size:1.2rem; line-height:1.4; }
+.fix-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:12px 18px; align-items:center; }
+.fix-head{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.fix-from{ background:var(--bad-soft); border-left:3px solid var(--accent-deep); padding:12px 16px; font-size:1.2rem; line-height:1.35; }
+.fix-arrow{ font-size:1.4rem; color:var(--muted); }
+.fix-to{ border:1.5px solid var(--line); padding:12px 16px; font-size:1.2rem; font-weight:600; line-height:1.35; }
+.fix-to.good{ background:var(--good-soft); border-color:var(--good); color:#1f6b3b; }
+.bridge{ display:grid; grid-template-columns:200px 1fr 200px; gap:16px; align-items:stretch; }
+.bridge-end{ border:1.5px solid var(--line); padding:18px; display:flex; align-items:center; justify-content:center; text-align:center; font-size:1.3rem; font-weight:600; line-height:1.3; }
+.bridge-end.filled{ background:var(--card); }
+.bridge-mid{ display:flex; flex-direction:column; justify-content:center; gap:16px; }
+.bridge-row{ display:flex; flex-direction:column; gap:2px; border-bottom:1.5px dashed var(--line); padding-bottom:8px; }
+.bridge-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; text-align:center; }
+.bridge-line{ font-size:1.25rem; text-align:center; }
+@media (max-width: 760px){ .fix-grid{ grid-template-columns:1fr; } .fix-arrow{ display:none; } .bridge{ grid-template-columns:1fr; } }
+
+/* dependency mapper */
+.dm-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+.dm-text{ display:flex; flex-direction:column; gap:18px; }
+.dm-lede{ font-size:1.35rem; color:var(--muted); line-height:1.45; margin:0; }
+.dm-lede b{ color:var(--ink); }
+.dm-list{ margin:0; padding-left:1.4em; display:flex; flex-direction:column; gap:12px; font-size:1.3rem; }
+.dm-list li::marker{ color:var(--accent); font-weight:600; }
+.dm-list b{ display:block; line-height:1.3; }
+.dm-list span{ display:block; font-size:1.08rem; color:var(--muted); line-height:1.35; margin-top:2px; }
+.dm-cta{ border:1.5px dashed var(--line); padding:12px 16px; font-size:1.15rem; line-height:1.45; color:var(--muted); }
+.dm-cta b{ color:var(--accent-deep); }
+.dm-shot{ margin:0; display:flex; flex-direction:column; gap:8px; align-items:center; min-height:0; }
+.dm-shot img{ max-width:100%; max-height:56vh; width:auto; height:auto; border:1.5px solid var(--line); box-shadow:0 6px 24px rgba(30,27,22,.12); display:block; }
+.dm-shot figcaption{ font-size:.98rem; color:var(--muted); font-style:italic; text-align:center; line-height:1.35; max-width:48ch; }
+@media (max-width: 900px){ .dm-grid{ grid-template-columns:1fr; } }
+
+/* stegvis attackkedja */
+.tchain .tstep-old{ opacity:.42; transition:opacity .4s ease; }
+.tchain .tstep-old .net-packet{ display:none; }
+.slide.active.tchain-full .tstep-old{ animation:tUndim .6s ease-out 1.6s both; }
+@keyframes tUndim{ from{ opacity:.42; } to{ opacity:1; } }
+.slide.active .tstep-new .tedge{ stroke-dasharray:1; animation:tDraw .55s ease-out both; }
+.slide.active .tstep-new .tnode{ animation:tFade .45s ease-out both; }
+.slide.active .tstep-new .tnode.late{ animation-delay:.45s; }
+.slide.active .tstep-new .tcap{ animation:tFade .45s ease-out .3s both; }
+.slide.active .tstep-new .net-edge.bad{ animation:tFade .5s ease-out .35s both; }
+.slide.active .tstep-new .tlock{ animation:tLock 1.8s ease-in-out .9s infinite both; }
+.tlock rect{ fill:var(--accent-deep); }
+.tlock text{ font-family:"EB Garamond", serif; font-size:12.5px; font-weight:700; letter-spacing:.12em; fill:var(--paper); text-anchor:middle; }
+.tx-mark{ font-size:20px; font-weight:700; fill:var(--accent-deep); text-anchor:middle; }
+@keyframes tDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+@keyframes tFade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@keyframes tLock{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+.tstep-cap{ display:flex; align-items:center; gap:14px; font-size:1.35rem; line-height:1.35; }
+.slide.active .tstep-cap .tstep-text{ animation:tFade .5s ease-out .2s both; }
+.tstep-num{ flex:none; width:36px; height:36px; border-radius:50%; background:var(--accent-deep); color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:1.05rem; }
+.tstep-text{ flex:1; }
+.tdots{ display:flex; gap:6px; flex:none; }
+.tdot{ width:22px; height:4px; border-radius:2px; background:var(--card); }
+.tdot.on{ background:var(--accent-deep); }
+@media (prefers-reduced-motion: reduce){ .slide.active .tstep-new *, .slide.active .tstep-cap .tstep-text{ animation:none !important; } }
+
+/* hantering steg för steg */
+.hstep .pill-stage{ transition:opacity .4s ease, transform .4s ease; }
+.hstep .pill-stage.past{ opacity:.5; }
+.hstep .pill-stage.future{ opacity:.22; }
+.hstep .pill-stage.past .pill-num::after{ content:" \2713"; }
+.hstep .pill-stage.cur .pill-head{ background:var(--lavender-deep); }
+.hstep .pill-stage.cur .pill-head .pill-num, .hstep .pill-stage.cur .pill-head .pill-title{ color:var(--paper); }
+.hstep .pill-stage.cur .pill-body{ background:var(--paper); outline:1.5px solid var(--lavender-deep); }
+.slide.active.hstep .pill-stage.cur{ animation:hLift .5s ease-out both; }
+@keyframes hLift{ from{ opacity:.4; transform:translateY(8px); } to{ opacity:1; transform:translateY(-4px); } }
+.slide.hstep .pill-stage.cur{ transform:translateY(-4px); }
+@media (prefers-reduced-motion: reduce){ .slide.active.hstep .pill-stage.cur{ animation:none; } }
+
+/* beslut under press steg för steg */
+.dec-grid.three{ grid-template-columns:repeat(3,1fr); }
+.dec-grid.three .dec-card{ min-height:220px; }
+.dstep .dec-card{ transition:opacity .4s ease; }
+.dstep .dec-card.past{ opacity:.5; }
+.dstep .dec-card.future{ opacity:.2; }
+.dstep .dec-card.past .dec-label::after{ content:" \2713"; }
+.dstep .dec-card.cur{ border-color:var(--accent-deep); box-shadow:0 0 0 1.5px var(--accent-deep), 0 8px 22px rgba(30,27,22,.10); background:var(--paper); }
+.dstep .dec-card.cur.filled{ background:var(--card); }
+.slide.active.dstep .dec-card.cur{ animation:hLift .5s ease-out both; }
+.slide.dstep .dec-card.cur{ transform:translateY(-4px); }
+@media (prefers-reduced-motion: reduce){ .slide.active.dstep .dec-card.cur{ animation:none; } }
+
+/* tidslinje steg för steg */
+.tlstep .tl-h-item.future{ visibility:hidden; }
+.tlstep .tl-h-item.past{ opacity:.45; }
+.tlstep .tl-h-item.cur .tl-h-dot{ transform:scale(1.25); box-shadow:0 0 0 5px rgba(224,96,74,.18); }
+.tlstep .tl-h-item.cur:not(.bad) .tl-h-dot{ background:var(--accent); }
+.slide.active.tlstep .tl-h-item.cur{ animation:tFade .5s ease-out both; }
+.tlstep .tl-h::before{ right:auto; width:var(--tlw,100%); }
+@media (prefers-reduced-motion: reduce){ .slide.active.tlstep .tl-h-item.cur{ animation:none; } }
+
+/* lärdomar 2 */
+.summary-list li.sum-key{ color:var(--accent-deep); }
+.summary-list li.sum-key b{ color:var(--accent-deep); }
+.summary-list li.sum-key::after{ content:"Viktigast"; margin-left:10px; white-space:nowrap; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--accent); vertical-align:middle; }
+.fruit-tag{ display:inline-block; font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; font-style:italic; color:var(--good); margin:-2px 0 4px; }
+.who-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; }
+.who{ border-top:3px solid var(--line); padding-top:12px; display:flex; flex-direction:column; gap:6px; }
+.who.key{ border-top-color:var(--accent-deep); }
+.who-l{ font-size:1.35rem; font-weight:600; }
+.who.key .who-l{ color:var(--accent-deep); }
+.who-d{ font-size:1.15rem; color:var(--muted); line-height:1.4; }
+.slide.active .who{ animation:tFade .5s ease-out both; }
+.slide.active .who:nth-child(2){ animation-delay:.25s; }
+.slide.active .who:nth-child(3){ animation-delay:.5s; }
+@media (max-width: 760px){ .who-grid{ grid-template-columns:1fr; } }
+.src-note{ font-size:.95rem; color:var(--muted); font-style:italic; }
+.kx-line{ margin:0; font-size:1.2rem; color:var(--muted); border-left:3px solid var(--accent); padding-left:14px; }
+.thx-grid{ display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center; }
+.thx-text{ display:flex; flex-direction:column; gap:22px; }
+.thx-contact{ display:flex; flex-direction:column; gap:4px; border-left:3px solid var(--accent-deep); padding-left:18px; }
+.thx-label{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.thx-mail{ font-size:clamp(1.6rem,2.6vw,2.2rem); font-weight:600; color:var(--ink); }
+.thx-qr{ margin:0; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.thx-qr img{ width:min(300px,30vw); height:auto; display:block; background:#fff; border:1.5px solid var(--line); }
+.thx-qr figcaption{ font-size:1rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+@media (max-width: 760px){ .thx-grid{ grid-template-columns:1fr; } }
+
+/* sammanfattning B -> A */
+.res-kalix{ font-family:"EB Garamond", serif; font-size:20px; font-style:italic; fill:var(--accent-deep); }
+.slide.active .res-kalix{ animation:resPop .5s ease-out 6.8s both; }
+.sum-fig svg{ max-height:46vh; }
+.sum-b{ fill:none; stroke:var(--muted); stroke-width:3; stroke-dasharray:6 6; opacity:.35; }
+.sum-a{ stroke:var(--ink); stroke-width:5; }
+.slide.active .sum-a{ animation:resDraw 2.2s ease-in-out .6s both; }
+.sw circle{ fill:var(--paper); stroke:var(--ink); stroke-width:2; }
+.sw.key circle{ fill:var(--accent-deep); stroke:var(--accent-deep); }
+.sw-num{ font-family:"EB Garamond", serif; font-size:13px; font-weight:700; text-anchor:middle; fill:var(--ink); }
+.sw.key .sw-num{ fill:var(--paper); }
+.sw line{ stroke:var(--muted); stroke-width:1.2; }
+.sw-l{ font-family:"EB Garamond", serif; font-size:20px; font-weight:600; text-anchor:middle; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:6px; stroke-linejoin:round; }
+.sw.key .sw-l{ fill:var(--accent-deep); }
+.sw-tag{ font-family:"EB Garamond", serif; font-size:12px; letter-spacing:.14em; font-style:italic; text-anchor:middle; fill:var(--accent); }
+.slide.active .sw1{ animation:resPop .45s ease-out .9s both; }
+.slide.active .sw2{ animation:resPop .45s ease-out 1.4s both; }
+.slide.active .sw3{ animation:resPop .45s ease-out 2.3s both; }
+.slide.active .sw4{ animation:resPop .45s ease-out 2.7s both; }
+.slide.active .sum-end{ animation:resPop .45s ease-out 3.0s both; }
+.sum-legend text{ font-family:"EB Garamond", serif; font-size:16px; fill:var(--muted); font-style:italic; }
+.lg-b{ stroke:var(--muted); stroke-width:3; stroke-dasharray:6 6; opacity:.5; }
+.lg-a{ stroke:var(--ink); stroke-width:4; }
+.sum-phase text{ font-family:"EB Garamond", serif; font-size:13px; letter-spacing:.16em; font-style:italic; text-anchor:middle; fill:var(--accent); }
+.sum-phase line{ stroke:var(--accent); stroke-width:1; opacity:.5; }
+.sum-start{ fill:var(--ink); }
+.slide.active .sum-attack{ animation:resPop .45s ease-out 1.85s both; }
+.sum-pre{ font-size:1.15rem; color:var(--muted); border-left:3px solid var(--line); padding-left:14px; line-height:1.45; }
+.sum-pre .dec-label{ margin-right:8px; }
+@media (prefers-reduced-motion: reduce){ .slide.active .sum-a, .slide.active .sw, .slide.active .sum-end, .slide.active .res-kalix{ animation:none; } }
+
+/* glappet */
+.gap-mid{ display:flex; flex-direction:column; justify-content:center; gap:14px; padding:6px 26px; border-left:2px dashed var(--accent-deep); border-right:2px dashed var(--accent-deep); background:repeating-linear-gradient(135deg, transparent 0 14px, rgba(163,51,37,.05) 14px 16px); }
+.gap-item{ display:flex; gap:14px; align-items:flex-start; transition:opacity .4s ease; }
+.gap-x{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--bad-soft); color:var(--accent-deep); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.95rem; margin-top:2px; }
+.gap-t{ font-size:1.3rem; font-weight:600; line-height:1.3; }
+.gap-d{ font-size:1.08rem; color:var(--muted); line-height:1.35; }
+.gstep .gap-item.future{ visibility:hidden; }
+.gstep .gap-item.past{ opacity:.45; }
+.slide.active.gstep .gap-item.cur{ animation:tFade .5s ease-out both; }
+.bridge.gap .bridge-end, .bridge.built .bridge-end{ min-height:150px; }
+.bridge.built .bridge-row{ border-bottom:2px solid var(--ink); }
+.slide.active .bridge.built .bridge-row{ animation:tFade .5s ease-out both; }
+.slide.active .bridge.built .bridge-row + .bridge-row{ animation-delay:.25s; }
+@media (prefers-reduced-motion: reduce){ .slide.active.gstep .gap-item.cur, .slide.active .bridge.built .bridge-row{ animation:none; } }
+
+.slide-notes{ display:none; }
+
+@media (max-width: 760px){
+  .header-right{ gap:12px; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+  <header class="deck-header">
+    <span class="course-tag">Gästföreläsning · Cybersäkerhetsdagen, JU</span>
+    <div class="header-right">
+      <span class="slide-number" id="slideNumber"></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <img class="ltu-logo" src="ltu-logo.png" alt="Luleå tekniska universitet">
+    </div>
+  </header>
+  <main class="slides" id="slides">
+
+    <section class="slide active title-slide" aria-label="Titel">
+      <span class="title-kicker">Cybersäkerhetsdagen · Jönköping University</span>
+      <h1>Cyberkrisen i Kalix kommun</h1>
+      <div class="title-meta">
+        <span class="name">Anton Holmström</span>
+        <span class="role">Doktorand, informationssäkerhet — Luleå tekniska universitet</span>
+      </div>
+      <div class="slide-notes"><p>Hej och välkomna!!</p></div>
+    </section>
+
+    <section class="slide question-slide" aria-label="Öppningsfråga">
+      <span class="slide-eyebrow">En fråga innan vi börjar</span>
+      <h1>Vem bär bördan för cyberresiliens?</h1>
+      <div class="dashed">Ha den i bakhuvudet under föreläsningen — vi landar i svaret på den allra sista bilden.</div>
+      <div class="slide-notes"><p>Ställ frågan högt och låt tystnaden sitta kvar en stund innan du går vidare — inget svar förväntas här och nu. Möjliga svar som brukar komma upp: IT-avdelningen (de stoppade spridningen och byggde om), ledningen (de höll ihop organisationen och tog de stora besluten), eller personalen längst ut i verksamheten (de höll vården igång för hand). Alla tre är rimliga — men vi knyter ihop det riktiga svaret på den sista bilden.</p></div>
+    </section>
+
+    <section class="slide about-slide" aria-label="Om mig">
+      <span class="slide-eyebrow">Om mig</span>
+      <div class="about-grid">
+        <div class="about-photo"><img src="anton-photo.png" alt="Anton Holmström"></div>
+        <div class="about-content">
+          <h1>Anton Holmström</h1>
+          <p class="about-role">Doktorand, informationssäkerhet — Institutionen för system- och rymdteknik</p>
+          <div class="about-meta">
+            <span><b>Forskningsämne</b> Informationssystem</span>
+            <span><b>Avdelning</b> Digitala tjänster och system</span>
+          </div>
+          <p class="about-bio">Forskar på cyberresiliens — hur organisationer motstår, återhämtar sig från och anpassar sig efter cyberincidenter, med fokus på den mänskliga faktorn.</p>
+          <div class="about-contact"><span>anton.holmstrom@ltu.se</span></div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Anton Holmström heter jag och är doktorand på Luleå Tekniska Universitet<br>“Mitt forskningsfokus ligger på att förstå och stärka cyberresiliens, med särskilt intresse för den mänskliga faktorn och balansen mellan teknik och människa. Jag arbetar med att operationalisera cyberresiliens genom att identifiera arbetssätt och strategier som gör organisationer mer motståndskraftiga mot cyberhot. Kort sagt, jag undersöker hur vi kan bygga upp en flexibel och effektiv cyberresiliens som integrerar både tekniska lösningar och mänskliga faktorer.”</p><p>Jag drivs av frågan: Hur blir vi cyber resilienta?</p></div>
+    </section>
+
+    <section class="slide case-slide" aria-label="Fallet och agenda">
+      <span class="slide-eyebrow">Fallet</span>
+      <h1>Kalix kommun, december 2021</h1>
+      <div class="case-grid">
+        <div class="case-main">
+          <p class="lede">En storskalig ransomware-attack slog ut kommunens IT-system över natten och tvingade hela socialförvaltningen tillbaka till papper och penna.</p>
+          <div class="roadmap">
+            <div class="roadmap-item">
+              <div class="roadmap-num">1</div>
+              <div><div class="roadmap-label">IT-avdelningen</div><div class="roadmap-desc">Den tekniska hanteringen av attacken</div></div>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-num">2</div>
+              <div><div class="roadmap-label">Ledningsgruppen</div><div class="roadmap-desc">Krisledning och beslut under press</div></div>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-num">3</div>
+              <div><div class="roadmap-label">Socialförvaltningen</div><div class="roadmap-desc">Konsekvenser för vård och omsorg</div></div>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-num">4</div>
+              <div><div class="roadmap-label">Lärdomar</div><div class="roadmap-desc">Vad kan vi ta med oss till vårt eget säkerhetsarbete?</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-map">
+          <img src="kalix-map.png" alt="Karta över Norrbotten med Kalix kommun markerad">
+          <span class="case-map-caption">Kalix kommun, Norrbotten</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Kort bakgrund: natten mellan 15–16 december 2021 upptäcktes en storskalig ransomware-attack mot Kalix kommun (~15 500 invånare, Norrbotten). Attacken krypterade nästan alla servrar, tvingade IT att bygga om infrastrukturen från grunden och satte hela socialförvaltningen i analogt läge under flera veckor.</p><p>Presentera strukturen för resten av föreläsningen: vi går igenom de tre perspektiven i tur och ordning — IT, ledning, socialförvaltning — och landar sedan i vad vi kan lära oss och koppla till vårt eget säkerhetsarbete.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet" style="--tlw:8%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Natten mot 16 december: nattpersonalen i hemtjänsten kan inte logga in i verksamhets- och planeringssystemen. Rapporteras vidare, men tolkas som en tillfällig driftstörning.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 2" style="--tlw:25%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Morgonen: dagspersonalen fortsätter rapportera att systemen är nere — via enhets- och områdeschefer till socialchefen och vidare till kommundirektören. Läget bedöms så allvarligt att krisledningen i centrala ledningsgruppen kopplas in direkt. Samtidigt får IT samma signaler från hela kommunen, anar en attack och kallar in sina IT-konsulter och Microsoft.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 3" style="--tlw:42%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Förmiddagen: krisledningsstaben samlas för en lägesbild. Helt analog stabsmetodik — säkerhetschefen och krisledningen bygger lägesbilden på whiteboard, som blir navet i krisarbetet (åtgärder, resursfördelning, vem gör vad). Kommunen går upp i stabsläge, med ett 48-timmarsperspektiv — man tror fortfarande att det är en driftstörning.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 4" style="--tlw:59%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Mitt på dagen: IT och konsulterna konstaterar att det är en omfattande cyberattack — ransomware. Servrar och databaser som styr verksamhetssystemen är krypterade. Första kontrollen: backuperna — de har klarat sig. Planeringen av återställningen börjar.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 5" style="--tlw:76%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad future">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Eftermiddagen: stabsmöte, krisledningen informeras om attacken. Politikerna involveras — av demokratiska skäl ska detta inte hanteras enbart av tjänstepersoner. Normal beslutsgång, krisledningen med kommundirektören i spetsen. Beslut: ingen lösensumma betalas, polisanmälan görs, kommunen ska vara transparent om vad som händer.</p></div>
+    </section>
+
+    <section class="slide tlstep" aria-label="Händelseförloppet 6" style="--tlw:100%">
+      <span class="slide-eyebrow">16–17 december 2021</span>
+      <h1>Från driftstörning till kris</h1>
+      <div class="tl-h">
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Natten</span>
+          <span class="tl-h-title">Hemtjänsten kan inte logga in</span>
+          <span class="tl-h-desc">Tolkas som en tillfällig driftstörning</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Morgonen</span>
+          <span class="tl-h-title">Felrapporterna fortsätter</span>
+          <span class="tl-h-desc">Kommundirektören informeras, krisledningen kopplas in. IT kallar in konsulter och Microsoft</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Förmiddagen</span>
+          <span class="tl-h-title">Stabsläge</span>
+          <span class="tl-h-desc">Lägesbild på whiteboard — man planerar för 48 timmar</span>
+        </div>
+        <div class="tl-h-item bad past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Mitt på dagen</span>
+          <span class="tl-h-title">Ransomware bekräftas</span>
+          <span class="tl-h-desc">Servrar och databaser krypterade — backuperna har klarat sig</span>
+        </div>
+        <div class="tl-h-item past">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Eftermiddagen</span>
+          <span class="tl-h-title">Politiken involveras</span>
+          <span class="tl-h-desc">Ingen lösensumma, polisanmälan, full öppenhet</span>
+        </div>
+        <div class="tl-h-item bad cur">
+          <span class="tl-h-dot"></span>
+          <span class="tl-h-time">Dag 2</span>
+          <span class="tl-h-title">Nätverket stängs av</span>
+          <span class="tl-h-desc">Långsiktig krisplan, krisledningsmöten två gånger om dagen</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Dag 2 (17 december): återställningen kommer ta betydligt längre tid än väntat — från 48-timmarsperspektiv till långsiktig krisplan. Krisledningen möts två gånger dagligen. Under dagen beslutas att hela interna nätverket tas offline för grundlig utredning och ombyggnad — stora delar av kommunens verksamhet hamnar offline.</p></div>
+    </section>
+
+    <section class="slide offline-slide" aria-label="Offline">
+      <h1 class="offline-word">OFFLINE</h1>
+      <span class="offline-sub">Hela kommunens interna nätverk · december 2021</span>
+      <div class="slide-notes"><p>Hela interna IT-nätverket offline — inga verksamhetssystem fungerar.</p><p>Kalix.se nere — information måste spridas på andra sätt.</p><p>Mejlen fungerar bara delvis — opålitlig kommunikationskanal.</p><p>Socialförvaltningen hårt drabbad — helt analogt arbete, planering med papper och penna.</p><p>Ekonomiavdelningen: problem att betala ut löner och fakturor.</p><p>Lokaler där ventilationssystemet låg nere — mitten av december, mycket kallt i Kalix.</p><p>Allt detta mitt i coronapandemin.</p></div>
+    </section>
+
+    <section class="slide method-slide" aria-label="Om fallstudien">
+      <span class="slide-eyebrow">Om fallstudien</span>
+      <h1>Vad bygger det här på?</h1>
+      <div class="method-stat">
+        <span class="method-stat-num">19</span>
+        <span class="method-stat-label">semistrukturerade intervjuer — flera genomförda vid upprepade tillfällen över tid</span>
+      </div>
+      <div class="perspective-grid">
+        <div class="perspective-box">
+          <span class="perspective-title">IT-avdelningen</span>
+          <span class="perspective-desc">Tekniker, konsulter, säkerhetsansvariga</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Ledningsgruppen</span>
+          <span class="perspective-desc">Kommunledning och kommunikation</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Socialförvaltningen</span>
+          <span class="perspective-desc">Chefer, områdesansvariga, undersköterskor</span>
+        </div>
+      </div>
+      <div class="method-sources">Polisrapport · Interndokumentation · Mediebevakning · Konsultrapporter</div>
+      <div class="slide-notes"><p>det är en fallstudie byggd på 19 semistrukturerade intervjuer med nyckelpersoner inom IT, ledning och socialförvaltning, där flera intervjuades både initialt och i uppföljning.</p><p>Det kompletteras med polisrapport, interndokumentation, mediebevakning och konsultrapporter för att kunna trianguleras mot varandra.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 1 av 6: Stulna inloggningsuppgifter — password spray mot ett konto med domänadminrättigheter">
+          <defs>
+            <marker id="arrowInk0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-new"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk0)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">1</span><span class="tstep-text">Stulna inloggningsuppgifter — password spray mot ett konto med domänadminrättigheter</span><span class="tdots"><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Vi börjar med att titta på hur attacken initierades och utvecklades över tid. Dock, den tekniska rapporten som skickades till polisen är sekretessbelagd, men efter omfattande intervjuer med IT-personal och konsulter, samt granskning av både interna och externa dokument, har jag lyckats återskapa händelseförloppet.</p><p>Antagonisterna får tillgång till ett användarnamn och ett lösenord på något sätt. Exakt hur detta gick till kan inte fastställas, men baserat på den information som finns är den mest troliga teorin att användarnamn hämtades från en läckt databas eller genom en social engineering-attack, som till exempel phishing.  Med detta användarnamn börjar man logga in på systemet, använder bruteforce eller passwordspray</p><p>Så småningom lyckas de komma in på domänkonto, med omfattande rättigheter inom systemet.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 2">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 2 av 6: Inloggning via kommunens VPN — utan MFA">
+          <defs>
+            <marker id="arrowInk1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk1)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk1)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">2</span><span class="tstep-text">Inloggning via kommunens VPN — utan MFA</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med dessa inloggningsuppgifter får de dessutom tillgång till kommunens VPN.</p><p>VPN:en saknade MFA — användarnamn och lösenord räckte.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 3">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 3 av 6: Full åtkomst till nätverket, servrarna och Active Directory">
+          <defs>
+            <marker id="arrowInk2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk2)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">3</span><span class="tstep-text">Full åtkomst till nätverket, servrarna och Active Directory</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med tillgång till VPN:en och ett administratörskonto har antagonisterna nu full åtkomst till det interna nätverket, och därmed också tillgång till kritiska servrar och databaser, inklusive Active Directory.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 4">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 4 av 6: Ett dolt domänadminkonto skapas">
+          <defs>
+            <marker id="arrowInk3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk3)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">4</span><span class="tstep-text">Ett dolt domänadminkonto skapas</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Med denna åtkomst påbörjar de förberedelserna för sin attack. De skapar ett nytt domänadministratörskonto. Syftet med detta steg är att dölja deras aktivitet så mycket som möjligt och minimera risken för att trigga larm i säkerhetssystemet.</p></div>
+    </section>
+
+    <section class="slide tchain" aria-label="Tekniskt händelseförlopp 5">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 5 av 6: Endpoint-skyddet stängs av via grupprinciper">
+          <defs>
+            <marker id="arrowInk4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+<g class="tstep tstep-new"><line class="net-edge tedge" pathLength="1" x1="915" y1="186" x2="915" y2="94" marker-end="url(#arrowInk4)"></line><g class="tcap"><text class="net-caption start" x="935" y="130">Inaktiverar</text><text class="net-caption start" x="935" y="150">endpoint-skydd</text></g><g class="tnode late"><rect class="net-node-box" x="825" y="26" width="180" height="64"></rect><text class="net-node-label" x="915" y="64">Klienter</text><text class="tx-mark" x="993" y="44">&#10005;</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">5</span><span class="tstep-text">Endpoint-skyddet stängs av via grupprinciper</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot"></span></span></div>
+      <div class="slide-notes"><p>Nästa steg är att de går in i gruppolicyhanteringen (Group Policy) och avaktiverar alla endpoint-säkerhetspolicys. Detta är ett kritiskt moment som gör att de kan neutralisera alla säkerhetssystem som annars skulle kunna stoppa deras attack.</p></div>
+    </section>
+
+    <section class="slide tchain tchain-full" aria-label="Tekniskt händelseförlopp 6">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Det tekniska händelseförloppet</h1>
+      <div class="net-diagram">
+        <svg viewBox="0 0 1360 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Attackkedjan, steg 6 av 6: Ransomware hämtas och körs — servrarna krypteras">
+          <defs>
+            <marker id="arrowInk5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--line)"></path>
+            </marker>
+            <marker id="arrowBad5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0L10,5L0,10z" fill="var(--accent-deep)"></path>
+            </marker>
+          </defs>
+<g class="tstep tstep-old"><g class="tnode"><rect class="net-node-box bad" x="20" y="198" width="150" height="64"></rect><text class="net-node-label bad" x="95" y="236">Antagonister</text></g><line class="net-edge tedge" pathLength="1" x1="170" y1="230" x2="304" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="237" y="204">Bruteforce /</text><text class="net-caption" x="237" y="222">password spray</text></g><g class="tnode late"><rect class="net-node-box" x="310" y="198" width="170" height="64"></rect><text class="net-node-label" x="395" y="222">Domänadmin-</text><text class="net-node-label" x="395" y="246">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="480" y1="230" x2="594" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="537" y="222">Inloggning</text></g><g class="tnode late"><rect class="net-node-box" x="600" y="198" width="100" height="64"></rect><text class="net-node-label" x="650" y="236">VPN</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="700" y1="230" x2="814" y2="230" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption" x="757" y="204">Åtkomst till</text><text class="net-caption" x="757" y="222">nätverket</text></g><g class="tnode late"><rect class="net-node-box hl" x="820" y="186" width="190" height="88"></rect><text class="net-node-label" x="915" y="224">AD &amp;</text><text class="net-node-label" x="915" y="248">servrar</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="274" x2="915" y2="366" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption start" x="935" y="310">Skapar dolt</text><text class="net-caption start" x="935" y="330">adminkonto</text></g><g class="tnode late"><rect class="net-node-box bad" x="825" y="370" width="180" height="64"></rect><text class="net-node-label bad" x="915" y="392">Nytt domänadmin-</text><text class="net-node-label bad" x="915" y="414">konto</text></g></g>
+<g class="tstep tstep-old"><line class="net-edge tedge" pathLength="1" x1="915" y1="186" x2="915" y2="94" marker-end="url(#arrowInk5)"></line><g class="tcap"><text class="net-caption start" x="935" y="130">Inaktiverar</text><text class="net-caption start" x="935" y="150">endpoint-skydd</text></g><g class="tnode late"><rect class="net-node-box" x="825" y="26" width="180" height="64"></rect><text class="net-node-label" x="915" y="64">Klienter</text><text class="tx-mark" x="993" y="44">&#10005;</text></g></g>
+<g class="tstep tstep-new"><g class="tnode"><rect class="net-node-box bad" x="1170" y="198" width="170" height="64"></rect><text class="net-node-label bad" x="1255" y="222">Okänd</text><text class="net-node-label bad" x="1255" y="246">extern aktör</text></g><line class="net-edge bad" x1="1010" y1="230" x2="1164" y2="230" marker-end="url(#arrowBad5)" marker-start="url(#arrowBad5)"></line><g class="tcap"><text class="net-caption" x="1087" y="196">Hämtar &amp; kör</text><text class="net-caption" x="1087" y="214">ransomware (PsExec)</text></g><circle class="net-packet" r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M 1164,230 L 1010,230"></animateMotion></circle><g class="tlock"><rect x="812" y="152" width="92" height="26" rx="4"></rect><text x="858" y="170">KRYPTERAS</text></g></g>
+        </svg>
+      </div>
+      <div class="tstep-cap"><span class="tstep-num">6</span><span class="tstep-text">Ransomware hämtas och körs — servrarna krypteras</span><span class="tdots"><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span><span class="tdot on"></span></span></div>
+      <div class="slide-notes"><p>Därefter använder de PowerShell-kommandon för att hämta ner och exekvera skadlig kod på varje server, som i sin tur leder till att alla servrar börjar krypteras, steg för steg.</p><p>Ransomwaren raderade shadow copies och systembackuper, ändrade boot-konfigurationen och raderade sig själv efter krypteringen — försvårar återställning och spårning.</p><p>Medan krypteringen sprider sig, börjar verksamhetens kritiska system slås ut ett efter ett, och IT-avdelningen upptäcker till slut att stora delar av nätverket är under attack.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Initial hantering: Ett “war-room” sattes upp och ett specialistteam samordnades. Den skadliga koden isolerades och forensiska bevis (loggar, minnesbilder) säkrades och överlämnades till polis.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 2">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Analys och urval av säkerhetskopior: Backuper undersöktes för att identifiera opåverkade kopior från tiden före attacken. (Om nån frågar så fångade dem ransomwaren och fick &quot;digitala fingeravtrycket&quot; och kunde se om den var aktiv på backupen)</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 3">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Isolerad återställning: Systemen återställdes från dessa säkerhetskopior i en isolerad IT-miljö för att undvika ytterligare infektion.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 4">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Manuell återinstallation: Datorer och servrar installerades om manuellt med hjälp av Microsoft Defender for Endpoint, i nätverksmiljöer med begränsad trafik.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 5">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage future">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Modernisering av IT-miljö: Istället för att återgå till den gamla infrastrukturen byggdes en ny, mer säker miljö med molntjänster (Microsoft 365) och nätverkssegmentering.</p></div>
+    </section>
+
+    <section class="slide hstep" aria-label="Återställningen 6">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage past">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage cur">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>Gradvis återgång till drift: Efter säkerhetstest återställdes systemen stegvis till full drift, med fortsatt övervakning via Defender.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Återställningen — tidsåtgång">
+      <span class="slide-eyebrow">IT-avdelningen</span>
+      <h1>Hantering av incidenten</h1>
+      <div class="pill-flow">
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 1</span><span class="pill-title">War room</span></div>
+          <div class="pill-body">Specialistteam samordnas, bevis säkras åt polisen</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 2</span><span class="pill-title">Backupgranskning</span></div>
+          <div class="pill-body">Opåverkade säkerhetskopior identifieras</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 3</span><span class="pill-title">Isolerad återställning</span></div>
+          <div class="pill-body">System återställs i en avskild miljö</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 4</span><span class="pill-title">Ominstallation</span></div>
+          <div class="pill-body">Manuell ombyggnad, begränsad nätverkstrafik</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 5</span><span class="pill-title">Modernisering</span></div>
+          <div class="pill-body">Molntjänster och nätverks&shy;segmentering — inte en återgång</div>
+        </div>
+        <div class="pill-arrow">&#8594;</div>
+        <div class="pill-stage">
+          <div class="pill-head"><span class="pill-num">STEG 6</span><span class="pill-title">Stegvis drift</span></div>
+          <div class="pill-body">Successiv återgång, fortsatt övervakning</div>
+        </div>
+      </div>
+      <div class="method-stat">
+        <span class="method-stat-num" style="color:var(--accent-deep)">Över 4 veckor</span>
+        <span class="method-stat-label">Hanteringen skedde inte på ett par dagar — den pågick i över fyra veckor</span>
+      </div>
+      <div class="slide-notes"><p>Inte två dagar, det här är fyra veckor<br>Alla användarkonton nollstäldes och användarna fick skapa nytt lösenord med hjälp av BankID och dem som inte hade tillgång till det fick komma med legitimation till IT-avdelningen</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card cur">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>LEDA I OVISSHET<br>Ingen kunde förutse vilka effekter attacken skulle få → tidigt stabsläge. Central krisledningsgrupp med representanter från alla förvaltningar: samordning och informationsdelning. Varje förvaltning hade också en egen lokal krisledning parallellt → informationen nådde snabbt ut och verksamheterna kunde ställa om.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 2">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card cur">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card future">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>PRIORITERINGAR<br>Kommunledningen med kommundirektören i spetsen: få förvaltningarna att samarbeta. Personal från hela kommunen, även de som inte jobbar operativt, kallades in för att stötta, t.ex. i hemtjänsten.<br>1. Liv och hälsa: äldreomsorg och hemtjänst ska fungera.<br>2. Demokratin: politiska beslut ska kunna fattas trots attacken.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 3">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card cur">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled future">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>PENGARNA MÅSTE UT<br>Manuella rutiner för löner och försörjningsstöd så att de betalades ut i tid. De systemen var bland de första som återställdes.</p></div>
+    </section>
+
+    <section class="slide dstep" aria-label="Ledningsgruppen 4">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Beslut under press</h1>
+      <div class="dec-grid">
+        <div class="dec-card past">
+          <span class="dec-label">Leda i ovisshet</span>
+          <span class="dec-title">Tidigt stabsläge</span>
+          <span class="dec-desc">Central krisledning med alla förvaltningar — och en lokal krisledning i varje förvaltning parallellt</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Prioriteringar</span>
+          <ol class="dec-prio"><li>Liv och hälsa</li><li>Demokratin</li></ol>
+          <span class="dec-desc">Personal från hela kommunen kallas in för att stötta, t.ex. i hemtjänsten</span>
+        </div>
+        <div class="dec-card past">
+          <span class="dec-label">Pengarna måste ut</span>
+          <span class="dec-title">Löner och försörjningsstöd i tid</span>
+          <span class="dec-desc">Manuella rutiner — bland de första systemen som återställdes</span>
+        </div>
+        <div class="dec-card filled cur">
+          <span class="dec-label">Tre år på fyra veckor</span>
+          <span class="dec-big">3 år &#8594; 4 veckor</span>
+          <span class="dec-desc">Planerade IT-säkerhetsinvesteringar — uppgraderade system och utbildning i cybersäkerhet</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>TRE ÅR PÅ FYRA VECKOR<br>IT-säkerhetsinvesteringar planerade över tre år genomfördes på fyra veckor: uppgraderade system och utbildning av personalen i cybersäkerhet.</p><p>———</p></div>
+    </section>
+
+    <section class="slide" aria-label="Öppenhet som strategi">
+      <span class="slide-eyebrow">Ledningsgruppen</span>
+      <h1>Öppenhet som strategi</h1>
+      <div class="case-grid">
+        <div class="case-main">
+          <p class="lede">Kommunen valde total transparens — kontinuerlig information till både medarbetare och medborgare, även när de digitala kanalerna låg nere.</p>
+          <div class="dashed">Krisledningsgruppen gick själva analogt — stora whiteboards blev deras viktigaste verktyg för att hålla ihop lägesbilden.</div>
+        </div>
+        <div class="timeline-col">
+          <span class="case-map-caption">Kommunikation, dag 1–2</span>
+          <div class="timeline">
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div><div class="timeline-time">11:30</div><div class="timeline-label">Allmänheten informeras första gången</div></div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div><div class="timeline-time">15:30</div><div class="timeline-label">Pressmeddelande</div></div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div><div class="timeline-time">16:30</div><div class="timeline-label">Livesänd presskonferens</div></div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div><div class="timeline-time">Dag 2, 12:30</div><div class="timeline-label">Digital presskonferens</div></div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-dot"></span>
+              <div><div class="timeline-time">10–14 jan</div><div class="timeline-label">Avslutande presskonferens</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-notes"><p>ÄGA INFORMATIONEN<br>En av de första punkterna på agendan: hålla anställda och medborgare uppdaterade om läget och åtgärderna. Kommunen ville äga sin egen information för att förhindra rykten och förvirring.</p><p>Två kontaktpersoner för media och andra intressenter: kommundirektören och informationsansvarig. Gemensam kommunikationsstrategi inför uttalanden, pressträffar och inslag i egna tv-kanalen.</p><p>Kanaler: pressmeddelanden, direktsända presskonferenser, tillfällig webbplats, sociala medier, Kalix-TV och externa medier.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Konsekvensen av en avstängning">
+      <span class="slide-eyebrow">Socialförvaltningen</span>
+      <h1>Samtidigt på socialförvaltningen</h1>
+      <p class="lede">När nätverket var nere stod förvaltningen utan sina digitala verktyg — men vården kunde inte vänta.</p>
+      <div class="perspective-grid">
+        <div class="perspective-box">
+          <span class="perspective-title">Inga verksamhetssystem</span>
+          <span class="perspective-desc">Verksamhets- och planeringssystemen låg nere</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Opålitlig mejl</span>
+          <span class="perspective-desc">Ingen kunde vara säker på att informationen nådde fram</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Vården måste fortsätta</span>
+          <span class="perspective-desc">Hemtjänst och äldreomsorg dygnet runt — strax före jul</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>SAMTIDIGT PÅ SOCIALFÖRVALTNINGEN<br>Nätverket nere → inga verksamhets- och planeringssystem. Mejlen fungerade bara delvis — opålitlig kanal.<br>Vården kunde inte pausas: hemtjänst och äldreomsorg måste fungera dygnet runt, strax före jul.<br>Nästa bilder: hur det gick till i praktiken.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Vården på minnet">
+      <span class="slide-eyebrow">Socialförvaltningen</span>
+      <h1>Vården på minnet</h1>
+      <p class="lede">Helt analogt från första förmiddagen — mediciner och måltider först.</p>
+      <div class="perspective-grid">
+        <div class="perspective-box">
+          <span class="perspective-title">Minnet</span>
+          <span class="perspective-desc">Hemtjänsten planerade utifrån minne och erfarenhet</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Sekretesstunnorna</span>
+          <span class="perspective-desc">Patientlistor och scheman letades fram ur papper på väg till förstöring</span>
+        </div>
+        <div class="perspective-box">
+          <span class="perspective-title">Vikariepusslet</span>
+          <span class="perspective-desc">Strax före jul, när många ordinarie var lediga</span>
+        </div>
+      </div>
+      <div class="slide-notes"><p>påbörjar helt analogt arbete, <br>Enhetschefer tillsammans med anställda började omedelbart att organisera scheman och prioritera vårdinsatser, särskilt livsviktiga delar som mediciner och måltider.</p><p>Hemtjänstpersonal fick förlita sig på sitt minne och tidigare erfarenhet för att organisera arbetet, eftersom systemen var helt nere. En enhetschef berättar att hon var ute i sekretesstunnorna, där man slänger sekretessbelagd information som ska till dokumentförstöraren, för att leta efter information att arbeta med, t.ex. patientlistor och scheman.</p><p>En del i planeringsarbetet på socialförvaltningen är att koordinera var man behöver vikarier, då hemtjänsten är en ganska vikarietung del av kommunen och då många ordinarie personal hade sökt ledigt under just julen blev det en utmaning att analogt koordinera vilka vikarier som skulle vart och när.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Mobilen som livlina">
+      <span class="slide-eyebrow">Socialförvaltningen</span>
+      <h1>Nära varandra — och i mobilen</h1>
+      <p class="lede">När systemen och mejlen svek fick kommunikationen ske ansikte mot ansikte och via telefon.</p>
+      <div class="pair-grid">
+        <div class="box">
+          <h2 class="inline">På plats</h2>
+          Planeringen skedde i nära samspel mellan enhetschefer och anställda.
+        </div>
+        <div class="box">
+          <h2 class="inline">Via mobilen</h2>
+          SMS och samtal till personalen — och ett telefonnummer för vårdtagare och anhöriga.
+        </div>
+      </div>
+      <div class="dashed">Allt detta mitt i coronapandemin — och med medierna på plats.</div>
+      <div class="slide-notes"><p>KOMMUNIKATIONEN — EN AV DE STÖRSTA UTMANINGARNA</p><p>PÅ PLATS<br>Tvungna att arbeta nära varandra — planeringen skedde i samspel mellan enhetschefer och anställda, ansikte mot ansikte.</p><p>VIA MOBILEN<br>Löpande information till anställda via SMS och telefonsamtal.<br>Mailen låg till största delen nere, man kunde inte lita på att folk kom åt sina mail och således inte säker att alla fick mailen</p><p>VÅRDTAGARE OCH ANHÖRIGA<br>Ett telefonnummer gick ut till allmänheten så att vårdtagare och närstående kunde nå förvaltningen om något missades.</p><p>KONTEXTEN<br>Mitt i coronapandemin — den analoga omställningen pressade vårdpersonalen ytterligare. Flera rapporterade att den ökade medienärvaron gjorde situationen jobbigare.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Ett nytt normalläge">
+      <span class="slide-eyebrow">Socialförvaltningen</span>
+      <h1>Ett nytt normalläge</h1>
+      <p class="lede">Systemen återställdes stegvis under flera veckor.</p>
+      <div class="method-stat">
+        <span class="method-stat-num">10 jan</span>
+        <span class="method-stat-label">De flesta IT-system var stabila nog för att verksamheten skulle kunna återgå till mer normal drift</span>
+      </div>
+      <div class="dashed">Även efter det fortsatte mindre störningar under en tid — personalen förblev i hög beredskap.</div>
+      <div class="slide-notes"><p>ÅTERGÅNG TILL DIGITALT ARBETE<br>Systemen återställdes successivt. 10 januari 2022: de flesta IT-system stabila nog för att återgå till ett mer normalt läge.</p><p>SLUTLIG ÅTERSTÄLLNING<br>Små störningar fortsatte ännu en tid — personalen förblev i hög beredskap.</p></div>
+    </section>
+
+    <section class="slide res-slide" aria-label="Två organisationer, samma attack">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Två organisationer, samma attack</h1>
+      <div class="res-fig">
+        <svg viewBox="0 0 1160 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Organisation A och B utsätts båda för en cyberattack">
+          <text class="res-org" x="20" y="128">Organisation A</text>
+          <text class="res-org" x="20" y="328">Organisation B</text>
+          <polygon class="res-burst" points="250.0,94.0 253.8,109.7 266.7,100.1 259.5,114.5 275.6,115.5 260.8,121.9 272.5,133.0 257.1,128.4 258.9,144.4 250.0,131.0 241.1,144.4 242.9,128.4 227.5,133.0 239.2,121.9 224.4,115.5 240.5,114.5 233.3,100.1 246.2,109.7"></polygon>
+          <polygon class="res-burst" points="250.0,294.0 253.8,309.7 266.7,300.1 259.5,314.5 275.6,315.5 260.8,321.9 272.5,333.0 257.1,328.4 258.9,344.4 250.0,331.0 241.1,344.4 242.9,328.4 227.5,333.0 239.2,321.9 224.4,315.5 240.5,314.5 233.3,300.1 246.2,309.7"></polygon>
+          <text class="res-cap bad" x="250" y="78">Cyberattack</text>
+          <text class="res-cap bad" x="250" y="372">Cyberattack</text>
+          <text class="res-q" x="1100" y="134">?</text>
+          <text class="res-q" x="1100" y="334">?</text>
+        </svg>
+      </div>
+      <div class="slide-notes"><p>Organisation A och organisation B utsätts för samma cyberattack.</p><p>Båda visar sig i slutändan vara resilienta — de överlever attacken och klarar av att hantera den.</p></div>
+    </section>
+
+    <section class="slide res-slide" aria-label="Olika vägar till resiliens">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Samma mål — olika vägar dit</h1>
+      <div class="res-fig">
+        <svg viewBox="0 0 1160 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Organisation A tar en rak väg från cyberattack till resiliens, organisation B en lång och krokig väg till samma mål">
+          <path class="res-path a" pathLength="1" d="M 250,120 L 1060,120"></path>
+          <path class="res-path b" pathLength="1" d="M 250,320 C 256.7,317.0 278.0,311.7 290,302 C 302.0,292.3 311.7,262.3 322,262 C 332.3,261.7 350.7,288.0 352,300 C 353.3,312.0 338.7,334.0 330,334 C 321.3,334.0 294.7,314.0 300,300 C 305.3,286.0 341.7,253.0 362,250 C 382.3,247.0 415.3,266.3 422,282 C 428.7,297.7 410.3,337.3 402,344 C 393.7,350.7 367.0,331.0 372,322 C 377.0,313.0 413.7,280.0 432,290 C 450.3,300.0 467.0,363.3 482,382 C 497.0,400.7 518.7,407.3 522,402 C 525.3,396.7 512.0,355.0 502,350 C 492.0,345.0 455.3,375.0 462,372 C 468.7,369.0 518.7,349.3 542,332 C 565.3,314.7 595.3,283.7 602,268 C 608.7,252.3 590.3,237.7 582,238 C 573.7,238.3 545.3,259.3 552,270 C 558.7,280.7 600.3,286.7 622,302 C 643.7,317.3 675.3,345.0 682,362 C 688.7,379.0 672.0,400.7 662,404 C 652.0,407.3 615.3,392.3 622,382 C 628.7,371.7 678.7,363.7 702,342 C 725.3,320.3 745.3,268.7 762,252 C 778.7,235.3 793.7,235.3 802,242 C 810.3,248.7 815.3,277.0 812,292 C 808.7,307.0 777.0,327.0 782,332 C 787.0,337.0 822.3,330.3 842,322 C 861.7,313.7 883.3,285.7 900,282 C 916.7,278.3 927.8,292.8 942,300 C 956.2,307.2 965.3,321.7 985,325 C 1004.7,328.3 1047.5,320.8 1060,320"></path>
+          <text class="res-org" x="20" y="128">Organisation A</text>
+          <text class="res-org" x="20" y="328">Organisation B</text>
+          <text class="res-kalix" x="20" y="356">= Kalix</text>
+          <polygon class="res-burst" points="250.0,94.0 253.8,109.7 266.7,100.1 259.5,114.5 275.6,115.5 260.8,121.9 272.5,133.0 257.1,128.4 258.9,144.4 250.0,131.0 241.1,144.4 242.9,128.4 227.5,133.0 239.2,121.9 224.4,115.5 240.5,114.5 233.3,100.1 246.2,109.7"></polygon>
+          <polygon class="res-burst" points="250.0,294.0 253.8,309.7 266.7,300.1 259.5,314.5 275.6,315.5 260.8,321.9 272.5,333.0 257.1,328.4 258.9,344.4 250.0,331.0 241.1,344.4 242.9,328.4 227.5,333.0 239.2,321.9 224.4,315.5 240.5,314.5 233.3,300.1 246.2,309.7"></polygon>
+          <text class="res-cap bad" x="250" y="78">Cyberattack</text>
+          <text class="res-cap bad" x="250" y="372">Cyberattack</text>
+          <g class="res-end a"><path class="res-check" d="M 1084,120 L 1096,134 L 1120,100"></path><text class="res-cap good" x="1102" y="172">Resilient</text></g>
+          <g class="res-end b"><path class="res-check" d="M 1084,320 L 1096,334 L 1120,300"></path><text class="res-cap good" x="1102" y="372">Resilient</text></g>
+        </svg>
+      </div>
+      <div class="slide-notes"><p>Båda når resiliens — skillnaden är vägen dit.</p><p>A: väl förberedd, har förmågan att hantera attacken effektivt → rak väg.</p><p>B: saknar förberedelse och förmåga → lång, krokig väg till samma mål.</p><p>KALIX VAR ORGANISATION B: fyra veckor med papper, minne och mobil, patientlistor ur sekretesstunnorna. De klarade sig — tack vare personalen.</p><p>För kalix del så är målet att gå från Organisation B till Organisation A</p><p>och det gör man så här</p></div>
+    </section>
+
+    <section class="slide" aria-label="Vad Kalix gjorde efteråt">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Vad Kalix gjorde efteråt</h1>
+      <div class="pair-grid">
+        <div class="box">
+          <h2 class="inline">Tekniken</h2>
+          <span class="fruit-tag">Plockade de lågt hängande frukterna</span>
+          <ul class="box-list">
+            <li>Microsoft 365 och molntjänster</li>
+            <li>Defender for Endpoint och isolerad SIEM</li>
+            <li>Nätverkssegmentering och nivåindelade behörigheter</li>
+            <li>Ny VPN med MFA och geo-fencing</li>
+            <li>Alla lösenord bytta via BankID</li>
+          </ul>
+        </div>
+        <div class="box filled">
+          <h2 class="inline">Verksamheten</h2>
+          <ul class="box-list">
+            <li>Nano learning — korta säkerhetslektioner via mejl</li>
+            <li>Analoga kopior av nycklarna till de digitala låsen</li>
+            <li>Ny informationssäkerhetspolicy för hela kommunen</li>
+            <li>Ny planering — bort från minut-för-minut-scheman</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-notes"><p>TEKNIKEN: hela IT-miljön byggdes om — M365/molntjänster, Defender for Endpoint, alla klienter ominstallerade via isolerad SIEM. Segmentering och nivåindelade användarnivåer. Ny VPN med MFA och geo-fencing (17 jan). Alla lösenord bytta via BankID, eller legitimation på plats.</p><p>Ombyggnad planerad över tre år — klar på fyra veckor.</p><p>DE LÅGT HÄNGANDE FRUKTERNA — samma kedja som attacken: VPN utan MFA → nu MFA. Domänadminkonto → nivåindelade behörigheter. Endpoint-skydd avstängt via GPO → Defender och övervakning. Backuperna klarade sig — det gjorde Kalix rätt.</p><p>VERKSAMHETEN: nano learning — korta lektioner via mejl som man klickar sig igenom. Upplevs positivt, men risk att man bara klickar förbi.</p><p>Digitala lås i hemtjänsten: analoga kopior av alla nycklar — de var på väg att fasas ut innan attacken.</p><p>Ny informationssäkerhetspolicy — fanns inte vid attacken.</p><p>Schemaläggning bort från minut-för-minut-planering.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Analog redundans och lärdomar som bleknar">
+      <span class="slide-eyebrow">Lärdomar</span>
+      <h1>Analog reserv — och lärdomar som bleknar</h1>
+      <div class="pair-grid">
+        <div class="box">
+          <h2 class="inline">Analog redundans</h2>
+          <ul class="box-list">
+            <li>Kritiska processer behöver en analog reservväg — inte bara teknisk backup</li>
+            <li>Kommunikation behöver redundans: call chains och fysiska möten ersatte mejl</li>
+            <li>Scheman och patientlistor i icke-digitalt format</li>
+          </ul>
+        </div>
+        <div class="box filled">
+          <h2 class="inline">Men lärdomarna bleknar</h2>
+          <ul class="box-list">
+            <li>Medvetenheten ökade efter krisen — och avtog sedan</li>
+            <li>Analoga backuper gjordes i början — inte idag</li>
+            <li>Uppföljningen blev teknisk och stannade inom IT</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dashed">&rdquo;Vi är nu i en normaliseringsfas … det är nu vi inte får slappna av.&rdquo; &mdash; anställd, socialförvaltningen</div>
+      <div class="slide-notes"><p>ANALOG REDUNDANS: kritiska processer behöver en analog reservväg — inte bara teknisk backup. Kommunikationskanaler behöver redundans: call chains och fysiska möten ersatte mejl och inloggning. Scheman och patientlistor bör finnas i icke-digitalt format.</p><p>Digitala lås: analoga kopior av alla nycklar — var på väg att fasas ut innan attacken.</p><p>MEN LÄRDOMAR BLEKNAR: medvetenheten ökade efter krisen men avtog över tid. ”I början var vi vaksamma, men det har börjat avta.” — undersköterska</p><p>Analoga backuper gjordes i början — inte idag. Uppföljningen blev till stor del teknisk och stannade inom IT.</p><p>Citat: ”Vi är nu i en normaliseringsfas … det är nu vi inte får slappna av.” — anställd, socialförvaltningen</p></div>
+    </section>
+
+    <section class="slide" aria-label="Koppla ihop IT och verksamheten">
+      <span class="slide-eyebrow">Lärdomar · Viktigast</span>
+      <h1>Koppla ihop IT och verksamheten</h1>
+      <p class="lede">Informations- och cybersäkerhet måste bli en del av <span class="flag">verksamhetens</span> risk- och krisplanering — inte bara IT:s.</p>
+      <div class="bridge built">
+        <div class="bridge-end">IT &amp; informationssäkerhet</div>
+        <div class="bridge-mid">
+          <div class="bridge-row"><span class="bridge-label">Riskbedömning</span><span class="bridge-line">Vilka arbetsuppgifter bär systemet? &#8594;</span></div>
+          <div class="bridge-row"><span class="bridge-label">Krisövning</span><span class="bridge-line">&#8592; Vad gör vi när det digitala försvinner?</span></div>
+        </div>
+        <div class="bridge-end filled">Verksamheten</div>
+      </div>
+      <p class="kx-line">I Kalix: en enhetschef från äldreomsorgen blev informationssäkerhetssamordnare — en bro mellan verksamheten och IT.</p>
+      <div class="slide-notes"><p>DEN VIKTIGASTE LÄRDOMEN</p><p>Bron över glappet: informations- och cybersäkerhet måste bli en del av verksamhetens risk- och krisplanering — inte bara IT:s.</p><p>IT → VERKSAMHET</p><p>Riskbedömningar ska kartlägga vilka arbetsuppgifter varje system bär. Exempel: ärendesystemet är inte bara en server — det är hela försörjningsstödet.</p><p>VERKSAMHET → IT</p><p>Krisövningar ska innehålla digitala störningar. Exempel: nätet offline i fyra veckor — inte bara personalbortfall.</p><p>SÅ GJORDE KALIX</p><p>En enhetschef inom äldreomsorgen anställdes som informationssäkerhetssamordnare för socialförvaltningen. Utbildas inom informationssäkerhet. Arbetar med krisplanerna tillsammans med IT och kommunledningen.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Praktisk tillämpning — kartläggning av verksamheten">
+      <span class="slide-eyebrow">Från lärdom till verktyg</span>
+      <div class="dm-grid">
+        <div class="dm-text">
+          <h1>Se beroendena innan attacken gör det</h1>
+          <p class="dm-lede"><b>Dependency Mapper</b> kartlägger verksamheten — från arbetsuppgift till IT-infrastruktur — och simulerar störningar.</p>
+          <ol class="dm-list">
+            <li><b>Identifiera digitala beroenden</b><span>Vilka system, data och leverantörer bär varje arbetsuppgift?</span></li>
+            <li><b>Tydliggör single points of failure</b><span>Ta ett system offline och se vad som stannar</span></li>
+            <li><b>Grund för kontinuitets-, risk- och krisplanering</b><span>Samma karta för IT och verksamhet</span></li>
+          </ol>
+          <div class="dm-cta">Läs mer och signa upp: <b>map.aholmstrom.se</b><br>— eller kom och surra efteråt!</div>
+        </div>
+        <figure class="dm-shot">
+          <img src="dm-simulation.png" alt="Simulering i Dependency Mapper: klientregistret utan backup tas offline, ärendesystemet markeras som single point of failure och hela försörjningsstödsprocessen stoppar">
+          <figcaption>Klientregistret offline → ärendesystemet (single point of failure) → hela försörjningsstödet stannar</figcaption>
+        </figure>
+      </div>
+      <div class="slide-notes"><p>Bygger direkt på förra bilden: kopplingen mellan IT och verksamhet — i praktiken.</p><p>Dependency Mapper: mitt eget verktyg för risk- och krishantering. Tre steg: inventera (processer, system, data, människor, leverantörer) → koppla beroenden på en karta → simulera störning.</p><p>1. Identifiera digitala beroenden — från arbetsuppgift ner till IT-infrastruktur.</p><p>2. Tydliggöra single points of failure — ta en resurs offline och se hur effekten sprider sig.</p><p>3. Grund för kontinuitets-, risk- och krisplanering — IT och verksamhet tittar på samma karta.</p><p>Exemplet: försörjningsstöd. Klientregistret utan backup tas offline → ärendesystemet är single point of failure → ansökan, behovsbedömning och beslut/utbetalning stannar. Samma typ av kedja som i Kalix.</p><p>Hade kartan funnits innan attacken hade sårbarheten synts i förväg — inte efteråt.</p><p>Läs mer och signa upp på map.aholmstrom.se — eller kom och surra efteråt.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Vad kan vi ta med oss?">
+      <span class="slide-eyebrow">Lärdomar · Sammanfattning</span>
+      <h1>Från organisation B till A</h1>
+      <div class="res-fig sum-fig">
+        <svg viewBox="0 0 1160 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Två lärdomar före attacken och två efter: med dem rätas Kalix krokiga väg (organisation B) ut till en rak väg (organisation A)">
+          <g class="sum-phase"><text x="335" y="40">FÖRE ATTACKEN</text><line x1="110" y1="52" x2="530" y2="52"></line><text x="785" y="40">EFTER ATTACKEN</text><line x1="590" y1="52" x2="1010" y2="52"></line></g>
+          <path class="sum-b" d="M 560,205 C 563.7,202.4 575.6,197.9 582,190 C 588.9,181.5 594.3,156.0 600,156 C 605.7,155.4 615.9,177.8 617,188 C 617.4,198.2 609.3,216.9 604,217 C 599.6,216.9 584.8,199.9 588,188 C 590.7,176.1 610.9,148.1 622,146 C 633.5,142.9 651.9,159.4 656,173 C 659.3,186.0 649.1,219.7 644,225 C 639.8,231.1 625.0,214.3 628,207 C 630.6,199.0 650.9,171.0 661,180 C 671.3,188.0 680.6,241.8 689,258 C 697.2,273.6 709.3,279.2 711,275 C 713.0,270.2 705.6,234.8 700,230 C 694.4,226.2 674.1,251.8 678,249 C 681.5,246.6 709.3,229.9 722,215 C 735.2,200.5 751.9,174.1 756,161 C 759.3,147.5 749.1,135.0 744,135 C 739.8,135.6 724.1,153.4 728,162 C 731.5,171.6 754.6,176.7 767,190 C 778.7,202.7 796.3,226.2 800,241 C 803.7,255.1 794.4,273.6 789,276 C 783.3,279.2 763.0,266.5 767,258 C 770.4,248.9 798.1,242.1 811,224 C 824.1,205.3 835.2,161.4 844,147 C 853.7,133.0 862.0,133.0 867,139 C 871.3,144.4 874.1,168.4 872,181 C 870.4,193.9 852.8,210.9 856,215 C 858.3,219.4 878.0,213.8 889,207 C 899.8,199.6 911.9,175.8 921,173 C 930.4,169.6 936.6,181.9 944,188 C 952.3,194.1 957.4,206.4 968,209 C 979.3,212.1 1003.1,205.7 1010,205"></path>
+          <path class="res-path sum-a" pathLength="1" d="M 110,205 L 1010,205"></path>
+          <circle class="sum-start" cx="110" cy="205" r="6"></circle>
+          <g class="sw sw1 key"><circle cx="220" cy="205" r="9"></circle><text class="sw-num" x="220" y="209.5">1</text><line x1="220" y1="193" x2="220" y2="175"></line><text class="sw-l" x="220" y="143">Verksamheten in i</text><text class="sw-l" x="220" y="165">risk- &amp; krisplaneringen</text><text class="sw-tag" x="220" y="119">VIKTIGAST</text></g><g class="sw sw2"><circle cx="420" cy="205" r="9"></circle><text class="sw-num" x="420" y="209.5">2</text><line x1="420" y1="217" x2="420" y2="235"></line><text class="sw-l" x="420" y="255">Öva på att det</text><text class="sw-l" x="420" y="277">digitala försvinner</text></g><g class="sw sw3"><circle cx="720" cy="205" r="9"></circle><text class="sw-num" x="720" y="209.5">3</text><line x1="720" y1="193" x2="720" y2="175"></line><text class="sw-l" x="720" y="143">Analoga</text><text class="sw-l" x="720" y="165">reservvägar</text></g><g class="sw sw4"><circle cx="900" cy="205" r="9"></circle><text class="sw-num" x="900" y="209.5">4</text><line x1="900" y1="217" x2="900" y2="235"></line><text class="sw-l" x="900" y="255">Följ upp i hela</text><text class="sw-l" x="900" y="277">organisationen</text></g>
+          <g class="sum-attack"><polygon class="res-burst" points="560.0,181.0 563.4,195.6 575.4,186.6 568.7,200.0 583.6,200.8 569.8,206.7 580.8,217.0 566.4,212.7 568.2,227.6 560.0,215.0 551.8,227.6 553.6,212.7 539.2,217.0 550.2,206.7 536.4,200.8 551.3,200.0 544.6,186.6 556.6,195.6"></polygon><text class="res-cap bad" x="560" y="255">Cyberattack</text></g>
+          <g class="res-end sum-end"><path class="res-check" d="M 1034,205 L 1046,219 L 1070,185"></path><text class="res-cap good" x="1052" y="257">Resilient</text></g>
+          <g class="sum-legend"><line class="lg-b" x1="110" y1="372" x2="150" y2="372"></line><text x="160" y="378">Kalix väg (B)</text><line class="lg-a" x1="320" y1="372" x2="360" y2="372"></line><text x="370" y="378">Med lärdomarna (A)</text></g>
+        </svg>
+      </div>
+      <div class="sum-pre"><span class="dec-label">Också före attacken</span> Minska skadan med de enkla spärrarna — MFA, separata adminkonton, isolerade backuper.</div>
+      <div class="slide-notes"><p>Tillbaka till figuren: Kalix tog den krokiga vägen (B). Lärdomarna är det som rätar ut vägen — två före attacken, två efter.</p><p>FÖRE ATTACKEN</p><p>1. VIKTIGAST — informations- och cybersäkerhet in i verksamhetens risk- och krisplanering. IT:s riskbedömningar ska visa vilka arbetsuppgifter systemen bär.</p><p>2. Krisövningar med digitala störningar — Kalix övade personalbortfall, aldrig cyberattack.</p><p>EFTER ATTACKEN</p><p>3. Analoga reservvägar: scheman, patientlistor, nycklar, call chains.</p><p>4. Systematisk uppföljning i hela organisationen — fråga frontlinjen, annars bleknar lärdomarna.</p><p>Innan attacken: de enkla spärrarna (MFA på VPN, separata adminkonton, isolerade backuper) minskar skadan — och risken att alls behöva gå vägen.</p></div>
+    </section>
+
+    <section class="slide question-slide" aria-label="Tillbaka till frågan">
+      <span class="slide-eyebrow">Tillbaka till frågan</span>
+      <h1>Vem bar bördan för cyberresiliensen?</h1>
+      <p class="lede">Alla — på olika sätt.</p>
+      <div class="who-grid">
+        <div class="who"><span class="who-l">IT</span><span class="who-d">Byggde om hela miljön på fyra veckor</span></div>
+        <div class="who"><span class="who-l">Ledningen</span><span class="who-d">Höll ihop organisationen och informationen</span></div>
+        <div class="who"><span class="who-l">Personalen längst ut</span><span class="who-d">Höll vården igång med papper, minne och mobil</span></div>
+      </div>
+      <div class="slide-notes"><p>Svar: alla — på olika sätt. Resiliens var ett delat ansvar för hela organisationen (Holmström, 2025).</p><p>IT: byggde om hela IT-miljön på fyra veckor — ett enormt jobb.</p><p>Ledningen: stabsläge, prioriteringar, öppen kommunikation.</p><p>Personalen längst ut: höll vården igång utan system. Holmström &amp; Große (2025): ”It was not with the help of, but thanks to, the effort of the employees that the organization was able to avoid a total collapse of business functions critical to the citizens.”</p><p>Poängen: bördan bars av alla — men den var inte planerad att delas. Det är det glappet vi kan stänga.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Tack">
+      <span class="slide-eyebrow">Tack</span>
+      <div class="thx-grid">
+        <div class="thx-text">
+          <h1>Tack för att ni lyssnade</h1>
+          <p class="lede">Frågor, tankar eller vill läsa artiklarna? Hör av er.</p>
+          <div class="thx-contact">
+            <span class="thx-label">E-post</span>
+            <span class="thx-mail">anton.holmstrom@ltu.se</span>
+          </div>
+        </div>
+        <figure class="thx-qr">
+          <img src="linkedin-qr.png" alt="QR-kod till Anton Holmströms LinkedIn-profil">
+          <figcaption>LinkedIn</figcaption>
+        </figure>
+      </div>
+      <div class="slide-notes"><p>Öppna för frågor.</p><p>Fallstudien: Holmström (2025) och Holmström &amp; Große (2025) — mejla för artiklarna.</p><p>QR-koden leder till LinkedIn.</p></div>
+    </section>
+
+  </main>
+  <nav class="deck-nav">
+    <button class="nav-btn" id="prevBtn" aria-label="Föregående">&#8249;</button>
+    <div class="dots" id="dotsWrap"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="Nästa">&#8250;</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsWrap = document.getElementById('dotsWrap');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var progressFill = document.getElementById('progressFill');
+  var slideNumberEl = document.getElementById('slideNumber');
+  var current = 0;
+
+  var I18N = {
+    en: { goTo:'Go to slide ', correct:'Correct — this is exactly what the right answer demonstrates.', wrong:'Not quite — the correct answer is highlighted above.',
+          presenter:'Presenter view', slide:'Slide', now:'Now', next:'Next', prev:'Prev', notesPh:'Notes for this slide...',
+          smaller:'Smaller notes text', larger:'Larger notes text', popup:'Please allow pop-ups for this page to use the presenter view.',
+          resize:'Drag to resize panels, or use arrow keys', resetSize:'Double-click to reset panel sizes' },
+    sv: { goTo:'Gå till bild ', correct:'Rätt — det här är precis vad rätt svar visar.', wrong:'Inte riktigt — rätt svar är markerat ovan.',
+          presenter:'Presentatörsvy', slide:'Bild', now:'Nu', next:'Nästa', prev:'Föregående', notesPh:'Anteckningar för den här bilden...',
+          smaller:'Mindre anteckningstext', larger:'Större anteckningstext', popup:'Tillåt popup-fönster för den här sidan för att använda presentatörsvyn.',
+          resize:'Dra för att ändra storlek på rutorna, eller använd piltangenterna', resetSize:'Dubbelklicka för att återställa storlekarna' }
+  };
+  var LANG = (document.documentElement.lang || 'en').slice(0, 2);
+  var T = I18N[LANG] || I18N.en;
+
+  slides.forEach(function(_, i){
+    var dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', T.goTo + (i+1));
+    dot.addEventListener('click', function(){ goTo(i); });
+    dotsWrap.appendChild(dot);
+  });
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  function render(){
+    slides.forEach(function(s, i){ s.classList.toggle('active', i === current); });
+    dots.forEach(function(d, i){ d.classList.toggle('active', i === current); });
+    progressFill.style.width = (((current + 1) / slides.length) * 100) + '%';
+    slideNumberEl.textContent = (current + 1) + ' / ' + slides.length;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    updatePresenterWindow();
+  }
+  function goTo(i){
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    render();
+  }
+  prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  document.querySelectorAll('.quiz').forEach(function(quiz){
+    var answer = parseInt(quiz.getAttribute('data-answer'), 10);
+    var opts = Array.prototype.slice.call(quiz.querySelectorAll('.quiz-opt'));
+    var feedback = quiz.querySelector('.quiz-feedback');
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        var idx = parseInt(opt.getAttribute('data-idx'), 10);
+        opts.forEach(function(o){ o.disabled = true; });
+        if (idx === answer){
+          opt.classList.add('correct');
+          feedback.textContent = T.correct;
+        } else {
+          opt.classList.add('wrong');
+          opts[answer].classList.add('correct');
+          feedback.textContent = T.wrong;
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll('.mode-tabs').forEach(function(tabs){
+    var wrap = tabs.closest('.toggle-diagram') || tabs.parentElement;
+    var buttons = Array.prototype.slice.call(tabs.querySelectorAll('.mode-tab'));
+    var scenes = Array.prototype.slice.call(wrap.querySelectorAll('.mode-scene'));
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var mode = btn.getAttribute('data-mode');
+        buttons.forEach(function(b){ b.classList.toggle('active', b === btn); });
+        scenes.forEach(function(s){ s.classList.toggle('active', s.getAttribute('data-mode') === mode); });
+      });
+    });
+  });
+
+  // presenter view (press P)
+  var presenterWin = null;
+  var notesStore = {};
+  var notesFontSize = 1.05;
+  var DEFAULT_PREVIEW_HEIGHT = 200;
+  var previewHeight = loadPreviewHeight();
+  function loadPreviewHeight(){
+    try {
+      var v = parseInt(localStorage.getItem('presenterPreviewHeight'), 10);
+      return (v && v > 0) ? v : DEFAULT_PREVIEW_HEIGHT;
+    } catch(e){ return DEFAULT_PREVIEW_HEIGHT; }
+  }
+  function savePreviewHeight(h){
+    try { localStorage.setItem('presenterPreviewHeight', String(h)); } catch(e){}
+  }
+  var deckStyleHTML = document.querySelector('style').outerHTML;
+  var fontLinkHTML = '<link rel="preconnect" href="https://fonts.googleapis.com">'
+    + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">';
+
+  var notesDb = null;
+  var notesSaveTimers = {};
+  // notes are keyed by a stable id derived from each slide's aria-label, not its position,
+  // so inserting or reordering slides never shifts saved notes onto the wrong slide
+  function noteKey(i){
+    var l = (slides[i] && slides[i].getAttribute('aria-label')) || ('slide-' + i);
+    return l.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  var keyToIndex = {};
+  slides.forEach(function(_, i){ keyToIndex[noteKey(i)] = i; });
+  function initNotesDb(){
+    if (typeof window.claude === 'undefined' || !window.claude.use) return;
+    window.claude.use('db').then(function(db){
+      if (!db) return;
+      notesDb = db;
+      db.collection('notes').get().then(function(snap){
+        snap.docs.forEach(function(d){
+          var data = d.data();
+          var idx = keyToIndex[d.id];
+          if (idx !== undefined && data && typeof data.text === 'string') notesStore[idx] = data.text;
+        });
+        updatePresenterWindow();
+      }).catch(function(){});
+    }).catch(function(){});
+  }
+  function scheduleNotesSave(slideIndex, text){
+    if (!notesDb) return;
+    clearTimeout(notesSaveTimers[slideIndex]);
+    notesSaveTimers[slideIndex] = setTimeout(function(){
+      notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){});
+    }, 600);
+  }
+  function flushNotesSave(slideIndex, text){
+    if (!notesDb) return;
+    clearTimeout(notesSaveTimers[slideIndex]);
+    notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){});
+  }
+  initNotesDb();
+
+  var cssVarMap = {
+    '--paper':'#f7f2e6', '--ink':'#1e1b16', '--muted':'#77705f', '--line':'#2a2620',
+    '--card':'#eae4d5', '--accent':'#e0604a', '--accent-deep':'#a33325',
+    '--lavender':'#cdc4f5', '--lavender-deep':'#4d3fa0', '--navy':'#1c3149',
+    '--good':'#2f8f52', '--good-soft':'#dcefdf', '--bad-soft':'#f6dedb'
+  };
+  function resolveCssVars(html){
+    return html.replace(/var\(\s*(--[a-zA-Z0-9-]+)\s*\)/g, function(m, name){
+      return cssVarMap.hasOwnProperty(name) ? cssVarMap[name] : m;
+    });
+  }
+
+  function seedNotes(i){
+    var el = slides[i] && slides[i].querySelector('.slide-notes');
+    if (!el) return '';
+    var paras = Array.prototype.slice.call(el.querySelectorAll('p'));
+    if (!paras.length) return (el.textContent || '').trim();
+    return paras.map(function(p){ return p.textContent.trim(); }).join('\n\n');
+  }
+  function getNotes(i){
+    if (!(i in notesStore)) notesStore[i] = seedNotes(i);
+    return notesStore[i];
+  }
+
+  function buildPresenterDoc(){
+    return '<!DOCTYPE html><html lang="' + LANG + '"><head><meta charset="UTF-8"><title>' + T.presenter + '</title>'
+      + fontLinkHTML
+      + deckStyleHTML
+      + '<style>'
+      + '  html,body{ height:100%; }'
+      + '  body.presenter-body{ margin:0; background:var(--ink); color:var(--paper); font-family:"EB Garamond", Georgia, serif; display:flex; flex-direction:column; height:100vh; overflow:hidden; }'
+      + '  .p-topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid #3a352c; flex:none; }'
+      + '  .p-frame{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--card); font-style:italic; }'
+      + '  .p-fontctrls button{ all:unset; cursor:pointer; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center; border:1px solid #55503f; border-radius:50%; color:var(--card); font-size:.75rem; margin-left:6px; }'
+      + '  .p-fontctrls button:hover{ border-color:var(--accent); color:var(--accent); }'
+      + '  .p-previews{ display:flex; gap:16px; padding:16px 20px 6px; flex:none; min-height:80px; }'
+      + '  .p-preview-col{ flex:1; min-width:0; display:flex; flex-direction:column; }'
+      + '  .p-preview-col.p-next{ flex:0 0 34%; }'
+      + '  .p-preview-label{ font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#a49c86; margin-bottom:6px; flex:none; }'
+      + '  .p-preview-frame{ position:relative; width:100%; flex:1; min-height:0; background:var(--paper); border:1.5px solid #3a352c; overflow:hidden; }'
+      + '  .p-preview-scale{ position:absolute; top:0; left:0; transform-origin:top left; pointer-events:none; color:var(--ink); }'
+      + '  .p-resizer{ flex:none; height:14px; margin:0 20px; cursor:row-resize; display:flex; align-items:center; justify-content:center; touch-action:none; }'
+      + '  .p-resizer::before{ content:""; width:48px; height:4px; border-radius:2px; background:#55503f; }'
+      + '  .p-resizer:hover::before, .p-resizer:focus-visible::before{ background:var(--accent); }'
+      + '  .p-resizer:focus-visible{ outline:1.5px solid var(--accent); outline-offset:2px; }'
+      + '  .p-notes-wrap{ flex:1; min-height:60px; padding:4px 20px 14px; display:flex; }'
+      + '  .p-notes-area{ flex:1; min-height:0; resize:none; width:100%; background:#211e18; color:var(--paper); border:1.5px solid #3a352c; padding:14px 16px; font-family:"EB Garamond", Georgia, serif; line-height:1.6; }'
+      + '  .p-navbar{ display:flex; gap:10px; justify-content:center; padding:0 20px 18px; flex:none; }'
+      + '  .p-navbar button{ all:unset; cursor:pointer; padding:8px 18px; border:1.5px solid #55503f; color:var(--card); font-size:.85rem; }'
+      + '  .p-navbar button:hover{ border-color:var(--accent); color:var(--accent); }'
+      + '  .p-navbar button:disabled{ opacity:.3; cursor:default; }'
+      + '</style>'
+      + '</head><body class="presenter-body">'
+      + '  <div class="p-topbar">'
+      + '    <span class="p-frame" id="pFrameNum"></span>'
+      + '    <div class="p-fontctrls"><button id="pFontDown" title="' + T.smaller + '">A&minus;</button><button id="pFontUp" title="' + T.larger + '">A+</button></div>'
+      + '  </div>'
+      + '  <div class="p-previews" id="pPreviews">'
+      + '    <div class="p-preview-col p-current"><div class="p-preview-label">' + T.now + '</div><div class="p-preview-frame" id="pCurrentFrame"></div></div>'
+      + '    <div class="p-preview-col p-next"><div class="p-preview-label">' + T.next + '</div><div class="p-preview-frame" id="pNextFrame"></div></div>'
+      + '  </div>'
+      + '  <div class="p-resizer" id="pResizer" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="' + T.resize + '" title="' + T.resetSize + '"></div>'
+      + '  <div class="p-notes-wrap"><textarea class="p-notes-area" id="pNotesArea" placeholder="' + T.notesPh + '"></textarea></div>'
+      + '  <div class="p-navbar"><button id="pPrevBtn">&lsaquo; ' + T.prev + '</button><button id="pNextBtn">' + T.next + ' &rsaquo;</button></div>'
+      + '</body></html>';
+  }
+
+  function buildPreviewNode(win, slideIndex){
+    var doc = win.document;
+    var wrap = doc.createElement('div');
+    wrap.className = 'p-preview-scale deck';
+    wrap.style.minHeight = '0';
+    var main = doc.createElement('main');
+    main.className = 'slides';
+    main.style.display = 'flex';
+    var clone = doc.importNode(slides[slideIndex], true);
+    clone.classList.add('active');
+    if (clone.hasAttribute && clone.hasAttribute('style')){
+      clone.setAttribute('style', resolveCssVars(clone.getAttribute('style')));
+    }
+    Array.prototype.slice.call(clone.querySelectorAll('[style]')).forEach(function(el){
+      el.setAttribute('style', resolveCssVars(el.getAttribute('style')));
+    });
+    main.appendChild(clone);
+    wrap.appendChild(main);
+    return wrap;
+  }
+
+  function paintPreview(win, frameId, slideIndex){
+    var frame = win.document.getElementById(frameId);
+    if (!frame) return;
+    frame.innerHTML = '';
+    if (slideIndex < 0 || slideIndex >= slides.length) return;
+    var node = buildPreviewNode(win, slideIndex);
+    frame.appendChild(node);
+    var refWidth = 1280, refHeight = 720;
+    var w = frame.clientWidth || 320, h = frame.clientHeight || 180;
+    var scale = Math.min(w / refWidth, h / refHeight);
+    node.style.width = refWidth + 'px';
+    node.style.height = refHeight + 'px';
+    node.style.transform = 'scale(' + scale + ')';
+  }
+
+  function updatePresenterWindow(){
+    if (!presenterWin || presenterWin.closed) return;
+    var doc = presenterWin.document;
+    var frameNum = doc.getElementById('pFrameNum');
+    if (frameNum) frameNum.textContent = T.slide + ' ' + (current + 1) + ' / ' + slides.length;
+    paintPreview(presenterWin, 'pCurrentFrame', current);
+    paintPreview(presenterWin, 'pNextFrame', current + 1);
+    var ta = doc.getElementById('pNotesArea');
+    if (ta) ta.value = getNotes(current);
+    var pPrev = doc.getElementById('pPrevBtn');
+    var pNext = doc.getElementById('pNextBtn');
+    if (pPrev) pPrev.disabled = current === 0;
+    if (pNext) pNext.disabled = current === slides.length - 1;
+  }
+
+  function openPresenterWindow(){
+    if (presenterWin && !presenterWin.closed){
+      presenterWin.focus();
+      return;
+    }
+    presenterWin = window.open('', 'presenterWindow', 'width=820,height=760,resizable=yes');
+    if (!presenterWin){
+      alert(T.popup);
+      return;
+    }
+    presenterWin.document.open();
+    presenterWin.document.write(resolveCssVars(buildPresenterDoc()));
+    presenterWin.document.close();
+
+    presenterWin.document.getElementById('pPrevBtn').addEventListener('click', function(){ goTo(current - 1); });
+    presenterWin.document.getElementById('pNextBtn').addEventListener('click', function(){ goTo(current + 1); });
+
+    var previewsEl = presenterWin.document.getElementById('pPreviews');
+    var resizer = presenterWin.document.getElementById('pResizer');
+    function applyPreviewHeight(h){
+      var maxH = Math.max(80, presenterWin.innerHeight - 260);
+      previewHeight = Math.min(Math.max(h, 80), maxH);
+      previewsEl.style.height = previewHeight + 'px';
+      updatePresenterWindow();
+    }
+    applyPreviewHeight(previewHeight);
+    var dragStartY = 0, dragStartHeight = 0;
+    resizer.addEventListener('pointerdown', function(e){
+      dragStartY = e.clientY;
+      dragStartHeight = previewHeight;
+      resizer.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    resizer.addEventListener('pointermove', function(e){
+      if (e.buttons === 0) return;
+      applyPreviewHeight(dragStartHeight + (e.clientY - dragStartY));
+    });
+    resizer.addEventListener('pointerup', function(){ savePreviewHeight(previewHeight); });
+    resizer.addEventListener('dblclick', function(){ applyPreviewHeight(DEFAULT_PREVIEW_HEIGHT); savePreviewHeight(previewHeight); });
+    resizer.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowUp'){ applyPreviewHeight(previewHeight - 20); savePreviewHeight(previewHeight); e.preventDefault(); }
+      if (e.key === 'ArrowDown'){ applyPreviewHeight(previewHeight + 20); savePreviewHeight(previewHeight); e.preventDefault(); }
+    });
+
+    var ta = presenterWin.document.getElementById('pNotesArea');
+    ta.style.fontSize = notesFontSize + 'rem';
+    ta.addEventListener('input', function(e){
+      notesStore[current] = e.target.value;
+      scheduleNotesSave(current, e.target.value);
+    });
+    presenterWin.document.getElementById('pFontUp').addEventListener('click', function(){
+      notesFontSize = Math.min(2, notesFontSize + 0.1);
+      ta.style.fontSize = notesFontSize + 'rem';
+    });
+    presenterWin.document.getElementById('pFontDown').addEventListener('click', function(){
+      notesFontSize = Math.max(0.7, notesFontSize - 0.1);
+      ta.style.fontSize = notesFontSize + 'rem';
+    });
+    presenterWin.document.addEventListener('keydown', function(e){
+      var tag = (presenterWin.document.activeElement && presenterWin.document.activeElement.tagName) || '';
+      if (tag === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight') goTo(current + 1);
+      if (e.key === 'ArrowLeft') goTo(current - 1);
+    });
+    presenterWin.addEventListener('beforeunload', function(){
+      var liveTa = presenterWin.document.getElementById('pNotesArea');
+      if (liveTa){
+        notesStore[current] = liveTa.value;
+        flushNotesSave(current, liveTa.value);
+      }
+    });
+
+    updatePresenterWindow();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'p' && e.key !== 'P') return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    openPresenterWindow();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
