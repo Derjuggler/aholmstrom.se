@@ -15,30 +15,32 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Inter Tight
-      body: Inter Tight
+      header:
+        name: Instrument Serif
+        weights: [400]
+      body: Hanken Grotesk
       code: JetBrains Mono
     colors:
       lightMode:
-        light: "#0a0a0a"
-        lightgray: "#262626"
-        gray: "#8a8a84"
-        darkgray: "#d4d4ce"
-        dark: "#f2f2ec"
-        secondary: "#f5c800"
-        tertiary: "#f8efd4"
-        highlight: rgba(245, 200, 0, 0.10)
-        textHighlight: "#f5c80055"
+        light: "#f4f0e8"
+        lightgray: "#e2dccf"
+        gray: "#5e5a50"
+        darkgray: "#2b2a24"
+        dark: "#14130f"
+        secondary: "#14130f"
+        tertiary: "#8a6200"
+        highlight: rgba(242, 176, 30, 0.2)
+        textHighlight: "#f2b01e66"
       darkMode:
-        light: "#0a0a0a"
-        lightgray: "#262626"
-        gray: "#8a8a84"
-        darkgray: "#d4d4ce"
-        dark: "#f2f2ec"
-        secondary: "#f5c800"
-        tertiary: "#f8efd4"
-        highlight: rgba(245, 200, 0, 0.10)
-        textHighlight: "#f5c80055"
+        light: "#f4f0e8"
+        lightgray: "#e2dccf"
+        gray: "#5e5a50"
+        darkgray: "#2b2a24"
+        dark: "#14130f"
+        secondary: "#14130f"
+        tertiary: "#8a6200"
+        highlight: rgba(242, 176, 30, 0.2)
+        textHighlight: "#f2b01e66"
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
