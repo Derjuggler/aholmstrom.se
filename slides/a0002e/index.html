@@ -405,8 +405,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
 .dot{ all:unset; cursor:pointer; width:8px; height:8px; border-radius:50%; background:var(--card); border:1px solid var(--line); }
 .dot.active{ background:var(--accent); width:18px; border-radius:5px; border-color:var(--accent); }
 
-/* presenter view (press P) — opens a separate popup window; never shown on the live slide */
-.slide-notes{ display:none; }
 </style>
 </head>
 <body>
@@ -427,21 +425,18 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1>Cyber Threat Intelligence</h1>
       <div class="title-rule"></div>
       <p class="title-meta"><b>Anton Holmstr&ouml;m</b><br>Lule&aring; University of Technology</p>
-      <div class="slide-notes"><p>A0002E, LECTURE 9: CYBER THREAT INTELLIGENCE</p></div>
     </section>
 
     <section class="slide beat-slide" aria-label="Wake-up">
       <div class="wall" aria-hidden="true"></div>
       <h1>One of these is attacking you right now.</h1>
       <p class="lede">Which one?</p>
-      <div class="slide-notes"><p>WAKE-UP</p><p>Wall = raw indicators: IP addresses, domain names, file hashes.</p><p>All values are made up (reserved documentation ranges).</p><p>ASK THE ROOM: how would you find the one that matters?</p></div>
     </section>
 
     <section class="slide beat-slide" aria-label="Wake-up 2">
       <div class="wall dim" aria-hidden="true"><span class="wall-hot">203.0.113.66</span></div>
       <h1>Knowing which one, and what to do about it.</h1>
       <p class="lede">That is cyber threat intelligence.</p>
-      <div class="slide-notes"><p>POINT</p><p>Data alone does not tell you which one.</p><p>CTI: which one, who is behind it, what to do about it.</p></div>
     </section>
 
     <section class="slide" aria-label="Goals">
@@ -452,7 +447,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <li><span class="goal-num">2</span><span>describe how it is used to create value</span></li>
         <li><span class="goal-num">3</span><span>apply it in a practical exercise</span></li>
       </ol>
-      <div class="slide-notes"><p>GOALS</p><p>1. Know what CTI is.</p><p>2. Know how it is used to create value.</p><p>3. Apply it in a practical exercise.</p></div>
     </section>
 
     <section class="slide" aria-label="Agenda">
@@ -468,7 +462,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="goal-span gb"><span class="goal-num">2</span><div><div class="goal-tag">Goal 2</div><div class="goal-text">Describe how it is used to create value</div></div></div>
         <div class="goal-span gc"><span class="goal-num">3</span><div><div class="goal-tag">Goal 3</div><div class="goal-text">Apply it in a practical exercise</div></div></div>
       </div>
-      <div class="slide-notes"><p>AGENDA</p><p>Five parts. Group exercise in the last part.</p><p>GOAL 1: parts 1&ndash;2. GOAL 2: parts 3&ndash;4. GOAL 3: part 5.</p></div>
     </section>
 
     <section class="slide" aria-label="Attacker vs defender">
@@ -493,7 +486,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </svg>
       </div>
       <p class="lede">Two sides, one target.</p>
-      <div class="slide-notes"><p>ATTACKER VS DEFENDER</p><p>Cybersecurity, like all protective work (national security, police work), is essentially always attacker vs defender.</p><p>The meaning of &ldquo;attacker&rdquo; and &ldquo;defender&rdquo; varies with context. The concept is always the same: one side tries to harm or destroy something, the other tries to protect it.</p></div>
     </section>
 
     <section class="slide" aria-label="Attacker vs defender 2">
@@ -520,7 +512,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </svg>
       </div>
       <p class="lede">Cyber threat intelligence moves knowledge about the attacker over to the defender.</p>
-      <div class="slide-notes"><p>CTI IS NOT A DEFENSIVE ACTIVITY PER SE</p><p>In cybersecurity we are always carrying out defensive activities.</p><p>CTI is part of cybersecurity, but it does not in itself stop an attack from happening.</p><p>Its goal: to advise the defender on how to best defend against the attacker.</p><p>WHERE THE ADVICE COMES FROM</p><p>Frameworks, methods, and structured ways of gathering, analyzing and interpreting data and information.</p><p>This makes the advice accurate, actionable and relevant to the specific threat landscape.</p></div>
     </section>
 
     <section class="slide" aria-label="What is CTI">
@@ -532,7 +523,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="view-card future"><div class="view-head"><span class="view-who">And for some</span><span class="view-title">Structured analysis of threats</span></div><div class="view-body"><div><b>Lazarus Group</b></div><div>A North Korean state-sponsored cyber threat group, active since at least 2009.</div><div class="src">Source: MITRE ATT&amp;CK</div></div></div>
       </div>
       <p class="lede">For some, it is nothing but data: lists of bad IP addresses to feed the firewall.</p>
-      <div class="slide-notes"><p>DIFFERENT DEFINITIONS, DIFFERENT PERSPECTIVES</p><p>Google &ldquo;cyber threat intelligence&rdquo;: plenty of different definitions, and an equal amount of use cases.</p><p>DATA</p><p>For some, CTI is nothing but data to create a set of rules for your firewall, such as lists of bad IP addresses or bad HTML.</p></div>
     </section>
 
     <section class="slide" aria-label="What is CTI 2">
@@ -544,7 +534,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="view-card future"><div class="view-head"><span class="view-who">And for some</span><span class="view-title">Structured analysis of threats</span></div><div class="view-body"><div><b>Lazarus Group</b></div><div>A North Korean state-sponsored cyber threat group, active since at least 2009.</div><div class="src">Source: MITRE ATT&amp;CK</div></div></div>
       </div>
       <p class="lede">For others, it is thematic reporting on threats and attacks.</p>
-      <div class="slide-notes"><p>REPORTING</p><p>Some say it is thematic reporting, like threat reports or attack reports.</p><p>Verizon Data Breach Investigations Report. CrowdStrike Global Threat Report. Even governmental reports such as ENISA Threat Landscape.</p></div>
     </section>
 
     <section class="slide" aria-label="What is CTI 3">
@@ -556,7 +545,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="view-card cur"><div class="view-head"><span class="view-who">And for some</span><span class="view-title">Structured analysis of threats</span></div><div class="view-body"><div><b>Lazarus Group</b></div><div>A North Korean state-sponsored cyber threat group, active since at least 2009.</div><div class="src">Source: MITRE ATT&amp;CK</div></div></div>
       </div>
       <p class="lede">And some say it is a structured analysis of threats.</p>
-      <div class="slide-notes"><p>ANALYSIS</p><p>And some might say that cyber threat intelligence is a structured analysis of threats.</p></div>
     </section>
 
     <section class="slide" aria-label="What is CTI 4">
@@ -568,7 +556,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="view-card all"><div class="view-head"><span class="view-who">And for some</span><span class="view-title">Structured analysis of threats</span></div><div class="view-body"><div><b>Lazarus Group</b></div><div>A North Korean state-sponsored cyber threat group, active since at least 2009.</div><div class="src">Source: MITRE ATT&amp;CK</div></div></div>
       </div>
       <p class="lede strong">Cyber threat intelligence is all of these.</p>
-      <div class="slide-notes"><p>ALL OF THESE</p><p>However, for me, cyber threat intelligence is all of these.</p><p>CTI is the combination of all those things. For example, you most definitely need to be aware of bad IP addresses to be able to block them from entering or even talking to your network.</p></div>
     </section>
 
     <section class="slide" aria-label="Breakdown">
@@ -579,7 +566,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="term future"><div class="term-word">Threat</div><p class="term-def">Any potential danger, risk or malicious activity that could cause harm or damage.</p></div>
         <div class="term future"><div class="term-word">Intelligence</div><p class="term-def">The practice of collecting, standardising and analysing data to disseminate actionable information.</p></div>
       </div>
-      <div class="slide-notes"><p>IF WE BREAK IT DOWN</p><p>CYBER</p><p>Essentially, &ldquo;cyber&rdquo; can be defined as anything involving, using, or relating to computers, especially the internet.</p></div>
     </section>
 
     <section class="slide" aria-label="Breakdown 2">
@@ -590,7 +576,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="term cur"><div class="term-word">Threat</div><p class="term-def">Any potential danger, risk or malicious activity that could cause harm or damage.</p></div>
         <div class="term future"><div class="term-word">Intelligence</div><p class="term-def">The practice of collecting, standardising and analysing data to disseminate actionable information.</p></div>
       </div>
-      <div class="slide-notes"><p>THREAT</p><p>A &ldquo;threat&rdquo; refers to any potential danger, risk, or malicious activity that has the potential to cause harm or damage.</p></div>
     </section>
 
     <section class="slide" aria-label="Breakdown 3">
@@ -601,7 +586,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="term past"><div class="term-word">Threat</div><p class="term-def">Any potential danger, risk or malicious activity that could cause harm or damage.</p></div>
         <div class="term cur"><div class="term-word">Intelligence</div><p class="term-def">The practice of collecting, standardising and analysing data to disseminate actionable information.</p></div>
       </div>
-      <div class="slide-notes"><p>INTELLIGENCE</p><p>A word that is difficult to define.</p><p>Merriam-Webster: information concerning an enemy or possible enemy or an area.</p><p>Within the context we are in now, this definition works better: the practice of collecting, standardising and analysing data to disseminate actionable information.</p></div>
     </section>
 
     <section class="slide" aria-label="Definition">
@@ -612,7 +596,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dashed"><b>The aim</b>Prevent an attack, or shorten the window between compromise and detection.</div>
         <div class="dashed"><b>Not only for specific decisions</b>It can also help to illuminate the risk landscape. <span class="cite">Chismon &amp; Ruks (2015)</span></div>
       </div>
-      <div class="slide-notes"><p>WHAT IS THREAT INTELLIGENCE?</p><p>Cyber threat intelligence, also known as threat intelligence, is any evidence-based knowledge about threats that can inform decisions (McMillan 2013).</p><p>AIM: preventing an attack or shortening the window between compromise and detection.</p><p>CTI can also be information that, instead of aiding specific decisions, helps to illuminate the risk landscape (Chismon and Ruks 2015).</p></div>
     </section>
 
     <section class="slide" aria-label="Actionable">
@@ -624,7 +607,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="compare-card hl"><span class="card-tag">Actionable information</span><p>&ldquo;A ransomware group is getting in through unpatched VPN gateways at municipalities like ours. Patch ours before the weekend.&rdquo;</p></div>
       </div>
       <p class="lede strong">The second message is about us, and it says what to do and by when.</p>
-      <div class="slide-notes"><p>ACTIONABLE INFORMATION</p><p>CTI = actionable information.</p><p>Actionable: the receiver can make a decision or take an action because of it.</p><p>The second message is about us, and it says what to do and by when.</p><p>The two examples on the slide are made up for illustration.</p></div>
     </section>
 
     <section class="slide" aria-label="Weather forecast">
@@ -634,7 +616,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="compare-card"><h3>Weather forecasting</h3><p>Allows organizations and individuals to shelter and prepare.</p></div>
         <div class="compare-card hl"><h3>Threat intelligence</h3><p>Details how adversaries compromise and disrupt systems, so that defenders can prepare before, during and after an incident.</p></div>
       </div>
-      <div class="slide-notes"><p>WEATHER FORECAST</p><p>Much like how weather forecasting allows organizations and individuals to shelter and prepare, threat intelligence details how adversaries compromise and disrupt systems so that defenders can better prepare to protect themselves before, during, and after an incident.</p><p>RISK ASSESSMENT EXAMPLE</p><p>When you did the risk assessment with Simon: how did you know what threats were out there? How did you determine the likelihood that they would be realized?</p><p>If you had CTI you would probably have more information available to make better decisions.</p></div>
     </section>
 
     <section class="slide" aria-label="Six questions">
@@ -649,7 +630,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="q-item"><div class="q-word">Why?</div><p class="q-text">Their motives and intent</p></div>
         <div class="q-item"><div class="q-word">How?</div><p class="q-text">How they operate: behaviours and patterns</p></div>
       </div>
-      <div class="slide-notes"><p>KNOWLEDGE ABOUT ADVERSARIES</p><p>Threat intelligence delivers on this goal by using a variety of data to produce knowledge on adversaries, such as:</p><p>WHO are the adversaries, their sponsors and employers.</p><p>WHAT adversaries use, including their capabilities and infrastructure.</p><p>WHERE do the adversaries target: what industries, verticals and geographic regions.</p><p>WHEN do the adversaries act: identifying timelines and patterns of life.</p><p>WHY do they attack: what are their motives and intent.</p><p>HOW do they operate: what are their behaviours and patterns.</p></div>
     </section>
 
     <section class="slide" aria-label="Funnel">
@@ -665,7 +645,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap"><b>Operational environment.</b> Where we start gathering data.</p>
       <p class="src-line">Figure after Joint Publication 2-0, Joint Intelligence.</p>
-      <div class="slide-notes"><p>NOISE, DATA, INFORMATION, INTELLIGENCE</p><p>There is a huge difference between noise, threat data, information, and intelligence. Understanding the difference is essential to getting the most out of a threat intelligence platform.</p><p>The relationship between data, information and intelligence can lead to actionable intelligence.</p><p>OPERATIONAL ENVIRONMENT</p><p>The first stage. It is where we start gathering data.</p></div>
     </section>
 
     <section class="slide" aria-label="Funnel 2">
@@ -681,7 +660,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap"><b>Data.</b> Simple facts, available in large volumes, such as IP addresses or logs. By itself, raw data is of limited use. Think of it as individual pieces of the puzzle.</p>
       <p class="src-line">Figure after Joint Publication 2-0, Joint Intelligence.</p>
-      <div class="slide-notes"><p>DATA</p><p>Simple facts that tend to be available in large volumes.</p><p>In cyber security: IP addresses or logs are typical examples.</p><p>By itself, raw data is of limited utility. Think of it as individual pieces of the puzzle.</p></div>
     </section>
 
     <section class="slide" aria-label="Funnel 3">
@@ -697,7 +675,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap"><b>Information.</b> Data that has been processed, aggregated and organised, with more context. It answers questions like &ldquo;How many times have employees accessed a specific website within a month?&rdquo;</p>
       <p class="src-line">Figure after Joint Publication 2-0, Joint Intelligence.</p>
-      <div class="slide-notes"><p>INFORMATION</p><p>Prepared data that has been processed, aggregated and organized into a more human-friendly format that provides more context and is useful for some form of analysis.</p><p>A combination of multiple data points.</p><p>Answers questions like: &ldquo;How many times have employees accessed a specific website within a month?&rdquo;</p><p>The result of analyzing various data points together.</p></div>
     </section>
 
     <section class="slide" aria-label="Funnel 4">
@@ -713,7 +690,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap"><b>Intelligence.</b> Data and information correlated and analysed in context, to see the bigger picture. The output must be relevant, actionable and valuable.</p>
       <p class="src-line">Figure after Joint Publication 2-0, Joint Intelligence.</p>
-      <div class="slide-notes"><p>INTELLIGENCE</p><p>Takes it a step further: correlating data and information to extract patterns of actions based on contextual analysis.</p><p>Understanding the bigger picture and the story that the data and information tell.</p><p>Data and information that has been refined, analysed and processed. The output must be relevant, actionable and valuable.</p><p>Those three requirements are achieved through logical and analytical processes conducted by humans, who can provide contextual data and produce useable output.</p></div>
     </section>
 
     <section class="slide" aria-label="Levels">
@@ -732,7 +708,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One threat, seen from three levels.</p>
-      <div class="slide-notes"><p>CATEGORIES OF THREAT INTELLIGENCE</p><p>TACTICAL</p><p>Audience: security operations, network defenders, incident responders.</p><p>Technical indicators and behaviors to inform network-level action and remediation.</p><p>The example sentence on the slide is made up for illustration.</p></div>
     </section>
 
     <section class="slide" aria-label="Levels 2">
@@ -751,7 +726,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One threat, seen from three levels.</p>
-      <div class="slide-notes"><p>OPERATIONAL</p><p>Audience: threat hunters, incident response, security leadership.</p><p>Intelligence on adversary behavior informing: holistic remediation, threat hunting, behavioral detection, purchasing decisions and data collection.</p><p>The example sentence on the slide is made up for illustration.</p></div>
     </section>
 
     <section class="slide" aria-label="Levels 3">
@@ -770,7 +744,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One threat, seen from three levels.</p>
-      <div class="slide-notes"><p>STRATEGIC</p><p>Audience: security leadership, organizational leadership.</p><p>Places threat into a business context and describes strategic impact, informing risk management and organizational direction.</p><p>The example sentence on the slide is made up for illustration.</p></div>
     </section>
 
     <section class="slide" aria-label="Levels 4">
@@ -789,7 +762,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         </div>
       </div>
       <p class="lede">One threat, seen from three levels.</p>
-      <div class="slide-notes"><p>ONE THREAT, THREE LEVELS</p><p>Same ransomware threat, seen by three audiences.</p><p>Tactical: what to block. Operational: how they work. Strategic: what it means for the organisation.</p></div>
     </section>
 
     <section class="slide" aria-label="Sources">
@@ -802,7 +774,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <div class="merge future"><div class="merge-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span></div><div class="merge-bar">Threat intelligence</div></div>
       <p class="src-line">Source categories after Recorded Future, The Intelligence Handbook.</p>
-      <div class="slide-notes"><p>SOURCES OF INTELLIGENCE</p><p>INTERNAL</p><p>What the organisation already collects: network traffic, logs, scans. SIEM and firewall are typical places to find it.</p></div>
     </section>
 
     <section class="slide" aria-label="Sources 2">
@@ -815,7 +786,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <div class="merge future"><div class="merge-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span></div><div class="merge-bar">Threat intelligence</div></div>
       <p class="src-line">Source categories after Recorded Future, The Intelligence Handbook.</p>
-      <div class="slide-notes"><p>TECHNICAL</p><p>Vulnerability databases and threat feeds.</p></div>
     </section>
 
     <section class="slide" aria-label="Example NVD">
@@ -824,7 +794,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <img class="shot" src="img-nvd.png" alt="Screenshot of the National Vulnerability Database: a list of the latest scored vulnerabilities, each with a CVE ID, a summary and a CVSS severity score.">
       <p class="shot-cap">Three new Chrome vulnerabilities, each with a CVE ID, a summary and a severity score.</p>
       <p class="src-line">National Vulnerability Database (NVD), nvd.nist.gov</p>
-      <div class="slide-notes"><p>EXAMPLE: NVD</p><p>National Vulnerability Database. Latest scored vulnerabilities: CVE ID, summary, CVSS severity.</p><p>On screen: three Google Chrome vulnerabilities, CVSS 8.3 to 8.8 (High).</p></div>
     </section>
 
     <section class="slide" aria-label="Example MISP">
@@ -833,7 +802,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <img class="shot" src="img-misp.png" alt="Screenshot of MISP: a correlation graph that links the indicators in one malware analysis report to 20 related events.">
       <p class="shot-cap">One malware report, linked to 20 related events through the IP addresses, domains and hashes they share.</p>
       <p class="src-line">MISP, correlation graph for one event</p>
-      <div class="slide-notes"><p>EXAMPLE: MISP</p><p>Platform for sharing threat intelligence.</p><p>Event: Kunai Analysis Report, a malware sample abusing open recursive DNS for exfiltration.</p><p>Correlation graph: the indicators in this event (IP addresses, a domain, hashes) also appear in 20 other events.</p></div>
     </section>
 
     <section class="slide" aria-label="Sources 3">
@@ -846,7 +814,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <div class="merge future"><div class="merge-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span></div><div class="merge-bar">Threat intelligence</div></div>
       <p class="src-line">Source categories after Recorded Future, The Intelligence Handbook.</p>
-      <div class="slide-notes"><p>HUMAN</p><p>Dark web, social media, forums.</p></div>
     </section>
 
     <section class="slide" aria-label="Example forum">
@@ -859,7 +826,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
           <p class="src-line" style="margin-top:14px">BreachForums post, 10 August 2024. Usernames redacted.</p>
         </div>
       </div>
-      <div class="slide-notes"><p>EXAMPLE: FORUM POST</p><p>BreachForums, 10 August 2024.</p><p>Data on 78,540 users of the forum LeakBase was scraped: user ID, username, messages, reaction score.</p><p>Usernames are redacted in the screenshot.</p></div>
     </section>
 
     <section class="slide" aria-label="Sources 4">
@@ -872,7 +838,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <div class="merge cur"><div class="merge-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span></div><div class="merge-bar">Threat intelligence</div></div>
       <p class="src-line">Source categories after Recorded Future, The Intelligence Handbook.</p>
-      <div class="slide-notes"><p>ALL THREE FEED THE SAME ANALYSIS</p><p>Collection draws on internal, technical and human sources.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC">
@@ -884,7 +849,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="ioc-box"><div class="view-head"><span class="view-title">Our firewall log</span></div><div class="view-body"><p class="ioc-log"><span>09:14:02  ALLOW  10.0.4.17 &rarr; 198.51.100.23:443</span><span>09:14:03  ALLOW  10.0.4.52 &rarr; 192.0.2.80:443</span><span>09:14:05  ALLOW  10.0.4.31 &rarr; 203.0.113.66:443</span><span>09:14:06  DENY   10.0.4.17 &rarr; 198.51.100.7:25</span><span>09:14:09  ALLOW  10.0.4.88 &rarr; 192.0.2.14:443</span></p></div></div>
       </div>
       <p class="step-cap" style="visibility:hidden">The address from the feed is in our own log. One of our computers has contacted a server that an attacker controls.</p>
-      <div class="slide-notes"><p>INDICATORS OF COMPROMISE (IoC)</p><p>An indicator of compromise is a piece of evidence that a system may have been breached.</p><p>Same address as on the opening slide: 203.0.113.66.</p><p>On its own, the address in a feed is only data. It becomes useful when we compare it with what we see ourselves.</p><p>(Feed entry and log lines are made up.)</p></div>
     </section>
 
     <section class="slide" aria-label="IoC 2">
@@ -896,7 +860,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="ioc-box"><div class="view-head"><span class="view-title">Our firewall log</span></div><div class="view-body"><p class="ioc-log"><span>09:14:02  ALLOW  10.0.4.17 &rarr; 198.51.100.23:443</span><span>09:14:03  ALLOW  10.0.4.52 &rarr; 192.0.2.80:443</span><span class="hit">09:14:05  ALLOW  10.0.4.31 &rarr; 203.0.113.66:443</span><span>09:14:06  DENY   10.0.4.17 &rarr; 198.51.100.7:25</span><span>09:14:09  ALLOW  10.0.4.88 &rarr; 192.0.2.14:443</span></p></div></div>
       </div>
       <p class="step-cap">The address from the feed is in our own log. One of our computers has contacted a server that an attacker controls.</p>
-      <div class="slide-notes"><p>A MATCH</p><p>10.0.4.31 is one of our own computers. It has connected to the address from the feed.</p><p>The indicator does not say what happened. It says where to start looking.</p><p>Next step: investigate that computer, block the address.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC types">
@@ -911,7 +874,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="ioc-item"><div class="ioc-name">Malware signatures</div><div class="ioc-ex">{ 6A 40 68 00 30 00 00 }</div><p class="ioc-what">A pattern in the code that many versions of the same malware share</p></div>
         <div class="ioc-item"><div class="ioc-name">Network traffic patterns</div><div class="ioc-ex">&rarr; 203.0.113.66 every 60 s</div><p class="ioc-what">A computer that calls the same server at fixed intervals</p></div>
       </div>
-      <div class="slide-notes"><p>COMMON TYPES</p><p>IP addresses, domain names, hashes, usernames and passwords, malware signatures, network traffic patterns.</p><p>Hash: identifies one exact file. Change one byte and the hash is different.</p><p>Signature: a pattern that matches many versions of the same malware.</p><p>Traffic pattern: regular calls to the same server can be malware asking for instructions.</p><p>(All examples are made up.)</p></div>
     </section>
 
     <section class="slide" aria-label="IoC in use">
@@ -922,7 +884,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="lv-detail"><div><span class="card-tag">Where</span><div class="lv-for"><span class="lv-chip">Firewall</span><span class="lv-chip">Web proxy</span><span class="lv-chip">Email filter</span></div></div><p class="lv-desc">Add the indicator to a blocklist. From now on, no computer on our network can reach the address.</p><div class="lv-say"><span class="card-tag">Looks like</span><span class="lv-mono">deny  any &rarr; 203.0.113.66</span></div></div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One indicator, used in four places.</p>
-      <div class="slide-notes"><p>BLOCK</p><p>Put the indicator in a blocklist: firewall, web proxy, email filter.</p><p>Stops new connections. Says nothing about what already happened.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC in use 2">
@@ -933,7 +894,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="lv-detail"><div><span class="card-tag">Where</span><div class="lv-for"><span class="lv-chip">SIEM</span><span class="lv-chip">Intrusion detection</span><span class="lv-chip">Antivirus</span></div></div><p class="lv-desc">Load the indicator into the tools that watch our systems. They raise an alert when it shows up.</p><div class="lv-say"><span class="card-tag">Looks like</span><span class="lv-mono">ALERT  09:14:05  10.0.4.31 contacted 203.0.113.66</span></div></div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One indicator, used in four places.</p>
-      <div class="slide-notes"><p>DETECT</p><p>The same indicator as a detection rule in SIEM, intrusion detection or antivirus.</p><p>An alert tells us which computer, and when.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC in use 3">
@@ -944,7 +904,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="lv-detail"><div><span class="card-tag">Where</span><div class="lv-for"><span class="lv-chip">Incident response</span><span class="lv-chip">Threat hunting</span></div></div><p class="lv-desc">Search old logs for the indicator. A hit shows which computers to examine and when it started.</p><div class="lv-say"><span class="card-tag">Looks like</span><span class="lv-mono">search 90 days: 203.0.113.66 &rarr; 3 computers, first seen 12 March</span></div></div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One indicator, used in four places.</p>
-      <div class="slide-notes"><p>INVESTIGATE</p><p>Search backwards in stored logs.</p><p>Requires that the logs have been kept. No logs, no answer.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC in use 4">
@@ -955,7 +914,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="lv-detail"><div><span class="card-tag">Where</span><div class="lv-for"><span class="lv-chip">MISP</span><span class="lv-chip">Sector networks</span><span class="lv-chip">National CERT</span></div></div><p class="lv-desc">Send the indicator to others who face the same threat. That is how it reached our feed in the first place.</p><div class="lv-say"><span class="card-tag">Looks like</span><span class="lv-mono">new event: 203.0.113.66, command-and-control, seen 12 March</span></div></div>
       </div>
       <p class="lede" style="visibility:hidden" aria-hidden="true">One indicator, used in four places.</p>
-      <div class="slide-notes"><p>SHARE</p><p>Indicators are shared through platforms such as MISP, sector networks and national CERTs.</p><p>Our feed is someone else sharing what they found.</p></div>
     </section>
 
     <section class="slide" aria-label="IoC in use 5">
@@ -966,7 +924,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="lv-quotes"><div class="lv-say"><span class="lv-mono">deny  any &rarr; 203.0.113.66</span></div><div class="lv-say"><span class="lv-mono">ALERT  09:14:05  10.0.4.31 contacted 203.0.113.66</span></div><div class="lv-say"><span class="lv-mono">search 90 days: 203.0.113.66 &rarr; 3 computers, first seen 12 March</span></div><div class="lv-say"><span class="lv-mono">new event: 203.0.113.66, command-and-control, seen 12 March</span></div></div>
       </div>
       <p class="lede">One indicator, used in four places.</p>
-      <div class="slide-notes"><p>ONE INDICATOR, FOUR USES</p><p>Block, detect, investigate, share.</p><p>(All examples on these slides are made up.)</p></div>
     </section>
 
     <section class="slide" aria-label="Example">
@@ -974,7 +931,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1 class="wide">An example</h1>
       <svg class="ex-svg" viewBox="0 0 1140 420" role="img" aria-label="Diagram of the example, built up step by step"><defs><marker id="exA1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a2620"/></marker><marker id="exH1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a33325"/></marker></defs><g class="ex-cur"><rect class="ex-zone" x="590" y="104" width="540" height="306"/><text class="ex-lbl" x="612" y="138">DDoS attack</text><rect class="ex-box" x="612" y="156" width="230" height="44"/><text class="ex-mono" x="727" y="184" text-anchor="middle">198.51.100.41</text><line class="ex-line" x1="842" y1="178" x2="978" y2="268" marker-end="url(#exA1)"/><rect class="ex-box" x="612" y="216" width="230" height="44"/><text class="ex-mono" x="727" y="244" text-anchor="middle">203.0.113.207</text><line class="ex-line" x1="842" y1="238" x2="978" y2="268" marker-end="url(#exA1)"/><rect class="ex-box" x="612" y="276" width="230" height="44"/><text class="ex-mono" x="727" y="304" text-anchor="middle">192.0.2.133</text><line class="ex-line" x1="842" y1="298" x2="978" y2="268" marker-end="url(#exA1)"/><rect class="ex-box" x="612" y="336" width="230" height="44"/><text class="ex-mono" x="727" y="364" text-anchor="middle">198.51.100.212</text><line class="ex-line" x1="842" y1="358" x2="978" y2="268" marker-end="url(#exA1)"/><rect class="ex-box" x="980" y="228" width="130" height="80"/><text class="ex-lbl" x="1045" y="264" text-anchor="middle">Target</text><text class="ex-sm" x="1045" y="288" text-anchor="middle">another company</text></g><g class="ex-future"><rect class="ex-ours" x="40" y="258" width="290" height="80"/><text class="ex-lbl" x="185" y="306" text-anchor="middle">Your organisation</text><line class="ex-hot" x1="610" y1="298" x2="334" y2="298" marker-end="url(#exH1)"/><text class="ex-sm" x="472" y="286" text-anchor="middle">comes from our network</text></g><g class="ex-future"><rect class="ex-bad" x="620" y="10" width="230" height="56"/><text class="ex-mono" x="735" y="45" text-anchor="middle">strong_net.exe</text><line class="ex-hot" x1="735" y1="66" x2="735" y2="101" marker-end="url(#exH1)"/><text class="ex-sm" x="752" y="90">malware on the compromised devices</text></g><g class="ex-future"><rect class="ex-box" x="40" y="10" width="270" height="56" rx="28"/><text class="ex-lbl" x="175" y="46" text-anchor="middle">The Hungry Flamingos</text><line class="ex-line" x1="310" y1="38" x2="368" y2="38" marker-end="url(#exA1)"/><rect class="ex-box" x="370" y="10" width="190" height="56" rx="28"/><text class="ex-lbl" x="465" y="46" text-anchor="middle">Phishing email</text><line class="ex-line" x1="560" y1="38" x2="618" y2="38" marker-end="url(#exA1)"/><text class="ex-sm" x="175" y="90" text-anchor="middle">criminal group</text></g></svg>
       <div class="ex-cap"><p>A threat feed we subscribe to lists IP addresses that took part in a DDoS attack on another company.</p><p class="ex-q">Is this intelligence?</p></div>
-      <div class="slide-notes"><p>Lets take a small breather and look at an example.</p><p>Your information security department subscribe to numerous of threat feeds, and one of your threat feeds shows a number of IP address that took part in an DDoS Attack on another company.</p><p>Now, would you say this is intelligence?</p><p>(IP addresses on the slide are made up.)</p></div>
     </section>
 
     <section class="slide" aria-label="Example 2">
@@ -982,7 +938,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1 class="wide">An example</h1>
       <svg class="ex-svg" viewBox="0 0 1140 420" role="img" aria-label="Diagram of the example, built up step by step"><defs><marker id="exA2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a2620"/></marker><marker id="exH2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a33325"/></marker></defs><g class=""><rect class="ex-zone" x="590" y="104" width="540" height="306"/><text class="ex-lbl" x="612" y="138">DDoS attack</text><rect class="ex-box" x="612" y="156" width="230" height="44"/><text class="ex-mono" x="727" y="184" text-anchor="middle">198.51.100.41</text><line class="ex-line" x1="842" y1="178" x2="978" y2="268" marker-end="url(#exA2)"/><rect class="ex-box" x="612" y="216" width="230" height="44"/><text class="ex-mono" x="727" y="244" text-anchor="middle">203.0.113.207</text><line class="ex-line" x1="842" y1="238" x2="978" y2="268" marker-end="url(#exA2)"/><rect class="ex-ours" x="612" y="276" width="230" height="44"/><text class="ex-mono" x="727" y="304" text-anchor="middle">192.0.2.133</text><line class="ex-line" x1="842" y1="298" x2="978" y2="268" marker-end="url(#exA2)"/><rect class="ex-box" x="612" y="336" width="230" height="44"/><text class="ex-mono" x="727" y="364" text-anchor="middle">198.51.100.212</text><line class="ex-line" x1="842" y1="358" x2="978" y2="268" marker-end="url(#exA2)"/><rect class="ex-box" x="980" y="228" width="130" height="80"/><text class="ex-lbl" x="1045" y="264" text-anchor="middle">Target</text><text class="ex-sm" x="1045" y="288" text-anchor="middle">another company</text></g><g class="ex-cur"><rect class="ex-ours" x="40" y="258" width="290" height="80"/><text class="ex-lbl" x="185" y="306" text-anchor="middle">Your organisation</text><line class="ex-hot" x1="610" y1="298" x2="334" y2="298" marker-end="url(#exH2)"/><text class="ex-sm" x="472" y="286" text-anchor="middle">comes from our network</text></g><g class="ex-future"><rect class="ex-bad" x="620" y="10" width="230" height="56"/><text class="ex-mono" x="735" y="45" text-anchor="middle">strong_net.exe</text><line class="ex-hot" x1="735" y1="66" x2="735" y2="101" marker-end="url(#exH2)"/><text class="ex-sm" x="752" y="90">malware on the compromised devices</text></g><g class="ex-future"><rect class="ex-box" x="40" y="10" width="270" height="56" rx="28"/><text class="ex-lbl" x="175" y="46" text-anchor="middle">The Hungry Flamingos</text><line class="ex-line" x1="310" y1="38" x2="368" y2="38" marker-end="url(#exA2)"/><rect class="ex-box" x="370" y="10" width="190" height="56" rx="28"/><text class="ex-lbl" x="465" y="46" text-anchor="middle">Phishing email</text><line class="ex-line" x1="560" y1="38" x2="618" y2="38" marker-end="url(#exA2)"/><text class="ex-sm" x="175" y="90" text-anchor="middle">criminal group</text></g></svg>
       <div class="ex-cap"><p>We analyse the list. One of the addresses comes from our own network.</p><p class="ex-q">Is it now intelligence?</p></div>
-      <div class="slide-notes"><p>You gather that data and analyze it to realize that, hey one of the IP&rsquo;s used in the attack comes from your organizations network.</p><p>Is it now intelligence?</p></div>
     </section>
 
     <section class="slide" aria-label="Example 3">
@@ -990,7 +945,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1 class="wide">An example</h1>
       <svg class="ex-svg" viewBox="0 0 1140 420" role="img" aria-label="Diagram of the example, built up step by step"><defs><marker id="exA3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a2620"/></marker><marker id="exH3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a33325"/></marker></defs><g class=""><rect class="ex-zone" x="590" y="104" width="540" height="306"/><text class="ex-lbl" x="612" y="138">DDoS attack</text><rect class="ex-box" x="612" y="156" width="230" height="44"/><text class="ex-mono" x="727" y="184" text-anchor="middle">198.51.100.41</text><line class="ex-line" x1="842" y1="178" x2="978" y2="268" marker-end="url(#exA3)"/><rect class="ex-box" x="612" y="216" width="230" height="44"/><text class="ex-mono" x="727" y="244" text-anchor="middle">203.0.113.207</text><line class="ex-line" x1="842" y1="238" x2="978" y2="268" marker-end="url(#exA3)"/><rect class="ex-ours" x="612" y="276" width="230" height="44"/><text class="ex-mono" x="727" y="304" text-anchor="middle">192.0.2.133</text><line class="ex-line" x1="842" y1="298" x2="978" y2="268" marker-end="url(#exA3)"/><rect class="ex-box" x="612" y="336" width="230" height="44"/><text class="ex-mono" x="727" y="364" text-anchor="middle">198.51.100.212</text><line class="ex-line" x1="842" y1="358" x2="978" y2="268" marker-end="url(#exA3)"/><rect class="ex-box" x="980" y="228" width="130" height="80"/><text class="ex-lbl" x="1045" y="264" text-anchor="middle">Target</text><text class="ex-sm" x="1045" y="288" text-anchor="middle">another company</text></g><g class=""><rect class="ex-ours" x="40" y="258" width="290" height="80"/><text class="ex-lbl" x="185" y="306" text-anchor="middle">Your organisation</text><line class="ex-hot" x1="610" y1="298" x2="334" y2="298" marker-end="url(#exH3)"/><text class="ex-sm" x="472" y="286" text-anchor="middle">comes from our network</text></g><g class="ex-cur"><rect class="ex-bad" x="620" y="10" width="230" height="56"/><text class="ex-mono" x="735" y="45" text-anchor="middle">strong_net.exe</text><line class="ex-hot" x1="735" y1="66" x2="735" y2="101" marker-end="url(#exH3)"/><text class="ex-sm" x="752" y="90">malware on the compromised devices</text></g><g class="ex-future"><rect class="ex-box" x="40" y="10" width="270" height="56" rx="28"/><text class="ex-lbl" x="175" y="46" text-anchor="middle">The Hungry Flamingos</text><line class="ex-line" x1="310" y1="38" x2="368" y2="38" marker-end="url(#exA3)"/><rect class="ex-box" x="370" y="10" width="190" height="56" rx="28"/><text class="ex-lbl" x="465" y="46" text-anchor="middle">Phishing email</text><line class="ex-line" x1="560" y1="38" x2="618" y2="38" marker-end="url(#exA3)"/><text class="ex-sm" x="175" y="90" text-anchor="middle">criminal group</text></g></svg>
       <div class="ex-cap"><p>The attack ran on a network of compromised devices. The attackers got in through malware called strong_net.exe.</p><p class="ex-q">Is this intelligence?</p></div>
-      <div class="slide-notes"><p>And you dig deeper and realize that the DDoS attack utilize a network of compromised devices to perform the attack, and that the attackers gained access through a malware called strong_net.exe</p><p>Is this intelligence?</p></div>
     </section>
 
     <section class="slide" aria-label="Example 4">
@@ -998,7 +952,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1 class="wide">An example</h1>
       <svg class="ex-svg" viewBox="0 0 1140 420" role="img" aria-label="Diagram of the example, built up step by step"><defs><marker id="exA4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a2620"/></marker><marker id="exH4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a33325"/></marker></defs><g class=""><rect class="ex-zone" x="590" y="104" width="540" height="306"/><text class="ex-lbl" x="612" y="138">DDoS attack</text><rect class="ex-box" x="612" y="156" width="230" height="44"/><text class="ex-mono" x="727" y="184" text-anchor="middle">198.51.100.41</text><line class="ex-line" x1="842" y1="178" x2="978" y2="268" marker-end="url(#exA4)"/><rect class="ex-box" x="612" y="216" width="230" height="44"/><text class="ex-mono" x="727" y="244" text-anchor="middle">203.0.113.207</text><line class="ex-line" x1="842" y1="238" x2="978" y2="268" marker-end="url(#exA4)"/><rect class="ex-ours" x="612" y="276" width="230" height="44"/><text class="ex-mono" x="727" y="304" text-anchor="middle">192.0.2.133</text><line class="ex-line" x1="842" y1="298" x2="978" y2="268" marker-end="url(#exA4)"/><rect class="ex-box" x="612" y="336" width="230" height="44"/><text class="ex-mono" x="727" y="364" text-anchor="middle">198.51.100.212</text><line class="ex-line" x1="842" y1="358" x2="978" y2="268" marker-end="url(#exA4)"/><rect class="ex-box" x="980" y="228" width="130" height="80"/><text class="ex-lbl" x="1045" y="264" text-anchor="middle">Target</text><text class="ex-sm" x="1045" y="288" text-anchor="middle">another company</text></g><g class=""><rect class="ex-ours" x="40" y="258" width="290" height="80"/><text class="ex-lbl" x="185" y="306" text-anchor="middle">Your organisation</text><line class="ex-hot" x1="610" y1="298" x2="334" y2="298" marker-end="url(#exH4)"/><text class="ex-sm" x="472" y="286" text-anchor="middle">comes from our network</text></g><g class=""><rect class="ex-bad" x="620" y="10" width="230" height="56"/><text class="ex-mono" x="735" y="45" text-anchor="middle">strong_net.exe</text><line class="ex-hot" x1="735" y1="66" x2="735" y2="101" marker-end="url(#exH4)"/><text class="ex-sm" x="752" y="90">malware on the compromised devices</text></g><g class="ex-cur"><rect class="ex-box" x="40" y="10" width="270" height="56" rx="28"/><text class="ex-lbl" x="175" y="46" text-anchor="middle">The Hungry Flamingos</text><line class="ex-line" x1="310" y1="38" x2="368" y2="38" marker-end="url(#exA4)"/><rect class="ex-box" x="370" y="10" width="190" height="56" rx="28"/><text class="ex-lbl" x="465" y="46" text-anchor="middle">Phishing email</text><line class="ex-line" x1="560" y1="38" x2="618" y2="38" marker-end="url(#exA4)"/><text class="ex-sm" x="175" y="90" text-anchor="middle">criminal group</text></g></svg>
       <div class="ex-cap"><p>The group behind strong_net.exe calls itself The Hungry Flamingos. They deliver the malware through phishing emails and do not care who the victim is.</p></div>
-      <div class="slide-notes"><p>You go even further and see that the criminal group associated with strong_net.exe calls themselves &rdquo;The Hungry Flamingos&rdquo; and is typically known for delivering their malware through phishing emails. You learn that this group is don&rsquo;t care who they target, as long as their victim downloads the malware in the phishing email.</p></div>
     </section>
 
     <section class="slide" aria-label="Example 5">
@@ -1006,7 +959,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1 class="wide">An example</h1>
       <svg class="ex-svg" viewBox="0 0 1140 420" role="img" aria-label="Diagram of the example, built up step by step"><defs><marker id="exA5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a2620"/></marker><marker id="exH5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a33325"/></marker></defs><g class=""><rect class="ex-zone" x="590" y="104" width="540" height="306"/><text class="ex-lbl" x="612" y="138">DDoS attack</text><rect class="ex-box" x="612" y="156" width="230" height="44"/><text class="ex-mono" x="727" y="184" text-anchor="middle">198.51.100.41</text><line class="ex-line" x1="842" y1="178" x2="978" y2="268" marker-end="url(#exA5)"/><rect class="ex-box" x="612" y="216" width="230" height="44"/><text class="ex-mono" x="727" y="244" text-anchor="middle">203.0.113.207</text><line class="ex-line" x1="842" y1="238" x2="978" y2="268" marker-end="url(#exA5)"/><rect class="ex-ours" x="612" y="276" width="230" height="44"/><text class="ex-mono" x="727" y="304" text-anchor="middle">192.0.2.133</text><line class="ex-line" x1="842" y1="298" x2="978" y2="268" marker-end="url(#exA5)"/><rect class="ex-box" x="612" y="336" width="230" height="44"/><text class="ex-mono" x="727" y="364" text-anchor="middle">198.51.100.212</text><line class="ex-line" x1="842" y1="358" x2="978" y2="268" marker-end="url(#exA5)"/><rect class="ex-box" x="980" y="228" width="130" height="80"/><text class="ex-lbl" x="1045" y="264" text-anchor="middle">Target</text><text class="ex-sm" x="1045" y="288" text-anchor="middle">another company</text></g><g class=""><rect class="ex-ours" x="40" y="258" width="290" height="80"/><text class="ex-lbl" x="185" y="306" text-anchor="middle">Your organisation</text><line class="ex-hot" x1="610" y1="298" x2="334" y2="298" marker-end="url(#exH5)"/><text class="ex-sm" x="472" y="286" text-anchor="middle">comes from our network</text></g><g class=""><rect class="ex-bad" x="620" y="10" width="230" height="56"/><text class="ex-mono" x="735" y="45" text-anchor="middle">strong_net.exe</text><line class="ex-hot" x1="735" y1="66" x2="735" y2="101" marker-end="url(#exH5)"/><text class="ex-sm" x="752" y="90">malware on the compromised devices</text></g><g class=""><rect class="ex-box" x="40" y="10" width="270" height="56" rx="28"/><text class="ex-lbl" x="175" y="46" text-anchor="middle">The Hungry Flamingos</text><line class="ex-line" x1="310" y1="38" x2="368" y2="38" marker-end="url(#exA5)"/><rect class="ex-box" x="370" y="10" width="190" height="56" rx="28"/><text class="ex-lbl" x="465" y="46" text-anchor="middle">Phishing email</text><line class="ex-line" x1="560" y1="38" x2="618" y2="38" marker-end="url(#exA5)"/><text class="ex-sm" x="175" y="90" text-anchor="middle">criminal group</text></g></svg>
       <div class="ex-qs"><div>What can we make of this?</div><div>What does it mean?</div><div>What can you do about it?</div></div>
-      <div class="slide-notes"><p>What can we make of this?</p><p>What does it mean?</p><p>What can you do about it?</p></div>
     </section>
 
     <section class="slide" aria-label="Bridge">
@@ -1019,7 +971,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="loose-note" data-fly="top">The Hungry Flamingos, who spread it by phishing email</div>
       </div>
       <p class="step-cap" style="min-height:0">A model sorts what we know about an attack and shows what is still missing.</p>
-      <div class="slide-notes"><p>WHAT WE HAVE AFTER THE EXAMPLE</p><p>Four findings, in the order we happened to find them.</p><p>Models for understanding attacks: ways to sort what we know and see what is missing.</p><p>Three models, same case in all of them: the Diamond Model, the Cyber Kill Chain, MITRE ATT&amp;CK.</p></div>
     </section>
 
     <section class="slide" aria-label="Diamond">
@@ -1033,7 +984,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dm-card dm-bot "><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><span class="dm-val mt">The company under DDoS attack, and us</span></div>
       </div>
       <p class="step-cap" style="min-height:0; visibility:hidden;">Start from the corner you know and ask about the other three. We started with four IP addresses and ended with a named group.</p>
-      <div class="slide-notes"><p>THE DIAMOND MODEL</p><p>Every intrusion has four features: adversary, capability, infrastructure, victim.</p><p>An adversary uses a capability over an infrastructure against a victim.</p><p>Source: Caltagirone, Pendergast and Betz (2013), The Diamond Model of Intrusion Analysis.</p></div>
     </section>
 
     <section class="slide" aria-label="Diamond 2">
@@ -1047,7 +997,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dm-card dm-bot "><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><span class="dm-val mt">The company under DDoS attack, and us</span></div>
       </div>
       <p class="step-cap" style="min-height:0; visibility:hidden;">Start from the corner you know and ask about the other three. We started with four IP addresses and ended with a named group.</p>
-      <div class="slide-notes"><p>INFRASTRUCTURE</p><p>What the attack runs through. Here: the compromised devices that sent the traffic.</p><p>The first thing we saw in the example: the IP addresses in the feed.</p></div>
     </section>
 
     <section class="slide" aria-label="Diamond 3">
@@ -1061,7 +1010,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dm-card dm-bot cur"><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><span class="dm-val">The company under DDoS attack, and us</span></div>
       </div>
       <p class="step-cap" style="min-height:0; visibility:hidden;">Start from the corner you know and ask about the other three. We started with four IP addresses and ended with a named group.</p>
-      <div class="slide-notes"><p>VICTIM</p><p>The company that was attacked.</p><p>We are a victim too: our computer was infected and used in the attack.</p></div>
     </section>
 
     <section class="slide" aria-label="Diamond 4">
@@ -1075,7 +1023,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dm-card dm-bot done"><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><span class="dm-val">The company under DDoS attack, and us</span></div>
       </div>
       <p class="step-cap" style="min-height:0; visibility:hidden;">Start from the corner you know and ask about the other three. We started with four IP addresses and ended with a named group.</p>
-      <div class="slide-notes"><p>CAPABILITY</p><p>The tools and techniques. Here: the malware strong_net.exe, delivered by phishing email.</p></div>
     </section>
 
     <section class="slide" aria-label="Diamond 5">
@@ -1089,7 +1036,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="dm-card dm-bot done"><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><span class="dm-val">The company under DDoS attack, and us</span></div>
       </div>
       <p class="step-cap" style="min-height:0;">Start from the corner you know and ask about the other three. We started with four IP addresses and ended with a named group.</p>
-      <div class="slide-notes"><p>ADVERSARY</p><p>The Hungry Flamingos.</p><p>The corners are linked. Knowing one lets us ask about the others: we went from IP addresses to malware to a named group.</p></div>
     </section>
 
     <section class="slide" aria-label="Kill chain">
@@ -1104,7 +1050,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap" style="min-height:2.9em">An attack happens in steps, in a fixed order. The model names seven of them.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain.</p>
-      <div class="slide-notes"><p>CYBER KILL CHAIN (Lockheed Martin)</p><p>Break down adversaries actions into steps.</p><p>Helps identify which stage-specific activity occurred when investigating an attack.</p><p>Gain deeper understanding of attackers Tactics Techniques and Procedures.</p><p>Seven steps: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives.</p></div>
     </section>
 
     <section class="slide" aria-label="Kill chain 2">
@@ -1119,7 +1064,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap" style="min-height:2.9em">Our case, placed on the chain. One step is still empty.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain.</p>
-      <div class="slide-notes"><p>THE HUNGRY FLAMINGOS ON THE CHAIN</p><p>Weaponization: the malware is packed into a phishing email.</p><p>Delivery: the email arrives. Exploitation: a user downloads the malware. Installation: strong_net.exe on the computer.</p><p>Command and control: the computer joins the network of compromised devices.</p><p>Actions on objectives: the DDoS attack.</p><p>Reconnaissance: not known. The group does not care who they target.</p></div>
     </section>
 
     <section class="slide" aria-label="Kill chain 3">
@@ -1134,7 +1078,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       </div>
       <p class="step-cap" style="min-height:2.9em">The attacker needs every step to succeed. The defender only has to break one, and the earlier it breaks, the less damage is done.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain.</p>
-      <div class="slide-notes"><p>WHERE CAN WE BREAK IT?</p><p>Delivery: email filter. Exploitation: awareness training. Installation: antivirus. Command and control: block the address in the firewall.</p><p>Same uses of indicators as before: block and detect.</p><p>Break one step and the rest does not happen.</p></div>
     </section>
 
     <section class="slide" aria-label="ATT&amp;CK">
@@ -1143,7 +1086,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <div class="at-grid"><div class="at-tac" style="--i:0"><span class="at-n">1</span><span>Reconnaissance</span></div><div class="at-tac" style="--i:1"><span class="at-n">2</span><span>Resource Development</span></div><div class="at-tac" style="--i:2"><span class="at-n">3</span><span>Initial Access</span></div><div class="at-tac" style="--i:3"><span class="at-n">4</span><span>Execution</span></div><div class="at-tac" style="--i:4"><span class="at-n">5</span><span>Persistence</span></div><div class="at-tac" style="--i:5"><span class="at-n">6</span><span>Privilege Escalation</span></div><div class="at-tac" style="--i:6"><span class="at-n">7</span><span>Stealth</span></div><div class="at-tac" style="--i:7"><span class="at-n">8</span><span>Defense Impairment</span></div><div class="at-tac" style="--i:8"><span class="at-n">9</span><span>Credential Access</span></div><div class="at-tac" style="--i:9"><span class="at-n">10</span><span>Discovery</span></div><div class="at-tac" style="--i:10"><span class="at-n">11</span><span>Lateral Movement</span></div><div class="at-tac" style="--i:11"><span class="at-n">12</span><span>Collection</span></div><div class="at-tac" style="--i:12"><span class="at-n">13</span><span>Command and Control</span></div><div class="at-tac" style="--i:13"><span class="at-n">14</span><span>Exfiltration</span></div><div class="at-tac" style="--i:14"><span class="at-n">15</span><span>Impact</span></div></div>
       <p class="step-cap" style="min-height:2.9em">A public knowledge base of how attackers work, built from real attacks. Each tactic is something the attacker is trying to achieve.</p>
       <p class="src-line">Source: MITRE ATT&amp;CK, Enterprise matrix, v19 (attack.mitre.org).</p>
-      <div class="slide-notes"><p>MITRE ATT&amp;CK</p><p>Adversarial Tactics, Techniques and Common Knowledge.</p><p>Free, public knowledge base maintained by MITRE. Built on attacks observed in the real world.</p><p>TACTIC = why. What the attacker is trying to achieve at that point.</p><p>TECHNIQUE = how. The way they achieve it.</p><p>Enterprise matrix, v19: 15 tactics. Older material shows 14, with Defense Evasion where Stealth and Defense Impairment are now.</p><p>Kill chain: seven steps in a fixed order. ATT&amp;CK: more detail, and no fixed order.</p></div>
     </section>
 
     <section class="slide" aria-label="ATT&amp;CK 2">
@@ -1152,7 +1094,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <div class="at"><div class="at-tech"><span class="at-tag">Tactic 3 &middot; Initial Access</span><span class="at-id">T1566</span><span class="at-name">Phishing</span><p class="at-desc">&ldquo;Adversaries may send phishing messages to gain access to victim systems.&rdquo;</p><div class="at-case"><b>In our case:</b> The Hungry Flamingos send strong_net.exe by email.</div></div><div class="at-ask">What do we do about this behaviour?</div></div>
       <p class="step-cap" style="min-height:2.9em">Under each tactic are techniques: the ways attackers achieve it. We look up the one we saw in our case.</p>
       <p class="src-line">Source: MITRE ATT&amp;CK, Enterprise matrix, v19 (attack.mitre.org).</p>
-      <div class="slide-notes"><p>PHISHING, T1566</p><p>Tactic: Initial Access. &ldquo;The adversary is trying to get into your network.&rdquo;</p><p>Every technique has an ID, a description, known groups that use it, mitigations and detections.</p><p>Sub-techniques of phishing: attachment, link, via a service, voice.</p><p>OUR CASE</p><p>Phishing email carrying strong_net.exe.</p><p>Other parts of the case can be looked up the same way: User Execution (T1204), Network Denial of Service (T1498).</p></div>
     </section>
 
     <section class="slide" aria-label="ATT&amp;CK 3">
@@ -1161,7 +1102,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <div class="at"><div class="at-tech"><span class="at-tag">Tactic 3 &middot; Initial Access</span><span class="at-id">T1566</span><span class="at-name">Phishing</span><p class="at-desc">&ldquo;Adversaries may send phishing messages to gain access to victim systems.&rdquo;</p><div class="at-case"><b>In our case:</b> The Hungry Flamingos send strong_net.exe by email.</div></div><div class="at-mit"><span class="at-tag">Mitigations listed for T1566</span><div class="at-mlist"><div class="at-m"><span class="at-id">M1017</span><b>User Training</b><span class="at-what">Teach users to spot phishing emails</span></div><div class="at-m"><span class="at-id">M1049</span><b>Antivirus/Antimalware</b><span class="at-what">Quarantine suspicious files automatically</span></div><div class="at-m"><span class="at-id">M1054</span><b>Software Configuration</b><span class="at-what">Check the sender with SPF and DKIM</span></div><div class="at-m"><span class="at-id">M1021</span><b>Restrict Web-Based Content</b><span class="at-what">Block attachment types we do not need</span></div><div class="at-m"><span class="at-id">M1031</span><b>Network Intrusion Prevention</b><span class="at-what">Remove malicious attachments and links</span></div><div class="at-m"><span class="at-id">M1047</span><b>Audit</b><span class="at-what">Scan our systems for weak settings</span></div></div></div></div>
       <p class="step-cap" style="min-height:2.9em">An IP address is easy for the attacker to replace. Their way of working is not, and ATT&amp;CK lists what to do about it.</p>
       <p class="src-line">Source: MITRE ATT&amp;CK, Enterprise matrix, v19 (attack.mitre.org).</p>
-      <div class="slide-notes"><p>WHAT DO WE DO ABOUT IT?</p><p>Six mitigations listed for T1566.</p><p>User Training (M1017): users can be trained to identify social engineering techniques and phishing emails.</p><p>Antivirus/Antimalware (M1049): anti-virus can automatically quarantine suspicious files.</p><p>Software Configuration (M1054): anti-spoofing and email authentication, SPF and DKIM.</p><p>Restrict Web-Based Content (M1021): block websites or attachment types that are not needed.</p><p>Network Intrusion Prevention (M1031): systems that scan and remove malicious attachments or links.</p><p>Audit (M1047): audits or scans of systems, permissions, software and configurations.</p><p>COMPARE WITH THE KILL CHAIN</p><p>Email filter, awareness training, antivirus: the same answers, now from a shared catalogue.</p><p>INDICATOR VS BEHAVIOUR</p><p>Block 203.0.113.66 and the group moves to a new address. Phishing is still how they get in.</p></div>
     </section>
 
     <section class="slide" aria-label="Exercise">
@@ -1177,7 +1117,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="exr-go"><svg class="ex-qr" role="img" aria-label="QR code for aholmstrom.se/slides/a0002e/activity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#000000" d="M1 1.5h7m1 0h1m2 0h2m3 0h1m1 0h2m2 0h2m2 0h7M1 2.5h1m5 0h1m1 0h4m2 0h1m1 0h2m3 0h4m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m4 0h5m2 0h3m3 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h3m7 0h1m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m7 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h1m3 0h1m1 0h4m2 0h2m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m1 0h3m2 0h5m2 0h2M1 9.5h1m1 0h2m1 0h3m4 0h1m2 0h4m2 0h1m1 0h1m2 0h1m2 0h1m1 0h2M2 10.5h1m5 0h5m1 0h2m2 0h1m1 0h2m1 0h2m2 0h2m1 0h4M1 11.5h2m2 0h1m1 0h2m2 0h1m2 0h1m2 0h1m1 0h1m2 0h3m1 0h5m2 0h1M1 12.5h1m2 0h3m1 0h3m1 0h1m3 0h3m3 0h2m1 0h2m1 0h1m1 0h1m1 0h1M1 13.5h5m1 0h3m1 0h1m1 0h1m1 0h3m3 0h4m1 0h1m2 0h2M2 14.5h2m1 0h2m8 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m1 0h1M2 15.5h1m1 0h2m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m5 0h2m2 0h1M4 16.5h3m1 0h1m1 0h1m1 0h5m5 0h1m3 0h3m1 0h2M1 17.5h3m1 0h3m7 0h1m1 0h1m1 0h1m2 0h3m1 0h2m1 0h3M1 18.5h1m2 0h1m1 0h1m1 0h1m1 0h2m4 0h1m4 0h1m2 0h4m1 0h2m2 0h1M3 19.5h2m1 0h2m1 0h1m2 0h1m1 0h4m1 0h1m2 0h1m4 0h3m1 0h1M2 20.5h2m1 0h2m4 0h1m1 0h3m1 0h4m2 0h1m1 0h3m1 0h1m3 0h1M1 21.5h4m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m5 0h3m4 0h3M1 22.5h3m2 0h1m1 0h1m2 0h1m2 0h1m1 0h3m2 0h4m1 0h2m2 0h2m1 0h1M5 23.5h3m2 0h1m2 0h2m1 0h1m1 0h5m1 0h2m1 0h2m3 0h2M2 24.5h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h3m4 0h1m1 0h1m5 0h1M1 25.5h1m1 0h9m2 0h1m3 0h1m1 0h1m2 0h7m2 0h2M9 26.5h1m1 0h2m1 0h1m1 0h2m2 0h3m1 0h2m3 0h2m1 0h1M1 27.5h7m1 0h1m1 0h1m2 0h1m2 0h6m1 0h2m1 0h1m1 0h1m2 0h1M1 28.5h1m5 0h1m1 0h1m1 0h1m1 0h1m2 0h4m1 0h1m2 0h2m3 0h3M1 29.5h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h1m1 0h4m2 0h7m1 0h1m1 0h1M1 30.5h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h2m1 0h1m1 0h2m4 0h1m1 0h4M1 31.5h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1M1 32.5h1m5 0h1m4 0h2m1 0h1m2 0h2m1 0h1m1 0h7m3 0h1M1 33.5h7m1 0h3m2 0h1m2 0h4m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1"/></svg>
 <a class="exr-url" href="https://aholmstrom.se/slides/a0002e/activity/" target="_blank" rel="noopener">aholmstrom.se/slides/a0002e/activity</a></div>
       </div>
-      <div class="slide-notes"><p>GROUP EXERCISE: SOC SHIFT</p><p>Web activity, about 15 minutes, groups of three or four at one laptop.</p><p>Step 1: the Diamond Model. Fill the four corners with values from the alert log.</p><p>Step 2: the Cyber Kill Chain. Four of the seven stages have an alert.</p><p>Step 3: attack type and what to do now.</p><p>The page checks the answers and gives hints.</p><p>DISCUSS AFTERWARDS (questions on the last screen)</p><p>Is the report intelligence? What makes it more than the nine alerts?</p><p>Who needs it, and what does each of them need to hear?</p><p>Which stage of the kill chain would you have wanted to break, and with what?</p></div>
     </section>
 
     <section class="slide title-slide" aria-label="Questions">
@@ -1185,7 +1124,6 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <h1>Questions?</h1>
       <div class="title-rule"></div>
       <p class="title-meta"><b>Thank you for today.</b><br>Anton Holmstr&ouml;m, Lule&aring; University of Technology</p>
-      <div class="slide-notes"><p>QUESTIONS</p><p>Thank you for today.</p></div>
     </section>
 
   </main>
@@ -1360,273 +1298,7 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
     });
   })();
 
-  // presenter view: a separate, draggable popup window (press P)
-  var presenterWin = null;
-  var notesStore = {};
-  var notesFontSize = 1.05;
-var previewPct = 100; // width of the preview row in % — smaller previews give a taller notes box
-  var deckStyleHTML = document.querySelector('style').outerHTML;
-  var fontLinkHTML = '<link rel="preconnect" href="https://fonts.googleapis.com">'
-    + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">';
-
-  // Notes persistence across devices, via this artifact's shared db capability.
-  var notesDb = null;
-  var notesSaveTimers = {};
-  // Notes are keyed by a stable id derived from each slide's aria-label — NOT by slide index.
-  function noteKey(i){
-    var l = (slides[i] && slides[i].getAttribute('aria-label')) || ('slide-' + i);
-    return l.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  }
-  var keyToIndex = {};
-  slides.forEach(function(_, i){ keyToIndex[noteKey(i)] = i; });
-  function initNotesDb(){
-    if (typeof window.claude === 'undefined' || !window.claude.use) return;
-    window.claude.use('db').then(function(db){
-      if (!db) return;
-      notesDb = db;
-      db.collection('notes').get().then(function(snap){
-        snap.docs.forEach(function(d){
-          var data = d.data();
-          var idx = keyToIndex[d.id];
-          if (idx !== undefined && data && typeof data.text === 'string') notesStore[idx] = data.text;
-        });
-        updatePresenterWindow();
-      }).catch(function(){ /* best-effort */ });
-    }).catch(function(){ /* best-effort */ });
-  }
-  function scheduleNotesSave(slideIndex, text){
-    if (!notesDb) return;
-    clearTimeout(notesSaveTimers[slideIndex]);
-    notesSaveTimers[slideIndex] = setTimeout(function(){
-      notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){ /* best-effort */ });
-    }, 600);
-  }
-  function flushNotesSave(slideIndex, text){
-    if (!notesDb) return;
-    clearTimeout(notesSaveTimers[slideIndex]);
-    notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){ /* best-effort */ });
-  }
-  initNotesDb();
-
-  // Every var(--token) in the popup's HTML is resolved to its literal hex value
-  // before writing — the popup document does not reliably resolve :root custom properties.
-  var cssVarMap = {
-    '--paper':'#f7f2e6', '--ink':'#1e1b16', '--muted':'#77705f', '--line':'#2a2620',
-    '--card':'#eae4d5', '--accent':'#e0604a', '--accent-deep':'#a33325',
-    '--lavender':'#cdc4f5', '--lavender-deep':'#4d3fa0', '--navy':'#1c3149',
-    '--good':'#2f8f52', '--good-soft':'#dcefdf', '--bad-soft':'#f6dedb',
-    '--on-dark-muted':'#a49c86', '--on-dark-line':'#55503f',
-    '--mono':'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
-  };
-  function resolveCssVars(html){
-    return html.replace(/var\(\s*(--[a-zA-Z0-9-]+)\s*\)/g, function(m, name){
-      return cssVarMap.hasOwnProperty(name) ? cssVarMap[name] : m;
-    });
-  }
-
-  function seedNotes(i){
-    var el = slides[i] && slides[i].querySelector('.slide-notes');
-    if (!el) return '';
-    var paras = Array.prototype.slice.call(el.querySelectorAll('p'));
-    if (!paras.length) return (el.textContent || '').trim();
-    return paras.map(function(p){ return p.textContent.trim(); }).join('\n\n');
-  }
-  function getNotes(i){
-    if (!(i in notesStore)) notesStore[i] = seedNotes(i);
-    return notesStore[i];
-  }
-
-  function buildPresenterDoc(){
-    return '<!DOCTYPE html><html lang="' + LANG + '"><head><meta charset="UTF-8"><title>' + T.presenter + '</title>'
-      + fontLinkHTML
-      + deckStyleHTML
-      + '<style>'
-      + '  html,body{ height:100%; }'
-      + '  body.presenter-body{ margin:0; background:var(--ink); color:var(--paper); font-family:"EB Garamond", Georgia, serif; display:flex; flex-direction:column; height:100vh; overflow:hidden; }'
-      + '  .p-topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid #3a352c; flex:none; }'
-      + '  .p-frame{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--card); font-style:italic; }'
-      + '  .p-fontctrls button{ all:unset; cursor:pointer; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center; border:1px solid #55503f; border-radius:50%; color:var(--card); font-size:.75rem; margin-left:6px; }'
-      + '  .p-fontctrls button:hover{ border-color:var(--accent); color:var(--accent); }'
-      + '  .p-previews{ display:flex; gap:16px; padding:16px 20px 6px; flex:none; }'
-    + '  .p-fontctrls button.p-wide{ width:auto; padding:0 10px; border-radius:13px; }'
-    + '  .p-splitter{ flex:none; height:24px; margin:0 20px; cursor:row-resize; display:flex; align-items:center; justify-content:center; touch-action:none; }'
-    + '  .p-splitter::before{ content:""; width:64px; height:4px; border-radius:2px; background:#55503f; }'
-    + '  .p-splitter:hover::before, .p-splitter:focus-visible::before, .p-splitter.dragging::before{ background:var(--accent); }'
-    + '  .p-splitter:focus-visible{ outline:1.5px solid var(--accent); outline-offset:-4px; }'
-      + '  .p-preview-col{ flex:1; min-width:0; }'
-      + '  .p-preview-col.p-next{ flex:0 0 34%; }'
-      + '  .p-preview-label{ font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#a49c86; margin-bottom:6px; }'
-      + '  .p-preview-frame{ position:relative; width:100%; aspect-ratio:16/9; background:var(--paper); border:1.5px solid #3a352c; overflow:hidden; }'
-      + '  .p-preview-scale{ position:absolute; top:0; left:0; transform-origin:top left; pointer-events:none; color:var(--ink); }'
-      + '  .p-notes-wrap{ flex:1; min-height:0; padding:10px 20px 14px; display:flex; }'
-      + '  .p-notes-area{ flex:1; min-height:0; resize:none; width:100%; background:#211e18; color:var(--paper); border:1.5px solid #3a352c; padding:14px 16px; font-family:"EB Garamond", Georgia, serif; line-height:1.6; }'
-      + '  .p-navbar{ display:flex; gap:10px; justify-content:center; padding:0 20px 18px; flex:none; }'
-      + '  .p-navbar button{ all:unset; cursor:pointer; padding:8px 18px; border:1.5px solid #55503f; color:var(--card); font-size:.85rem; }'
-      + '  .p-navbar button:hover{ border-color:var(--accent); color:var(--accent); }'
-      + '  .p-navbar button:disabled{ opacity:.3; cursor:default; }'
-      + '</style>'
-      + '</head><body class="presenter-body">'
-      + '  <div class="p-topbar">'
-      + '    <span class="p-frame" id="pFrameNum"></span>'
-      + '    <div class="p-fontctrls"><button id="pBoxDown" class="p-wide" title="' + T.boxSmaller + '">' + T.box + ' &minus;</button><button id="pBoxUp" class="p-wide" title="' + T.boxLarger + '">' + T.box + ' +</button><button id="pFontDown" title="' + T.smaller + '">A&minus;</button><button id="pFontUp" title="' + T.larger + '">A+</button></div>'
-      + '  </div>'
-      + '  <div class="p-previews" id="pPreviews">'
-      + '    <div class="p-preview-col p-current"><div class="p-preview-label">' + T.now + '</div><div class="p-preview-frame" id="pCurrentFrame"></div></div>'
-      + '    <div class="p-preview-col p-next"><div class="p-preview-label">' + T.next + '</div><div class="p-preview-frame" id="pNextFrame"></div></div>'
-      + '  </div>'
-      + '  <div class="p-splitter" id="pSplitter" role="separator" aria-orientation="horizontal" tabindex="0" title="' + T.resize + '" aria-label="' + T.resize + '"></div>'
-    + '  <div class="p-notes-wrap"><textarea class="p-notes-area" id="pNotesArea" placeholder="' + T.notesPh + '"></textarea></div>'
-      + '  <div class="p-navbar"><button id="pPrevBtn">&lsaquo; ' + T.prev + '</button><button id="pNextBtn">' + T.next + ' &rsaquo;</button></div>'
-      + '</body></html>';
-  }
-
-  function buildPreviewNode(win, slideIndex){
-    // Built as native nodes of the POPUP document (importNode), not cloned across documents.
-    var doc = win.document;
-    var wrap = doc.createElement('div');
-    wrap.className = 'p-preview-scale deck';
-    wrap.style.minHeight = '0';
-    var main = doc.createElement('main');
-    main.className = 'slides';
-    main.style.display = 'flex';
-    var clone = doc.importNode(slides[slideIndex], true);
-    clone.classList.add('active');
-    if (clone.hasAttribute && clone.hasAttribute('style')){
-      clone.setAttribute('style', resolveCssVars(clone.getAttribute('style')));
-    }
-    Array.prototype.slice.call(clone.querySelectorAll('[style]')).forEach(function(el){
-      el.setAttribute('style', resolveCssVars(el.getAttribute('style')));
-    });
-    main.appendChild(clone);
-    wrap.appendChild(main);
-    return wrap;
-  }
-
-  function paintPreview(win, frameId, slideIndex){
-    var frame = win.document.getElementById(frameId);
-    if (!frame) return;
-    frame.innerHTML = '';
-    if (slideIndex < 0 || slideIndex >= slides.length) return;
-    var node = buildPreviewNode(win, slideIndex);
-    frame.appendChild(node);
-    var refWidth = 1280, refHeight = 720;
-    var w = frame.clientWidth || 320, h = frame.clientHeight || 180;
-    var scale = Math.min(w / refWidth, h / refHeight);
-    node.style.width = refWidth + 'px';
-    node.style.height = refHeight + 'px';
-    node.style.transform = 'scale(' + scale + ')';
-  }
-
-  // Rescale an already-painted preview in place. Used while resizing the notes box:
-// rebuilding the clone there would restart the slide's entrance animations on every pointer move.
-function rescalePreview(win, frameId){
-  var frame = win.document.getElementById(frameId);
-  var node = frame && frame.firstElementChild;
-  if (!node) return;
-  var scale = Math.min((frame.clientWidth || 320) / 1280, (frame.clientHeight || 180) / 720);
-  node.style.transform = 'scale(' + scale + ')';
-}
-
-function updatePresenterWindow(){
-    if (!presenterWin || presenterWin.closed) return;
-    var doc = presenterWin.document;
-    var frameNum = doc.getElementById('pFrameNum');
-    if (frameNum) frameNum.textContent = T.slide + ' ' + (current + 1) + ' / ' + slides.length;
-    paintPreview(presenterWin, 'pCurrentFrame', current);
-    paintPreview(presenterWin, 'pNextFrame', current + 1);
-    var ta = doc.getElementById('pNotesArea');
-    if (ta) ta.value = getNotes(current);
-    var pPrev = doc.getElementById('pPrevBtn');
-    var pNext = doc.getElementById('pNextBtn');
-    if (pPrev) pPrev.disabled = current === 0;
-    if (pNext) pNext.disabled = current === slides.length - 1;
-  }
-
-  function openPresenterWindow(){
-    if (presenterWin && !presenterWin.closed){
-      presenterWin.focus();
-      return;
-    }
-    presenterWin = window.open('', 'presenterWindow', 'width=820,height=760,resizable=yes');
-    if (!presenterWin){
-      alert(T.popup);
-      return;
-    }
-    presenterWin.document.open();
-    presenterWin.document.write(resolveCssVars(buildPresenterDoc()));
-    presenterWin.document.close();
-
-    presenterWin.document.getElementById('pPrevBtn').addEventListener('click', function(){ goTo(current - 1); });
-    presenterWin.document.getElementById('pNextBtn').addEventListener('click', function(){ goTo(current + 1); });
-    var ta = presenterWin.document.getElementById('pNotesArea');
-    ta.style.fontSize = notesFontSize + 'rem';
-    ta.addEventListener('input', function(e){
-      notesStore[current] = e.target.value;
-      scheduleNotesSave(current, e.target.value);
-    });
-    presenterWin.document.getElementById('pFontUp').addEventListener('click', function(){
-      notesFontSize = Math.min(2, notesFontSize + 0.1);
-      ta.style.fontSize = notesFontSize + 'rem';
-    });
-    presenterWin.document.getElementById('pFontDown').addEventListener('click', function(){
-      notesFontSize = Math.max(0.7, notesFontSize - 0.1);
-      ta.style.fontSize = notesFontSize + 'rem';
-    });
-    // resizable notes box: drag the splitter, use Box −/+ or arrow keys on the splitter.
-// Shrinking the preview row is what gives the notes textarea (flex:1) more height.
-var pv = presenterWin.document.getElementById('pPreviews');
-var sp = presenterWin.document.getElementById('pSplitter');
-function setPreviewPct(v){
-  previewPct = Math.max(25, Math.min(100, v));
-  pv.style.width = previewPct + '%';
-  rescalePreview(presenterWin, 'pCurrentFrame');
-  rescalePreview(presenterWin, 'pNextFrame');
-}
-setPreviewPct(previewPct);
-presenterWin.document.getElementById('pBoxUp').addEventListener('click', function(){ setPreviewPct(previewPct - 10); });
-presenterWin.document.getElementById('pBoxDown').addEventListener('click', function(){ setPreviewPct(previewPct + 10); });
-var drag = null;
-sp.addEventListener('pointerdown', function(e){
-  drag = { y: e.clientY, pct: previewPct, h: pv.getBoundingClientRect().height || 1 };
-  sp.classList.add('dragging');
-  if (sp.setPointerCapture) sp.setPointerCapture(e.pointerId);
-  e.preventDefault();
-});
-sp.addEventListener('pointermove', function(e){
-  if (drag) setPreviewPct(drag.pct * (drag.h + (e.clientY - drag.y)) / drag.h);
-});
-function endDrag(){ drag = null; sp.classList.remove('dragging'); }
-sp.addEventListener('pointerup', endDrag);
-sp.addEventListener('pointercancel', endDrag);
-sp.addEventListener('keydown', function(e){
-  if (e.key === 'ArrowUp'){ setPreviewPct(previewPct - 5); e.preventDefault(); }
-  if (e.key === 'ArrowDown'){ setPreviewPct(previewPct + 5); e.preventDefault(); }
-});
-presenterWin.addEventListener('resize', function(){ setPreviewPct(previewPct); });
-
-presenterWin.document.addEventListener('keydown', function(e){
-      var tag = (presenterWin.document.activeElement && presenterWin.document.activeElement.tagName) || '';
-      if (tag === 'TEXTAREA') return;
-      if (e.key === 'ArrowRight') goTo(current + 1);
-      if (e.key === 'ArrowLeft') goTo(current - 1);
-    });
-    presenterWin.addEventListener('beforeunload', function(){
-      var liveTa = presenterWin.document.getElementById('pNotesArea');
-      if (liveTa){
-        notesStore[current] = liveTa.value;
-        flushNotesSave(current, liveTa.value);
-      }
-    });
-
-    updatePresenterWindow();
-  }
-
-  document.addEventListener('keydown', function(e){
-    if (e.key !== 'p' && e.key !== 'P') return;
-    var tag = (document.activeElement && document.activeElement.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-    openPresenterWindow();
-  });
+  function updatePresenterWindow(){}
 
   render();
 })();
