@@ -359,6 +359,14 @@ body{
 @media (prefers-reduced-motion: reduce){ .slide.active .at-tac, .slide.active .at-ask, .slide.active .at-mit{ animation:none !important; } }
 @media (max-width: 760px){ .at-grid{ grid-template-columns:1fr 1fr; } .at, .at-mlist{ grid-template-columns:1fr; } }
 
+/* group exercise: instructions on the left, the link and its QR code on the right */
+.exr{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:48px; align-items:center; }
+.exr-list{ margin:0; padding-left:1.2em; font-size:1.5rem; line-height:1.4; display:flex; flex-direction:column; gap:14px; }
+.exr-go{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+.ex-qr{ width:min(100%, 250px); height:auto; border:1.5px solid var(--line); }
+.exr-url{ font-family:var(--mono); font-size:1.15rem; color:var(--ink); text-align:center; overflow-wrap:anywhere; }
+@media (max-width: 760px){ .exr{ grid-template-columns:1fr; } }
+
 /* dramatic beat — one dark, full-bleed slide; darkens the whole page while it is active */
 .deck-header, .deck-nav{ position:relative; z-index:2; }
 .beat-slide{ color:var(--paper); }
@@ -455,7 +463,7 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
         <div class="roadmap-item ar2"><div class="roadmap-num">2</div><div><div class="roadmap-label">From data to intelligence</div><div class="roadmap-desc">Data, information, intelligence, and who it is for</div></div></div>
         <div class="roadmap-item ar3"><div class="roadmap-num">3</div><div><div class="roadmap-label">Producing intelligence</div><div class="roadmap-desc">Sources, indicators, and an example</div></div></div>
         <div class="roadmap-item ar4"><div class="roadmap-num">4</div><div><div class="roadmap-label">Models for understanding attacks</div><div class="roadmap-desc">The Diamond Model, Cyber Kill Chain, MITRE ATT&amp;CK</div></div></div>
-        <div class="roadmap-item ar5"><div class="roadmap-num">5</div><div><div class="roadmap-label">Using CTI</div><div class="roadmap-desc">Group exercise, and how it is used in practice</div></div></div>
+        <div class="roadmap-item ar5"><div class="roadmap-num">5</div><div><div class="roadmap-label">Using CTI</div><div class="roadmap-desc">Group exercise: a shift in the SOC</div></div></div>
         <div class="goal-span ga"><span class="goal-num">1</span><div><div class="goal-tag">Goal 1</div><div class="goal-text">Explain what cyber threat intelligence is</div></div></div>
         <div class="goal-span gb"><span class="goal-num">2</span><div><div class="goal-tag">Goal 2</div><div class="goal-text">Describe how it is used to create value</div></div></div>
         <div class="goal-span gc"><span class="goal-num">3</span><div><div class="goal-tag">Goal 3</div><div class="goal-text">Apply it in a practical exercise</div></div></div>
@@ -1154,6 +1162,22 @@ body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color
       <p class="step-cap" style="min-height:2.9em">An IP address is easy for the attacker to replace. Their way of working is not, and ATT&amp;CK lists what to do about it.</p>
       <p class="src-line">Source: MITRE ATT&amp;CK, Enterprise matrix, v19 (attack.mitre.org).</p>
       <div class="slide-notes"><p>WHAT DO WE DO ABOUT IT?</p><p>Six mitigations listed for T1566.</p><p>User Training (M1017): users can be trained to identify social engineering techniques and phishing emails.</p><p>Antivirus/Antimalware (M1049): anti-virus can automatically quarantine suspicious files.</p><p>Software Configuration (M1054): anti-spoofing and email authentication, SPF and DKIM.</p><p>Restrict Web-Based Content (M1021): block websites or attachment types that are not needed.</p><p>Network Intrusion Prevention (M1031): systems that scan and remove malicious attachments or links.</p><p>Audit (M1047): audits or scans of systems, permissions, software and configurations.</p><p>COMPARE WITH THE KILL CHAIN</p><p>Email filter, awareness training, antivirus: the same answers, now from a shared catalogue.</p><p>INDICATOR VS BEHAVIOUR</p><p>Block 203.0.113.66 and the group moves to a new address. Phishing is still how they get in.</p></div>
+    </section>
+
+    <section class="slide" aria-label="Exercise">
+      <span class="slide-eyebrow">Part 5 &middot; Using CTI, group exercise</span>
+      <h1 class="wide">You are on shift in the SOC</h1>
+      <div class="exr">
+        <ol class="exr-list">
+          <li>Form groups of three or four around one laptop.</li>
+          <li>Open the link.</li>
+          <li>Nine alerts came in during the night. Find out who did what, in which order, and what to do now.</li>
+          <li>You have about 15 minutes. Then we discuss your report together.</li>
+        </ol>
+        <div class="exr-go"><svg class="ex-qr" role="img" aria-label="QR code for aholmstrom.se/slides/a0002e/activity" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#000000" d="M1 1.5h7m1 0h1m2 0h2m3 0h1m1 0h2m2 0h2m2 0h7M1 2.5h1m5 0h1m1 0h4m2 0h1m1 0h2m3 0h4m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m4 0h5m2 0h3m3 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h3m7 0h1m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m7 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h1m3 0h1m1 0h4m2 0h2m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m1 0h3m2 0h5m2 0h2M1 9.5h1m1 0h2m1 0h3m4 0h1m2 0h4m2 0h1m1 0h1m2 0h1m2 0h1m1 0h2M2 10.5h1m5 0h5m1 0h2m2 0h1m1 0h2m1 0h2m2 0h2m1 0h4M1 11.5h2m2 0h1m1 0h2m2 0h1m2 0h1m2 0h1m1 0h1m2 0h3m1 0h5m2 0h1M1 12.5h1m2 0h3m1 0h3m1 0h1m3 0h3m3 0h2m1 0h2m1 0h1m1 0h1m1 0h1M1 13.5h5m1 0h3m1 0h1m1 0h1m1 0h3m3 0h4m1 0h1m2 0h2M2 14.5h2m1 0h2m8 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m1 0h1M2 15.5h1m1 0h2m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m5 0h2m2 0h1M4 16.5h3m1 0h1m1 0h1m1 0h5m5 0h1m3 0h3m1 0h2M1 17.5h3m1 0h3m7 0h1m1 0h1m1 0h1m2 0h3m1 0h2m1 0h3M1 18.5h1m2 0h1m1 0h1m1 0h1m1 0h2m4 0h1m4 0h1m2 0h4m1 0h2m2 0h1M3 19.5h2m1 0h2m1 0h1m2 0h1m1 0h4m1 0h1m2 0h1m4 0h3m1 0h1M2 20.5h2m1 0h2m4 0h1m1 0h3m1 0h4m2 0h1m1 0h3m1 0h1m3 0h1M1 21.5h4m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m5 0h3m4 0h3M1 22.5h3m2 0h1m1 0h1m2 0h1m2 0h1m1 0h3m2 0h4m1 0h2m2 0h2m1 0h1M5 23.5h3m2 0h1m2 0h2m1 0h1m1 0h5m1 0h2m1 0h2m3 0h2M2 24.5h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h3m4 0h1m1 0h1m5 0h1M1 25.5h1m1 0h9m2 0h1m3 0h1m1 0h1m2 0h7m2 0h2M9 26.5h1m1 0h2m1 0h1m1 0h2m2 0h3m1 0h2m3 0h2m1 0h1M1 27.5h7m1 0h1m1 0h1m2 0h1m2 0h6m1 0h2m1 0h1m1 0h1m2 0h1M1 28.5h1m5 0h1m1 0h1m1 0h1m1 0h1m2 0h4m1 0h1m2 0h2m3 0h3M1 29.5h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h1m1 0h4m2 0h7m1 0h1m1 0h1M1 30.5h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h2m1 0h1m1 0h2m4 0h1m1 0h4M1 31.5h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1M1 32.5h1m5 0h1m4 0h2m1 0h1m2 0h2m1 0h1m1 0h7m3 0h1M1 33.5h7m1 0h3m2 0h1m2 0h4m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1"/></svg>
+<a class="exr-url" href="https://aholmstrom.se/slides/a0002e/activity/" target="_blank" rel="noopener">aholmstrom.se/slides/a0002e/activity</a></div>
+      </div>
+      <div class="slide-notes"><p>GROUP EXERCISE: SOC SHIFT</p><p>Web activity, about 15 minutes, groups of three or four at one laptop.</p><p>Step 1: the Diamond Model. Fill the four corners with values from the alert log.</p><p>Step 2: the Cyber Kill Chain. Four of the seven stages have an alert.</p><p>Step 3: attack type and what to do now.</p><p>The page checks the answers and gives hints.</p><p>DISCUSS AFTERWARDS (questions on the last screen)</p><p>Is the report intelligence? What makes it more than the nine alerts?</p><p>Who needs it, and what does each of them need to hear?</p><p>Which stage of the kill chain would you have wanted to break, and with what?</p></div>
     </section>
 
     <section class="slide title-slide" aria-label="Questions">

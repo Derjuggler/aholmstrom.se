@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC Shift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+/* layout: the task on the left, the alert log (the evidence) always in view on the right; one column on a phone */
+:root{
+  --bg:#f7f2e6; --surface:#eee8d8; --fg:#1e1b16; --muted:#6b6454; --line:#2a2620; --soft:#d9d1bd;
+  --pick:#cdc4f5; --pick-ink:#4d3fa0;
+  --hot:#a33325; --hot-soft:#f6dedb; --good:#23703f; --good-soft:#dcefdf;
+  --serif:"EB Garamond", Georgia, "Times New Roman", serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1e1b16; --surface:#2a261e; --fg:#f1ebdc; --muted:#b0a68f; --line:#8c836e; --soft:#4a4435;
+  --pick:#3a3170; --pick-ink:#cdc4f5;
+  --hot:#f29a88; --hot-soft:#4a221c; --good:#86d3a0; --good-soft:#1f3a29; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#1e1b16; --surface:#2a261e; --fg:#f1ebdc; --muted:#b0a68f; --line:#8c836e; --soft:#4a4435;
+  --pick:#3a3170; --pick-ink:#cdc4f5;
+  --hot:#f29a88; --hot-soft:#4a221c; --good:#86d3a0; --good-soft:#1f3a29; color-scheme:dark; }
+
+*{ box-sizing:border-box; }
+body{ margin:0; }
+body{ background:var(--bg); color:var(--fg); font-family:var(--serif); font-size:18px; line-height:1.45; -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:1240px; margin:0 auto; padding-inline:20px; padding-block:18px 40px; display:flex; flex-direction:column; gap:18px; }
+button{ font:inherit; color:inherit; }
+:focus-visible{ outline:2.5px solid var(--pick-ink); outline-offset:2px; }
+
+.top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 20px; border-bottom:1.5px solid var(--line); padding-bottom:12px; }
+.brand{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+.brand h1{ margin:0; font-size:1.7rem; font-weight:600; line-height:1.1; }
+.brand span{ font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; font-style:italic; color:var(--muted); }
+.steps{ display:flex; flex-wrap:wrap; gap:6px; margin:0; padding:0; list-style:none; font-size:.95rem; }
+.steps li{ border:1.5px solid var(--soft); padding:2px 12px; color:var(--muted); }
+.steps li.done{ border-color:var(--good); color:var(--good); }
+.steps li.cur{ border-color:var(--line); color:var(--fg); background:var(--surface); font-weight:600; }
+
+.cols{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; }
+.task, .log{ min-width:0; }
+.task{ display:flex; flex-direction:column; gap:16px; }
+.eyebrow{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--hot); }
+.task h2{ margin:0; font-size:2rem; font-weight:600; line-height:1.15; text-wrap:balance; }
+.task h2:focus{ outline:none; }
+.task p{ margin:0; max-width:62ch; }
+.note{ color:var(--muted); font-size:1rem; }
+.status{ border-left:3px solid var(--pick-ink); padding:6px 14px; background:var(--surface); font-size:1.05rem; }
+.status:empty{ display:none; }
+.status.ok{ border-left-color:var(--good); background:var(--good-soft); }
+.status.bad{ border-left-color:var(--hot); background:var(--hot-soft); }
+
+.btn-row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.btn{ cursor:pointer; background:var(--bg); border:1.5px solid var(--line); padding:8px 20px; min-height:40px; font-size:1.05rem; }
+.btn:hover{ background:var(--surface); }
+.btn.primary{ background:var(--fg); color:var(--bg); border-color:var(--fg); font-weight:600; }
+.btn.primary:hover{ opacity:.88; }
+.btn:disabled{ opacity:.45; cursor:default; }
+.btn.quiet{ border-color:var(--soft); color:var(--muted); min-height:32px; padding:4px 14px; font-size:.95rem; }
+.spacer{ flex:1; }
+
+/* diamond */
+.dm{ display:grid; grid-template-columns:minmax(0,1fr) 84px minmax(0,1fr); gap:10px 12px; align-items:center; }
+.dm-card{ border:1.5px solid var(--line); padding:10px 14px 12px; display:flex; flex-direction:column; gap:6px; min-width:0; }
+.dm-top{ grid-column:1 / 4; justify-self:center; width:min(100%, 340px); }
+.dm-bot{ grid-column:1 / 4; }
+.dm-svg{ width:84px; height:70px; }
+.dm-svg path{ fill:none; stroke:var(--line); stroke-width:1.5; }
+.dm-name{ font-size:1.3rem; font-weight:600; line-height:1.2; }
+.dm-q{ font-size:1rem; font-style:italic; color:var(--muted); margin-top:-4px; }
+.slot-row{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+
+.slot{ cursor:pointer; width:100%; text-align:left; background:var(--bg); border:1.5px dashed var(--line); padding:6px 10px; min-height:58px; display:flex; flex-direction:column; gap:2px; min-width:0; }
+.slot-label{ font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+.slot-val{ font-family:var(--mono); font-size:.9rem; overflow-wrap:anywhere; }
+.slot-val.empty{ font-family:var(--serif); font-style:italic; color:var(--muted); font-size:1rem; }
+.slot.filled{ border-style:solid; }
+.slot.active{ background:var(--pick); border:1.5px solid var(--pick-ink); box-shadow:0 0 0 1.5px var(--pick-ink); }
+.slot.active .slot-label, .slot.active .slot-val.empty{ color:var(--pick-ink); }
+.slot.ok{ border:1.5px solid var(--good); background:var(--good-soft); }
+.slot.bad{ border:1.5px solid var(--hot); background:var(--hot-soft); }
+.mark{ font-family:var(--serif); font-size:.95rem; font-weight:600; }
+.slot.ok .mark{ color:var(--good); } .slot.bad .mark{ color:var(--hot); }
+.hint{ font-size:.98rem; color:var(--hot); margin:2px 0 0; }
+
+/* kill chain */
+.kc{ display:flex; flex-direction:column; gap:8px; margin:0; padding:0; list-style:none; }
+.kc li{ display:grid; grid-template-columns:minmax(0,13rem) minmax(0,1fr); gap:12px; align-items:stretch; }
+.kc-stage{ background:var(--pick); color:var(--fg); padding:8px 12px; display:flex; gap:10px; align-items:center; font-weight:600; line-height:1.2; }
+.kc-n{ color:var(--pick-ink); font-variant-numeric:lining-nums tabular-nums; }
+.kc-none{ border:1.5px dashed var(--soft); padding:8px 12px; color:var(--muted); font-style:italic; font-size:1rem; display:flex; align-items:center; }
+.kc .slot{ min-height:46px; justify-content:center; }
+
+/* response */
+fieldset{ border:0; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; min-width:0; }
+legend{ padding:0; font-size:1.3rem; font-weight:600; margin-bottom:6px; }
+.opt{ display:grid; grid-template-columns:24px minmax(0,1fr); gap:10px; align-items:start; border:1.5px solid var(--soft); padding:8px 12px; cursor:pointer; }
+.opt:hover{ border-color:var(--line); }
+.opt input{ width:20px; height:20px; margin:3px 0 0; accent-color:var(--pick-ink); }
+.opt.ok{ border-color:var(--good); background:var(--good-soft); }
+.opt.bad{ border-color:var(--hot); background:var(--hot-soft); }
+.opt .why{ display:block; font-size:.98rem; margin-top:2px; }
+.opt.ok .why{ color:var(--good); } .opt.bad .why{ color:var(--hot); }
+
+/* report */
+.report{ border:1.5px solid var(--line); background:var(--surface); padding:18px 22px; display:flex; flex-direction:column; gap:12px; }
+.report h3{ margin:0; font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; font-weight:400; color:var(--muted); }
+.report p{ max-width:60ch; }
+.report code, .task code{ font-family:var(--mono); font-size:.86em; overflow-wrap:anywhere; }
+.discuss{ margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:8px; max-width:60ch; }
+
+/* alert log */
+.log{ position:sticky; top:calc(env(safe-area-inset-top, 0px) + 12px); border:1.5px solid var(--line); background:var(--surface); }
+.log-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:8px 14px; border-bottom:1.5px solid var(--line); background:var(--fg); color:var(--bg); }
+.log-head h2{ margin:0; font-size:1.15rem; font-weight:600; }
+.log-head span{ font-size:.9rem; font-style:italic; }
+.log-list{ margin:0; padding:0; list-style:none; }
+.log-list li{ border-bottom:1px solid var(--soft); }
+.log-list li:last-child{ border-bottom:0; }
+.row{ display:grid; grid-template-columns:1.6rem 5.2rem minmax(0,1fr); gap:8px; padding:7px 12px; font-family:var(--mono); font-size:.8rem; line-height:1.9; width:100%; text-align:left; background:none; border:0; }
+.row .n{ color:var(--muted); font-variant-numeric:tabular-nums; }
+.row .t{ color:var(--muted); font-variant-numeric:tabular-nums; }
+.row .m{ min-width:0; overflow-wrap:anywhere; }
+.row b{ font-weight:600; }
+button.row{ cursor:pointer; }
+button.row:hover{ background:var(--pick); }
+.day{ padding:4px 12px; font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; font-style:italic; color:var(--muted); background:var(--bg); border-bottom:1px solid var(--soft); }
+.tok{ cursor:pointer; font-family:var(--mono); font-size:inherit; font-weight:600; background:var(--bg); border:1.5px solid var(--pick-ink); color:var(--fg); padding:1px 6px; min-height:24px; line-height:1.4; overflow-wrap:anywhere; text-align:left; }
+.tok:hover{ background:var(--pick); }
+.log-foot{ padding:8px 14px; border-top:1.5px solid var(--line); font-size:.95rem; color:var(--muted); font-style:italic; }
+
+@media (max-width: 860px){
+  .cols{ grid-template-columns:1fr; }
+  .log{ position:static; }
+}
+@media (max-width: 560px){
+  .dm{ grid-template-columns:1fr; } .dm-top, .dm-bot{ grid-column:1; width:100%; } .dm-svg{ display:none; }
+  .slot-row{ grid-template-columns:1fr; }
+  .kc li{ grid-template-columns:1fr; gap:4px; }
+  .task h2{ font-size:1.7rem; }
+}
+@media (prefers-reduced-motion: no-preference){
+  .slot, .opt, .tok, button.row{ transition:background-color .15s ease, border-color .15s ease; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>SOC Shift</h1><span>Cyber threat intelligence exercise</span></div>
+    <ol class="steps" id="steps" aria-label="Progress"></ol>
+  </header>
+  <div class="cols">
+    <main class="task" id="task"></main>
+    <aside class="log" aria-label="Alert log">
+      <div class="log-head"><h2>Alert log</h2><span>9 alerts, night shift</span></div>
+      <ol class="log-list" id="log"></ol>
+      <div class="log-foot">Addresses that start with 10. are inside our own network. The case is made up.</div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = 'soc-shift-v1';
+  var HASH = 'fb55414848281f804858ce188c3dc659d129e283bd62d58d34f6e6f568feab37';
+  var USER = 'rasoul.andersson', MAIL = 'evilguy@bad-mail.example', FILE = 'ffutsdab.exe';
+  var WS = '10.0.4.31', DB = '10.0.8.5', C2 = '203.0.113.66';
+  function v(x){ return { v:x }; }
+
+  var ALERTS = [
+    { id:1, day:'Tuesday', t:'09:12:01', p:['User account ', v(USER), ' received an email from ', v(MAIL)], s:'Email from ' + MAIL },
+    { id:2, t:'09:13:12', p:['User account ', v(USER), ' downloaded the file ', v(FILE), '. File hash: ', v(HASH)], s:FILE + ' downloaded' },
+    { id:3, t:'09:14:05', p:['Network connection established. Source: ', v(WS), '. Destination: ', v(C2)], s:'Connection ' + WS + ' to ' + C2 },
+    { id:4, t:'10:08:02', p:['User account ', v(USER), ' scans the internal network from ', v(WS)], s:'Scan of the internal network' },
+    { id:5, day:'Wednesday', t:'01:02:33', p:['User account ', v(USER), ' logged on to the important database at ', v(DB)], s:'Logon to the important database' },
+    { id:6, t:'01:04:10', p:['File transfer started. From: ', v(DB), '. To: ', v(C2)], s:'File transfer ' + DB + ' to ' + C2 },
+    { id:7, t:'01:31:47', p:['User account ', v(USER), ' logged out'], s:'Account logged out' },
+    { id:8, t:'01:33:02', p:['Files on the important database are unavailable. They have been encrypted.'], s:'Database files encrypted' },
+    { id:9, t:'01:33:20', p:['Network connection closed. Source: ', v(WS), '. Destination: ', v(C2)], s:'Connection closed' }
+  ];
+
+  var S1 = [
+    { k:'adv', label:'Sender of the email', ans:MAIL, hint:'Look at alert 1. Who is the email from?' },
+    { k:'inf', label:'Attacker’s IP address', ans:C2, hint:'Which address outside our network do the connection and the file transfer go to?' },
+    { k:'cap', label:'Name of the malware', ans:FILE, hint:'Look for a file name. The hash identifies the same file, but this asks for the name.' },
+    { k:'vu', label:'User account', ans:USER, hint:'Which account appears in almost every alert?' },
+    { k:'vw', label:'Workstation IP address', ans:WS, hint:'Alert 3: which of our own addresses opens the connection?' },
+    { k:'vd', label:'Database IP address', ans:DB, hint:'Alert 5 names the database and its address.' }
+  ];
+  var S2 = [
+    { k:'1', name:'Reconnaissance', none:'Happens before the attack reaches us. No alert.' },
+    { k:'2', name:'Weaponization', none:'The attacker prepares the malware. No alert.' },
+    { k:'3', name:'Delivery', ans:[1], hint:'Delivery is how the malware reaches the victim.' },
+    { k:'4', name:'Exploitation', ans:[2], hint:'Exploitation is the moment the malware gets onto the computer. Here a user does it for the attacker.' },
+    { k:'5', name:'Installation', none:'The malware installs itself. Our log has no alert for it.' },
+    { k:'6', name:'Command and control', ans:[3], hint:'Look for the workstation contacting an address outside our network.' },
+    { k:'7', name:'Actions on objectives', ans:[4,5,6,8], hint:'Pick an alert that shows what the attacker came to do, not the attacker leaving.' }
+  ];
+  var Q1 = [
+    { k:'a', text:'A DDoS attack', why:'Nothing is flooded with traffic. Files are copied out and then encrypted.' },
+    { k:'b', text:'Ransomware with data theft', ok:true, why:'Files leave the database at 01:04 and are encrypted at 01:33.' },
+    { k:'c', text:'Password guessing', why:'The attacker did not guess a password. The user downloaded the malware.' },
+    { k:'d', text:'A defaced website', why:'No website is changed. The target is the database.' }
+  ];
+  var Q2 = [
+    { k:'a', ok:true, text:'Block ' + C2 + ' in the firewall', why:'Block. Stops new connections to the attacker.' },
+    { k:'b', ok:true, text:'Disconnect the workstation ' + WS + ' from the network', why:'The malware is still on it.' },
+    { k:'c', text:'Delete ' + FILE + ' and carry on', why:'The file is evidence, and the attacker has already used the account and reached the database.' },
+    { k:'d', ok:true, text:'Lock the account ' + USER + ' and reset its password', why:'The attacker has been using this account.' },
+    { k:'e', text:'Stop all incoming email until further notice', why:'That stops the whole organisation. Block the sender instead.' },
+    { k:'f', ok:true, text:'Search all computers for the file hash', why:'Investigate. Shows whether anyone else downloaded the same file.' },
+    { k:'g', text:'Wait and see if the attacker comes back', why:'The connection is closed, but the malware, the account and the stolen files remain.' },
+    { k:'h', ok:true, text:'Share the address, the sender and the hash with other organisations', why:'Share. This is how indicators reach someone else’s threat feed.' }
+  ];
+  var STEPS = ['Who and what', 'In what order', 'What now', 'Report'];
+
+  function fresh(){ return { step:0, a1:{}, m1:{}, f1:0, act1:'adv', ok1:false, a2:{}, m2:{}, f2:0, act2:'3', ok2:false, q1:null, q2:{}, ok3:false, ask:false, msg:null }; }
+  var st = fresh();
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && typeof saved.step === 'number') st = Object.assign(fresh(), saved, { ask:false, msg:null }); } catch (e) {}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function show(x){ return x === HASH ? x.slice(0, 16) + '…' : x; }
+  function alertById(id){ return ALERTS.filter(function(a){ return a.id === id; })[0]; }
+
+  var elTask = document.getElementById('task'), elLog = document.getElementById('log'), elSteps = document.getElementById('steps');
+
+  function renderSteps(){
+    elSteps.innerHTML = STEPS.map(function(name, i){
+      var n = i + 1, cls = st.step === n ? 'cur' : (st.step > n ? 'done' : '');
+      return '<li class="' + cls + '"' + (st.step === n ? ' aria-current="step"' : '') + '>' + n + '. ' + name + (st.step > n ? ' ✓' : '') + '</li>';
+    }).join('');
+  }
+
+  function renderLog(){
+    var html = '';
+    ALERTS.forEach(function(a){
+      if (a.day) html += '<li class="day">' + a.day + '</li>';
+      var pickTok = st.step === 1 && !st.ok1, pickRow = st.step === 2 && !st.ok2;
+      var msg = a.p.map(function(x){
+        if (typeof x === 'string') return esc(x);
+        return pickTok ? '<button type="button" class="tok" data-tok="' + esc(x.v) + '" data-fk="tok-' + a.id + '-' + esc(x.v) + '" title="' + esc(x.v) + '">' + esc(show(x.v)) + '</button>'
+                       : '<b title="' + esc(x.v) + '">' + esc(show(x.v)) + '</b>';
+      }).join('');
+      var inner = '<span class="n">' + a.id + '</span><span class="t">' + a.t + '</span><span class="m">' + msg + '</span>';
+      html += '<li>' + (pickRow ? '<button type="button" class="row" data-alert="' + a.id + '" data-fk="row-' + a.id + '" aria-label="Alert ' + a.id + ', ' + esc(a.s) + '">' + inner + '</button>'
+                                : '<div class="row">' + inner + '</div>') + '</li>';
+    });
+    elLog.innerHTML = html;
+  }
+
+  function slotHtml(step, s, val, mark, active){
+    var cls = 'slot' + (val != null ? ' filled' : '') + (mark ? ' ' + mark : (active ? ' active' : ''));
+    var text = val == null ? '<span class="slot-val empty">' + (active ? 'Click ' + (step === 1 ? 'a value' : 'an alert') + ' in the log' : 'Empty') + '</span>'
+      : '<span class="slot-val">' + esc(step === 1 ? show(val) : 'Alert ' + val + ': ' + alertById(val).s) + '</span>';
+    var m = mark === 'ok' ? '<span class="mark">Correct</span>' : (mark === 'bad' ? '<span class="mark">Not this one</span>' : '');
+    return '<button type="button" class="' + cls + '" data-slot="' + s.k + '" data-fk="slot-' + s.k + '"' + (active ? ' aria-pressed="true"' : ' aria-pressed="false"') + '>'
+      + (step === 1 ? '<span class="slot-label">' + s.label + '</span>' : '') + text + m + '</button>'
+      + (mark === 'bad' ? '<p class="hint">' + s.hint + '</p>' : '');
+  }
+  function statusHtml(){
+    if (!st.msg) return '<div class="status" role="status" aria-live="polite"></div>';
+    return '<div class="status ' + (st.msg.kind || '') + '" role="status" aria-live="polite">' + st.msg.text + '</div>';
+  }
+  function restartHtml(){
+    if (st.ask) return '<span class="note">Start over? All answers on this screen are cleared.</span><button type="button" class="btn quiet" data-act="restart-yes" data-fk="ryes">Yes, start over</button><button type="button" class="btn quiet" data-act="restart-no" data-fk="rno">Cancel</button>';
+    return '<button type="button" class="btn quiet" data-act="restart" data-fk="restart">Start over</button>';
+  }
+
+  function renderTask(){
+    var h = '';
+    if (st.step === 0){
+      h += '<span class="eyebrow">Group exercise, about 15 minutes</span>'
+        + '<h2 tabindex="-1" id="head">You are on shift in the security operations centre</h2>'
+        + '<p>Nine alerts came in during the night. They are in the alert log.</p>'
+        + '<p>Work together at one screen and find out three things: who did what, in which order it happened, and what to do now.</p>'
+        + '<p class="note">You use the Diamond Model and the Cyber Kill Chain from the lecture. The page tells you when an answer is wrong and gives a hint.</p>'
+        + '<div class="btn-row"><button type="button" class="btn primary" data-act="go" data-go="1" data-fk="start">Start the shift</button></div>';
+    }
+    if (st.step === 1){
+      var filled = S1.filter(function(s){ return st.a1[s.k] != null; }).length;
+      function sl(k){ var s = S1.filter(function(x){ return x.k === k; })[0]; return slotHtml(1, s, st.a1[k], st.m1[k], !st.ok1 && st.act1 === k); }
+      h += '<span class="eyebrow">Step 1 of 3, the Diamond Model</span>'
+        + '<h2 tabindex="-1" id="head">Who did what to whom?</h2>'
+        + '<p>Fill the four corners with values from the alert log. Click a box here, then click a value in the log.</p>'
+        + '<div class="dm">'
+        + '<div class="dm-card dm-top"><span class="dm-name">Adversary</span><span class="dm-q">Who is behind it?</span>' + sl('adv') + '</div>'
+        + '<div class="dm-card"><span class="dm-name">Infrastructure</span><span class="dm-q">What do they attack through?</span>' + sl('inf') + '</div>'
+        + '<svg class="dm-svg" viewBox="0 0 84 70" aria-hidden="true"><path d="M42,3 L81,35 L42,67 L3,35 Z"/><path d="M42,3 L42,67 M3,35 L81,35"/></svg>'
+        + '<div class="dm-card"><span class="dm-name">Capability</span><span class="dm-q">What do they use?</span>' + sl('cap') + '</div>'
+        + '<div class="dm-card dm-bot"><span class="dm-name">Victim</span><span class="dm-q">Who is hit?</span><div class="slot-row"><div>' + sl('vu') + '</div><div>' + sl('vw') + '</div><div>' + sl('vd') + '</div></div></div>'
+        + '</div>' + statusHtml()
+        + '<div class="btn-row">'
+        + (st.ok1 ? '<button type="button" class="btn primary" data-act="go" data-go="2" data-fk="next">Next: put it in order</button>'
+                  : '<button type="button" class="btn primary" data-act="check1" data-fk="check"' + (filled < 6 ? ' disabled' : '') + '>Check the diamond</button><span class="note">' + filled + ' of 6 filled</span>'
+                    + (st.f1 >= 2 ? '<button type="button" class="btn" data-act="reveal1" data-fk="reveal">Show the answers</button>' : ''))
+        + '<span class="spacer"></span>' + restartHtml() + '</div>';
+    }
+    if (st.step === 2){
+      var need = S2.filter(function(s){ return s.ans; }), filled2 = need.filter(function(s){ return st.a2[s.k] != null; }).length;
+      h += '<span class="eyebrow">Step 2 of 3, the Cyber Kill Chain</span>'
+        + '<h2 tabindex="-1" id="head">In which order did it happen?</h2>'
+        + '<p>Four of the seven stages can be seen in the log. Click a stage here, then click the alert that shows it.</p>'
+        + '<ol class="kc">' + S2.map(function(s){
+            return '<li><div class="kc-stage"><span class="kc-n">' + s.k + '</span><span>' + s.name + '</span></div><div>'
+              + (s.none ? '<div class="kc-none">' + s.none + '</div>' : slotHtml(2, s, st.a2[s.k], st.m2[s.k], !st.ok2 && st.act2 === s.k)) + '</div></li>';
+          }).join('') + '</ol>' + statusHtml()
+        + '<div class="btn-row">'
+        + '<button type="button" class="btn" data-act="go" data-go="1" data-fk="back">Back</button>'
+        + (st.ok2 ? '<button type="button" class="btn primary" data-act="go" data-go="3" data-fk="next">Next: decide what to do</button>'
+                  : '<button type="button" class="btn primary" data-act="check2" data-fk="check"' + (filled2 < 4 ? ' disabled' : '') + '>Check the chain</button><span class="note">' + filled2 + ' of 4 filled</span>'
+                    + (st.f2 >= 2 ? '<button type="button" class="btn" data-act="reveal2" data-fk="reveal">Show the answers</button>' : ''))
+        + '<span class="spacer"></span>' + restartHtml() + '</div>';
+    }
+    if (st.step === 3){
+      var picked = Q2.filter(function(o){ return st.q2[o.k]; }).length;
+      h += '<span class="eyebrow">Step 3 of 3, from intelligence to action</span>'
+        + '<h2 tabindex="-1" id="head">What is it, and what do you do now?</h2>'
+        + '<fieldset><legend>What type of attack is this?</legend>' + Q1.map(function(o){
+            var on = st.q1 === o.k, cls = 'opt' + (st.ok3 && (on || o.ok) ? (o.ok ? ' ok' : ' bad') : '');
+            return '<label class="' + cls + '"><input type="radio" name="q1" id="q1-' + o.k + '" value="' + o.k + '" data-fk="q1-' + o.k + '"' + (on ? ' checked' : '') + (st.ok3 ? ' disabled' : '') + '><span>' + o.text
+              + (st.ok3 && (on || o.ok) ? '<span class="why">' + (o.ok ? (on ? 'Correct. ' : 'The right answer. ') : 'Not this one. ') + o.why + '</span>' : '') + '</span></label>';
+          }).join('') + '</fieldset>'
+        + '<fieldset><legend>Which of these do you do now? Select every one you would do.</legend>' + Q2.map(function(o){
+            var on = !!st.q2[o.k], cls = 'opt' + (st.ok3 ? (o.ok ? ' ok' : (on ? ' bad' : '')) : '');
+            var lead = o.ok ? (on ? 'Yes. ' : 'You missed this one. ') : (on ? 'No. ' : '');
+            return '<label class="' + cls + '"><input type="checkbox" id="q2-' + o.k + '" value="' + o.k + '" data-fk="q2-' + o.k + '"' + (on ? ' checked' : '') + (st.ok3 ? ' disabled' : '') + '><span>' + o.text
+              + (st.ok3 && (o.ok || on) ? '<span class="why">' + lead + o.why + '</span>' : '') + '</span></label>';
+          }).join('') + '</fieldset>' + statusHtml()
+        + '<div class="btn-row">'
+        + '<button type="button" class="btn" data-act="go" data-go="2" data-fk="back">Back</button>'
+        + (st.ok3 ? '<button type="button" class="btn primary" data-act="go" data-go="4" data-fk="next">Next: your report</button>'
+                  : '<button type="button" class="btn primary" data-act="check3" data-fk="check"' + (!st.q1 || !picked ? ' disabled' : '') + '>Check the answers</button>'
+                    + (!st.q1 || !picked ? '<span class="note">Answer both questions first</span>' : ''))
+        + '<span class="spacer"></span>' + restartHtml() + '</div>';
+    }
+    if (st.step === 4){
+      h += '<span class="eyebrow">Shift report</span>'
+        + '<h2 tabindex="-1" id="head">Nine alerts have become one story</h2>'
+        + '<div class="report">'
+        + '<h3>What happened</h3><p>At 09:12 on Tuesday <code>' + USER + '</code> received an email from <code>' + MAIL + '</code> and downloaded <code>' + FILE + '</code>. One minute later the workstation <code>' + WS + '</code> connected to <code>' + C2 + '</code>. The attacker scanned the network, logged on to the important database during the night, copied files out and encrypted the rest.</p>'
+        + '<h3>What it is</h3><p>Ransomware with data theft.</p>'
+        + '<h3>What we do</h3><p>Block the address. Disconnect the workstation. Lock the account. Search for the file hash. Share the indicators.</p>'
+        + '</div>'
+        + '<p><b>Discuss in the group before we talk in class:</b></p>'
+        + '<ol class="discuss"><li>Is this report intelligence? What makes it more than the nine alerts?</li>'
+        + '<li>Who in the organisation needs it, and what does each of them need to hear: the firewall technician, the incident responder, the head of the organisation?</li>'
+        + '<li>Which stage of the kill chain would you have wanted to break, and with what?</li></ol>'
+        + '<div class="btn-row"><button type="button" class="btn" data-act="go" data-go="3" data-fk="back">Back</button><span class="spacer"></span>' + restartHtml() + '</div>';
+    }
+    elTask.innerHTML = h;
+  }
+
+  function render(focusKey, focusHead){
+    renderSteps(); renderLog(); renderTask(); save();
+    var el = focusHead ? document.getElementById('head') : (focusKey ? document.querySelector('[data-fk="' + focusKey.replace(/"/g, '') + '"]') : null);
+    if (el && !el.disabled) el.focus();
+    if (focusHead) window.scrollTo(0, 0);
+  }
+
+  function nextEmpty(list, answers, from){
+    var keys = list.filter(function(s){ return !s.none; }).map(function(s){ return s.k; });
+    var i = keys.indexOf(from);
+    for (var n = 1; n <= keys.length; n++){ var k = keys[(i + n) % keys.length]; if (answers[k] == null) return k; }
+    return from;
+  }
+  function place(step, value){
+    var A = step === 1 ? st.a1 : st.a2, M = step === 1 ? st.m1 : st.m2, actKey = step === 1 ? 'act1' : 'act2', list = step === 1 ? S1 : S2;
+    var k = st[actKey];
+    A[k] = value; delete M[k];
+    var slot = list.filter(function(s){ return s.k === k; })[0];
+    st[actKey] = nextEmpty(list, A, k);
+    var nxt = list.filter(function(s){ return s.k === st[actKey]; })[0];
+    st.msg = { text:'Placed in “' + (slot.label || slot.name) + '”.' + (A[st[actKey]] == null ? ' Next: ' + (nxt.label || nxt.name) + '.' : ' All filled. Check your answers, or click a box to change it.') };
+  }
+  function check(step){
+    var list = (step === 1 ? S1 : S2).filter(function(s){ return !s.none; }), A = step === 1 ? st.a1 : st.a2, M = step === 1 ? st.m1 : st.m2, wrong = 0, firstBad = null;
+    list.forEach(function(s){
+      var good = step === 1 ? A[s.k] === s.ans : s.ans.indexOf(A[s.k]) !== -1;
+      M[s.k] = good ? 'ok' : 'bad';
+      if (!good){ wrong++; if (!firstBad) firstBad = s.k; }
+    });
+    if (!wrong){
+      st['ok' + step] = true;
+      st.msg = { kind:'ok', text: step === 1 ? 'The diamond is complete. You know who, with what, through what and against whom.'
+        : 'The chain is complete. Three stages have no alert: a model also shows what you cannot see.' };
+      return 'next';
+    }
+    st['f' + step]++;
+    st[step === 1 ? 'act1' : 'act2'] = firstBad;
+    st.msg = { kind:'bad', text: wrong + (wrong === 1 ? ' answer is' : ' answers are') + ' not right yet. Read the hint under each red box, click the box and pick again.' };
+    return 'slot-' + firstBad;
+  }
+  function reveal(step){
+    var list = (step === 1 ? S1 : S2).filter(function(s){ return !s.none; }), A = step === 1 ? st.a1 : st.a2, M = step === 1 ? st.m1 : st.m2;
+    list.forEach(function(s){ A[s.k] = step === 1 ? s.ans : (s.ans.indexOf(A[s.k]) !== -1 ? A[s.k] : s.ans[0]); M[s.k] = 'ok'; });
+    st['ok' + step] = true;
+    st.msg = { kind:'ok', text:'These are the answers. Compare them with the alert log before you go on.' };
+  }
+
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-tok],[data-alert],[data-slot],[data-act]');
+    if (!t) return;
+    if (t.hasAttribute('data-tok')){ place(1, t.getAttribute('data-tok')); return render(t.getAttribute('data-fk')); }
+    if (t.hasAttribute('data-alert')){ place(2, parseInt(t.getAttribute('data-alert'), 10)); return render(t.getAttribute('data-fk')); }
+    if (t.hasAttribute('data-slot')){
+      var step = st.step, k = t.getAttribute('data-slot');
+      if (st['ok' + step]) return;
+      st[step === 1 ? 'act1' : 'act2'] = k;
+      delete (step === 1 ? st.m1 : st.m2)[k];
+      st.msg = { text:'Now click ' + (step === 1 ? 'a value' : 'an alert') + ' in the alert log.' };
+      return render('slot-' + k);
+    }
+    var act = t.getAttribute('data-act');
+    if (act === 'go'){ st.step = parseInt(t.getAttribute('data-go'), 10); st.msg = null; st.ask = false; return render(null, true); }
+    if (act === 'check1') return render(check(1));
+    if (act === 'check2') return render(check(2));
+    if (act === 'reveal1'){ reveal(1); return render('next'); }
+    if (act === 'reveal2'){ reveal(2); return render('next'); }
+    if (act === 'check3'){
+      var right = Q1.filter(function(o){ return o.ok; })[0].k === st.q1;
+      var miss = Q2.filter(function(o){ return !!o.ok !== !!st.q2[o.k]; }).length;
+      st.ok3 = true;
+      st.msg = { kind: right && !miss ? 'ok' : 'bad', text: (right ? 'Right attack type. ' : 'Not the right attack type. ') + (miss ? miss + ' of the 8 actions differ from our answer. Read the reasons and discuss whether you agree.' : 'All actions match our answer.') };
+      return render('next');
+    }
+    if (act === 'restart'){ st.ask = true; return render('rno'); }
+    if (act === 'restart-no'){ st.ask = false; return render('restart'); }
+    if (act === 'restart-yes'){ st = fresh(); return render(null, true); }
+  });
+  document.addEventListener('change', function(e){
+    var t = e.target;
+    if (st.step !== 3 || st.ok3 || !t.matches('input')) return;
+    if (t.name === 'q1') st.q1 = t.value; else st.q2[t.value] = t.checked;
+    st.msg = null;
+    render(t.getAttribute('data-fk'));
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
