@@ -34,7 +34,7 @@ All text på startsidan står i frontmatter (blocket mellan `---`) i `content/in
 
 ## Porträtt
 
-Lägg en kvadratisk bild som `public/avatar.jpg`. Då ersätter den initialerna på startsidan.
+Porträttet på startsidan är `public/portrait.webp`: en frilagd bild (transparent bakgrund) av huvud och överkropp, cirka 600 px bred med håret ända upp mot överkanten. Den gula cirkeln och dekoren ritas i koden. Bildtexten för skärmläsare står i `hero.portraitAlt` i `content/index.md`.
 
 ## Förhandsgranska lokalt (valfritt)
 

@@ -9,6 +9,7 @@ email: hej@aholmstrom.se
 hero:
   greeting: Hej, jag är
   name: Anton Holmström
+  portraitAlt: Porträtt av Anton Holmström, leende, med glasögon och mörk t-shirt.
   intro:
     - Föreläsare, rådgivare och doktorand i informationssäkerhet vid Luleå tekniska universitet.
     - Informationssäkerhet är större än IT. Jag hjälper organisationer att förstå vad som faktiskt händer när tekniken sviker, och att bygga förmåga hos människorna, arbetssätten och systemen som måste fungera tillsammans.
