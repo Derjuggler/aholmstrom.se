@@ -38,7 +38,9 @@ Lägg en kvadratisk bild som `public/avatar.jpg`. Då ersätter den initialerna 
 
 ## Bilder i texten
 
-Lägg bilden i `public/` och skriv `![beskrivning av bilden](/filnamn.jpg)` i markdown-filen. Bilden på Om-sidan är `public/om-anton.jpg`.
+Lägg bilden i `public/` och skriv `![beskrivning av bilden](/filnamn.jpg)` i markdown-filen.
+
+Porträttet bredvid texten på Om-sidan styrs av `portrait`, `portraitAlt` (bildtext för skärmläsare) och `portraitNote` (den handskrivna lappen) i frontmatter i `content/om.md`. Bilden `public/om-portrait.webp` är frilagd med en vit kant inbakad. Samma tre rader fungerar på vilken sida som helst.
 
 ## Förhandsgranska lokalt (valfritt)
 

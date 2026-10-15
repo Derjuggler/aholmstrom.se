@@ -3,9 +3,10 @@ title: Om Anton
 description: Om Anton Holmström, doktorand, föreläsare och rådgivare inom informationssäkerhet.
 publish: true
 lang: sv
+portrait: /om-portrait.webp
+portraitAlt: Anton Holmström, leende, med glasögon och mörk t-shirt.
+portraitNote: det är jag!
 ---
-
-![Anton Holmström i mörk kavaj och ljus skjorta, leende, på ett ljust kontor.](/om-anton.jpg)
 
 Jag heter Anton Holmström och är doktorand inom informationssäkerhet med fokus på cyberresiliens. Mitt arbete rör sig mellan forskning, undervisning, verksamhetsfrågor och tekniska beroenden.
 

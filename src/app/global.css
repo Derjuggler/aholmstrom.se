@@ -58,6 +58,7 @@
   --font-heading: var(--font-geist-mono);
   --font-base: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-hand: var(--font-caveat);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Container } from '@/components/layout/Container'
 import { PageTitle } from '@/components/layout/PageTitle'
+import { StickerPortrait } from '@/components/StickerPortrait'
 import { getAllSlugs, getPage } from '@/lib/content'
 import type { Metadata } from 'next'
 
@@ -39,6 +40,7 @@ export default async function ContentPage({ params }: Props) {
     <Container>
       <article lang={page.lang}>
         {!page.hasTitle && <PageTitle className="mb-6">{page.title}</PageTitle>}
+        {page.portrait && <StickerPortrait {...page.portrait} />}
         <div className="prose" dangerouslySetInnerHTML={{ __html: page.html }} />
       </article>
     </Container>

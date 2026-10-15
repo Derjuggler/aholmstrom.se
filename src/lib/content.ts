@@ -21,6 +21,7 @@ export interface Page {
   lang: 'sv' | 'en'
   html: string
   hasTitle: boolean
+  portrait?: { src: string; alt: string; note?: string }
 }
 
 function filePathFor(slug: string[]) {
@@ -84,6 +85,9 @@ export async function getPage(slug: string[]): Promise<Page | null> {
     lang: data.lang === 'en' ? 'en' : 'sv',
     html,
     hasTitle: /^#\s/m.test(content),
+    portrait: data.portrait
+      ? { src: data.portrait, alt: data.portraitAlt ?? '', note: data.portraitNote }
+      : undefined,
   }
 }
 

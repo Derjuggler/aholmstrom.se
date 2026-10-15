@@ -1,6 +1,6 @@
 import '@/app/global.css'
 
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Caveat, Geist, Geist_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/header/Header'
@@ -27,11 +27,12 @@ export const metadata: Metadata = {
 
 const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat' })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable}`}
       lang="sv"
       suppressHydrationWarning
     >
