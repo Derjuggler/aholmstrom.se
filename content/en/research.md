@@ -5,7 +5,7 @@ publish: true
 lang: en
 ---
 
-As a doctoral researcher in information security, I study how organisations can strengthen their cyber resilience: their ability to withstand, recover from and adapt to cyber incidents.
+As a researcher in information security, I study how organisations can strengthen their cyber resilience: their ability to withstand, recover from and adapt to cyber incidents.
 
 My research focuses particularly on the human factor and the balance between technology and people. I work to operationalise cyber resilience by identifying practices and strategies that make organisations more capable of continuing, coordinating and adapting when digital systems are disrupted.
 
