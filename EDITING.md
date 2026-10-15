@@ -36,6 +36,10 @@ All text på startsidan står i frontmatter (blocket mellan `---`) i `content/in
 
 Lägg en kvadratisk bild som `public/avatar.jpg`. Då ersätter den initialerna på startsidan.
 
+## Bilder i texten
+
+Lägg bilden i `public/` och skriv `![beskrivning av bilden](/filnamn.jpg)` i markdown-filen. Bilden på Om-sidan är `public/om-anton.jpg`.
+
 ## Förhandsgranska lokalt (valfritt)
 
 ```

@@ -120,6 +120,10 @@
       @apply font-medium text-foreground underline decoration-primary decoration-1 underline-offset-4 transition-all hover:decoration-2;
     }
 
+    img {
+      @apply h-auto w-full rounded border;
+    }
+
     blockquote {
       @apply border-l-4 border-foreground/20 pl-4;
     }

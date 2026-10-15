@@ -5,6 +5,8 @@ publish: true
 lang: sv
 ---
 
+![Anton Holmström i mörk kavaj och ljus skjorta, leende, på ett ljust kontor.](/om-anton.jpg)
+
 Jag heter Anton Holmström och är doktorand inom informationssäkerhet med fokus på cyberresiliens. Mitt arbete rör sig mellan forskning, undervisning, verksamhetsfrågor och tekniska beroenden.
 
 Jag återkommer ofta till samma grundfråga: **hur bygger vi organisationer som fortfarande kan tänka, samordna och utföra sitt uppdrag när tekniken inte fungerar som planerat?**
