@@ -23,7 +23,7 @@ services:
   text: Uppläggen formas efter sammanhanget.
   items:
     - title: Föreläsningar
-      description: Cyberincidenter, cyberresiliens och säkerhet i vardagen, ur verksamhetens perspektiv.
+      description: Kalix kommuns fyra veckor utan IT, cyberresiliens och säkerhet i vardagen.
       href: /arbeta-med-mig/#forelasningar
     - title: Dependency Mapper-workshop
       description: En faciliterad första kartläggning av vad verksamheten vilar på.

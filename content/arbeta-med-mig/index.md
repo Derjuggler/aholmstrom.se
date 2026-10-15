@@ -9,13 +9,15 @@ Jag hjälper organisationer att flytta informationssäkerhet från en teknisk si
 
 ## Föreläsningar {#forelasningar}
 
+### Kalix kommun: fyra veckor utan IT
+
+När Kalix kommun drabbades av en ransomware-attack 2021–2022 slogs IT-infrastrukturen ut, och i ungefär fyra veckor arbetade kommunen helt analogt. Jag går igenom krisen före, under och efter, ur tre perspektiv: IT-avdelningen, kommunledningen och socialförvaltningen. Föreläsningen avslutas med lärdomar för andra kommuner och organisationer.
+
+Jag har hållit föreläsningen på Jönköping University:s Cybersäkerhetsdag, på frukostseminarier och hos både kommuner och privata företag.
+
 ### Cybersäkerhet i vardagen
 
 En tillgänglig föreläsning för vanliga medarbetare, elever eller andra som behöver förstå hur deras vardag hänger ihop med organisationens säkerhet. Jag har bland annat hållit denna föreläsning för årskurs 8.
-
-### När incidenten blir en verksamhetsfråga
-
-Konkreta cyberincidenter betraktade från andra håll än serverrummet: samordning, improvisation, ansvar, omsorg om kärnverksamheten och människors faktiska handlingsutrymme.
 
 ### Cyberresiliens bortom checklistan
 
