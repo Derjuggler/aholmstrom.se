@@ -1,17 +1,14 @@
-# Quartz v5
+# aholmstrom.se
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+Anton Holmströms webbplats. Next.js (statisk export) med Tailwind CSS, publicerad på GitHub Pages via `.github/workflows/deploy-pages.yml`.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+- Text: `content/` (se `EDITING.md`)
+- Design: `DESIGN.md`
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+```
+npm ci
+npm run dev     # http://localhost:3000
+npm run build   # statisk sajt i out/
+```
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
-
-## Sponsors
-
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+Layout och komponentstruktur bygger på [hudovich.com](https://github.com/ahudovich/hudovich.com), © 2026 Andrei Hudovich, MIT-licens.

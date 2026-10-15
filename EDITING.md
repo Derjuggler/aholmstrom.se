@@ -21,30 +21,30 @@ All text ligger i markdown-filer under `content/`. Du ändrar text utan att rör
 | Kontakt                  | `content/kontakt.md`                                               |
 | Engelska                 | `content/en/`                                                      |
 
+En ny fil under `content/` blir en ny sida automatiskt. Till exempel blir `content/foo.md` sidan `/foo/`. Menyn ändras i `src/lib/site.ts`.
+
 ## På startsidan
 
-Texten ligger mellan HTML-taggarna i `content/index.md`. Ändra bara texten, lämna taggarna och klassnamnen:
+All text på startsidan står i frontmatter (blocket mellan `---`) i `content/index.md`. Ändra texten efter kolon och behåll nycklarna och indraget. Står det ett kolon inne i texten måste raden omges av citattecken.
 
-- Rubrik: raden med `<h1>`. `&shy;` betyder en tillåten avstavning, `<em>IT.</em>` är den kursiva betoningen.
-- Ingress: `<p class="home-lede">`.
-- Knappar: `<a class="action-primary" ...>` och `action-secondary`.
-- Korten: varje `<a class="card ...">`. Titeln står i `<strong>`, beskrivningen i `<span class="card-desc">`.
-- Synsätt: `<p class="home-quote">`.
-- Avslutande uppmaning: `<section class="home-cta">`.
-- Figurens ord (Teknik, Människor, Processer, Informationssäkerhet) och bildtexten ligger i blocket `home-fig`. Ändra också texten i `aria-label` så att den stämmer, den läses upp för den som använder skärmläsare.
+- `email`: adressen i knapparna, kontaktsektionen och sidfoten.
+- `hero`: hälsning, namn, stycken (`intro`) och knappar.
+- `services`, `projects`: korten. Ett nytt kort läggs till som en ny rad som börjar med `-`.
+- `publications`: hur många som visas. Själva listan läses från `content/forskning/publikationer.md`, så en ny publikation läggs bara in där (`## år`, `### [titel](länk)` och sedan en rad med författare och källa).
 
-Tomma rader inuti HTML-blocket kan förstöra layouten. Lägg inga till.
+## Porträtt
+
+Lägg en kvadratisk bild som `public/avatar.jpg`. Då ersätter den initialerna på startsidan.
 
 ## Förhandsgranska lokalt (valfritt)
 
 ```
 npm ci
-npx quartz plugin install
-npx quartz build --serve
+npm run dev
 ```
 
-Öppna sedan http://localhost:8080.
+Öppna sedan http://localhost:3000.
 
-## Byta färg eller typsnitt
+## Föreläsningsbilder
 
-Färgerna står i `:root` överst i `quartz/styles/custom.scss` och under `theme` i `quartz.config.yaml`. Gul (`--signal`) används bara som yta, aldrig som textfärg på papper.
+Fristående HTML-presentationer ligger i `public/slides/<kurs>/` och publiceras som de är på `/slides/<kurs>/`.

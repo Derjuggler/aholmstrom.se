@@ -1,21 +1,6 @@
 {
   "printWidth": 100,
-  "quoteProps": "as-needed",
+  "singleQuote": true,
   "trailingComma": "all",
-  "tabWidth": 2,
-  "semi": false,
-  "overrides": [
-    {
-      "files": "*.canvas",
-      "options": {
-        "parser": "json"
-      }
-    },
-    {
-      "files": "*.base",
-      "options": {
-        "parser": "yaml"
-      }
-    }
-  ]
+  "semi": false
 }

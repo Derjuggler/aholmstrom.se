@@ -1,57 +1,47 @@
 ---
 name: aholmstrom.se
-description: Större än IT. Varmt papper, en gul accent och en figur där teknik, människor och processer möts.
+description: Smal kolumn, monospace-rubriker och en gul accent. Strukturen kommer från hudovich.com, tonen är varmare.
 colors:
-  paper: "#f4f0e8"
-  card: "#fbfaf6"
-  sand: "#ebe6db"
-  ink: "#14130f"
-  ink-soft: "#5e5a50"
-  rule: "rgba(20, 19, 15, 0.18)"
-  signal: "#f2b01e"
-  signal-text: "#8a6200"
+  background: '#f7f4ee'
+  card: '#fcfbf8'
+  secondary: '#ebe6db'
+  foreground: '#14130f'
+  muted-foreground: '#5e5a50'
+  border: '#e0d9cb'
+  primary: '#f2b01e'
+  dark-background: '#171612'
+  dark-card: '#1c1b16'
+  dark-foreground: '#ebe6db'
 typography:
-  display:
-    fontFamily: "Instrument Serif, Georgia, serif"
-    fontWeight: 400
-    lineHeight: 0.96
-    letterSpacing: "-0.02em"
-  body:
-    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
-    fontSize: "1rem"
-    lineHeight: 1.5
-  label:
-    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
-    fontSize: "0.75rem"
-    fontWeight: 500
-    letterSpacing: "0.18em"
+  heading: 'Geist Mono, 600'
+  body: 'Geist, 16px, line-height 1.6'
+  label: 'Geist Mono, 13px, versaler, vid spärrning'
 rounded:
-  card: "28px"
-  pill: "999px"
+  default: '0.5rem'
+  badge: '999px'
 ---
 
 ## Idén
 
-Sajtens budskap är att informationssäkerhet är större än IT. Det syns i startsidans figur: tre lika stora cirklar (teknik, människor, processer) som överlappar. Beroendena finns i överlappen, och informationssäkerhet står där alla tre möts. Säkerhet är ett organisatoriskt problem som kräver organisatoriska lösningar, inte ett tekniskt problem med en teknisk lösning.
+En enkel och lugn sida i en smal kolumn (704 px). Strukturen följer [hudovich.com](https://github.com/ahudovich/hudovich.com): en kort presentation överst och sedan sektioner med små versala etiketter, tunna kort och textlänkar med gul understrykning. Budskapet "informationssäkerhet är större än IT" bärs av texten, inte av en figur.
 
 ## Färg
 
-- **Paper** är sidans grund, med ett nästan osynligt rutnät på startsidan.
-- **Card** och **Sand** är ytor ovanpå papperet.
-- **Ink** är text och primära knappar (16:1 mot papper).
-- **Ink soft** är dämpad text (6:1).
-- **Signal (gul)** används bara som yta: cirklar, kort och markeringar. Aldrig som textfärg på papper. För gul text (hover, aktiv länk) används **signal-text**.
+- Varm pappersbakgrund i ljust läge och varm mörkgrå i mörkt läge. Temat följer systemet och går att växla med knappen i headern eller med tangenten T.
+- **Primary (gul)** används för knappar, understrykningar, aktiv menylänk och badges. Text på gul yta är alltid ink (`#14130f`), aldrig vit.
+- Brödtext är dämpad (`muted-foreground`). Rubriker och länkar står i `foreground`.
 
 ## Typografi
 
-Instrument Serif för rubriker, med en kursiv betoning per rubrik. Hanken Grotesk för brödtext och för små versala etiketter med vid spärrning.
+Geist Mono för rubriker, meny, knappar och etiketter. Geist (sans) för brödtext, så att längre stycken är lätta att läsa.
 
-## Form
+## Komponenter
 
-Rundade kort (28 px), pillformade knappar, hårfina linjer, prickraster som enstaka detalj. Rubriker i serif väger alltid 400.
+`src/components/ui/`: Card (kant och ring vid hover, pil uppe till höger), Badge, Button och TextLink. Markdown-sidor stylas av `.prose` i `src/app/global.css`.
 
 ## Var saker finns
 
-- Text och länkar på startsidan: `content/index.md`
-- Form och färg: `quartz/styles/custom.scss` och `theme` i `quartz.config.yaml`
-- Se `EDITING.md` för hur text uppdateras.
+- All text: `content/` (se `EDITING.md`)
+- Färger och typografiska skalor: `src/app/global.css`
+- Meny: `src/lib/site.ts`
+- Startsidans layout: `src/components/home/Home.tsx`

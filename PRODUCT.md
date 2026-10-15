@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Quartz 5, customized beyond the default theme and deployed through GitHub Pages at `aholmstrom.se`. The private source of garden notes is the Obsidian vault at `/Users/anthol/1. Projects/second-brain`. A publishing step must export only notes explicitly marked `publish: true` and their required assets into the public website repository.
+Next.js with static export (`output: 'export'`) and Tailwind CSS, deployed through GitHub Pages at `aholmstrom.se`. Pages are Markdown files in `content/`. The Obsidian garden was dropped in the October 2026 redesign and may return later.
 
 ## Users
 
@@ -35,19 +35,18 @@ Dependency Mapper is the distinctive mechanism. It connects work tasks to underl
 - The public garden may contain Swedish and English notes in their original language.
 - The Swedish site is the primary professional entrance and offer.
 - English versions are required for profile, research, and publications.
-- The navigation tree remains visible as part of the site's identity on desktop and becomes an accessible drawer on small screens.
+- A simple top menu (with a disclosure menu on small screens) replaced the tree navigation in the October 2026 redesign.
 - The first release excludes `slides.aholmstrom.se`; that will be a separate later project.
 
 ## Capabilities and Constraints
 
-- Persistent, curated tree navigation across the site.
 - Swedish-first homepage and commercial offer.
 - English profile, research, and publication pages.
 - Pages for lectures, pilot workshops, Dependency Mapper, research, publications, garden, about, and contact.
 - Primary calls to action: “Boka en föreläsning” and “Diskutera ett uppdrag”.
 - Warm contact page with a short form and a visible email fallback.
 - Dependency Mapper may be presented publicly by name with images and a short demo video.
-- No private note may be committed to the public repository merely because Quartz filters it from rendered navigation.
+- No private note may be committed to the public repository merely because it is hidden from navigation.
 - Contact email, form provider, headshot, Dependency Mapper images, and demo video are still open inputs.
 
 ## Brand Commitments
@@ -56,7 +55,7 @@ Dependency Mapper is the distinctive mechanism. It connects work tasks to underl
 - Lead identity: bookable lecturer and advisor.
 - Supporting identity: academic researcher with deep expertise.
 - Voice: direct, intellectually generous, confident, plain-language, and free of cyber-security theatre.
-- Visual character: warm and intellectual, typographically clear, diagrammatic tree structure, and small technical details.
+- Visual character: calm single column, monospace headings, warm background, one yellow accent, light and dark mode.
 - Explicit anti-reference: no black-and-neon “hacker” aesthetic.
 - The site must not feel like a generic academic CV, generic consultancy landing page, or lightly reskinned documentation theme.
 

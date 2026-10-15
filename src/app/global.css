@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #f7f4ee; /* warm paper */
+  --foreground: #14130f; /* ink */
+
+  --primary: #f2b01e; /* signal yellow */
+  --primary-foreground: #14130f;
+  --secondary: #ebe6db; /* sand */
+  --secondary-foreground: #14130f;
+  --muted: #ebe6db;
+  --muted-foreground: #5e5a50; /* 6.3:1 on background */
+
+  --card: #fcfbf8;
+  --card-foreground: #14130f;
+
+  --border: #e0d9cb;
+  --ring: #9c9483;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #171612;
+  --foreground: #ebe6db;
+
+  --primary: #f2b01e;
+  --primary-foreground: #14130f;
+  --secondary: #28261f;
+  --secondary-foreground: #f7f4ee;
+  --muted: #28261f;
+  --muted-foreground: #b5ae9f;
+
+  --card: #1c1b16;
+  --card-foreground: #f7f4ee;
+
+  --border: #2e2c25;
+  --ring: #6e695c;
+}
+
+@theme {
+  --breakpoint-xs: 30rem;
+
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+
+  --default-transition-duration: 300ms;
+}
+
+@theme inline {
+  --font-*: initial;
+  --font-heading: var(--font-geist-mono);
+  --font-base: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --radius: var(--radius);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  ::selection {
+    @apply bg-primary/40 text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+}
+
+@layer components {
+  /* Markdown pages from content/ */
+  .prose {
+    @apply leading-[1.75];
+
+    > * + * {
+      @apply my-[1.25em];
+    }
+
+    h2,
+    h3,
+    h4 {
+      @apply font-heading font-semibold text-foreground scroll-mt-6;
+    }
+
+    h2 {
+      @apply mt-10 text-lg;
+    }
+
+    h3 {
+      @apply mt-8 text-base;
+    }
+
+    h1 {
+      @apply font-heading text-xl font-semibold text-foreground xs:text-2xl;
+    }
+
+    a {
+      @apply font-medium text-foreground underline decoration-primary decoration-1 underline-offset-4 transition-all hover:decoration-2;
+    }
+
+    blockquote {
+      @apply border-l-4 border-foreground/20 pl-4;
+    }
+
+    hr {
+      @apply my-8 h-px border-0 bg-foreground/20;
+    }
+
+    ul > li,
+    ol > li {
+      @apply relative pl-6 sm:pl-10;
+    }
+
+    ol {
+      counter-reset: prose-list-item;
+    }
+
+    ul > li::before,
+    ol > li::before {
+      @apply absolute left-0 sm:left-4;
+    }
+
+    ul > li::before {
+      content: '';
+      @apply top-2.75 size-1.5 rounded-full bg-foreground/20;
+    }
+
+    ol > li {
+      counter-increment: prose-list-item;
+    }
+
+    ol > li::before {
+      content: counter(prose-list-item) '.';
+      @apply top-0 font-mono text-sm leading-[1.75rem];
+    }
+
+    ul > li + li,
+    ol > li + li {
+      @apply mt-2;
+    }
+
+    strong {
+      @apply font-semibold text-foreground;
+    }
+
+    /* Contact form in content/kontakt.md */
+    .contact-form {
+      @apply grid gap-4 rounded border bg-card p-4 sm:p-5;
+
+      label {
+        @apply flex flex-wrap items-baseline gap-x-1.5 gap-y-1.5 font-mono text-xs font-medium tracking-wider text-foreground uppercase;
+
+        span {
+          @apply tracking-normal text-muted-foreground normal-case;
+        }
+      }
+
+      input,
+      textarea {
+        @apply w-full basis-full rounded border bg-background px-3 py-2 font-base text-base tracking-normal text-foreground normal-case transition-shadow outline-none;
+        @apply ring-3 ring-transparent focus-visible:ring-ring/40;
+      }
+
+      button {
+        @apply inline-flex h-9 w-fit cursor-pointer items-center rounded bg-primary px-3 font-mono text-sm font-medium text-primary-foreground transition-all hover:brightness-95;
+      }
+
+      .form-note {
+        @apply m-0 text-sm text-muted-foreground;
+      }
+    }
+  }
+}

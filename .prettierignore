@@ -1,5 +1,6 @@
-public
 node_modules
-.quartz-cache
-quartz/static
-slides
+.next
+out
+public/slides
+content
+package-lock.json

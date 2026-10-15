@@ -19,21 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx quartz plugin install
       - run: npm run check
-      - run: npx quartz build
-      # Lecture decks are plain HTML, published as-is at /slides/<course>/ (Quartz strips .html from content files)
-      - run: cp -R slides public/slides
+      # Static export to out/. Lecture decks in public/slides are copied as-is.
+      - run: npm run build
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: public
+          path: out
 
   deploy:
     environment:
