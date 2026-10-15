@@ -19,6 +19,8 @@
   --border: #e0d9cb;
   --ring: #9c9483;
 
+  --danger: #c4321f;
+
   --radius: 0.5rem;
 }
 
@@ -38,6 +40,8 @@
 
   --border: #2e2c25;
   --ring: #6e695c;
+
+  --danger: #e5533f;
 }
 
 @theme {
@@ -72,6 +76,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
+  --color-danger: var(--danger);
 
   --radius: var(--radius);
 }
