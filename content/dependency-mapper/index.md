@@ -27,6 +27,8 @@ Resultatet är en påbörjad beroendemodell och ett gemensamt språk för nästa
 
 ## Appen
 
-Här kommer en öppen visning med bilder och en kort demonstrationsfilm. Under tiden kan jag visa verktyget i ett inledande samtal.
+Appen finns på [map.aholmstrom.se](https://map.aholmstrom.se). Där kan du pröva en demo direkt i webbläsaren: slå ut ett system och se vilka arbetsuppgifter som stannar. Inget sparas, och du behöver inget konto.
+
+Tidig åtkomst till hela verktyget ges genom inbjudan och är gratis. Appen är på engelska.
 
 [Jag vill diskutera en pilot →](/kontakt/)
