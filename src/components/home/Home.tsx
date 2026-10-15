@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import Link from 'next/link'
 import {
   ArrowRight02Icon,
@@ -32,7 +34,6 @@ export interface HomeContent {
     intro: string[]
     primary: LinkItem
     secondary: { label: string }
-    portraitAlt: string
   }
   services: {
     title: string
@@ -47,87 +48,50 @@ export interface HomeContent {
   contact: { title: string; text: string; form: string; formLink: string }
 }
 
-// The portrait pops out of the circle: below the circle's centre the image is clipped to the
-// circle, above it the head is free. Geometry in a 200 × 230 box, circle r=100 at (100, 130).
-const portraitMask = {
-  maskImage:
-    'radial-gradient(ellipse 50% 43.478% at 50% 56.522%, #000 99%, transparent 100%), linear-gradient(#000, #000)',
-  maskSize: '100% 100%, 100% 56.522%',
-  maskRepeat: 'no-repeat',
-  maskPosition: 'center, top',
-} satisfies React.CSSProperties
-
-function HeroPortrait({ alt }: { alt: string }) {
-  return (
-    <div className="relative aspect-[200/230] w-40 shrink-0 sm:w-48">
-      <svg
-        className="absolute inset-0 size-full overflow-visible"
-        viewBox="0 0 200 230"
-        aria-hidden={true}
-      >
-        <circle cx="100" cy="130" r="100" className="fill-primary" />
-        <path d="M184 82 L232 90 L197 114 Z" className="fill-primary" />
-        <g fill="none" strokeLinecap="round" strokeWidth="3">
-          <path d="M -3.3 178.2 A 114 114 0 0 1 6.6 64.6" className="stroke-primary" />
-          <path d="M 19.4 49.4 A 114 114 0 0 1 34.6 36.6" className="stroke-primary" />
-          <path d="M 207.1 169 A 114 114 0 0 1 157 228.7" className="stroke-foreground/15" />
-        </g>
-      </svg>
-      <div
-        className="absolute inset-0"
-        style={{
-          ...portraitMask,
-          WebkitMaskImage: portraitMask.maskImage,
-          WebkitMaskSize: portraitMask.maskSize,
-          WebkitMaskRepeat: portraitMask.maskRepeat,
-          WebkitMaskPosition: portraitMask.maskPosition,
-        }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="absolute bottom-0 left-1/2 w-[120%] max-w-none -translate-x-1/2"
-          src="/portrait.webp"
-          alt={alt}
-          width={490}
-          height={470}
-        />
-      </div>
-    </div>
-  )
-}
+// Drop a portrait at public/avatar.jpg and it replaces the initials.
+const hasAvatar = fs.existsSync(path.join(process.cwd(), 'public', 'avatar.jpg'))
 
 export function HomeHero({ content }: { content: HomeContent }) {
   const { hero, email } = content
   return (
-    <section className="grid items-center gap-8 sm:grid-cols-[1fr_auto] sm:gap-8">
-      <div>
-        <PageTitle className="mb-4">
-          {hero.greeting}{' '}
-          <span className="border-b-[0.09375rem] border-primary whitespace-nowrap">
-            {hero.name}
-          </span>
-        </PageTitle>
-
-        <div className="mb-6 space-y-3 leading-relaxed text-foreground">
-          {hero.intro.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
+    <section>
+      {hasAvatar ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="mb-5 size-16 rounded-full object-cover"
+          src="/avatar.jpg"
+          alt={hero.name}
+          width={64}
+          height={64}
+        />
+      ) : (
+        <div
+          className="mb-5 flex size-16 items-center justify-center rounded-full bg-primary font-mono text-lg font-bold tracking-wider text-primary-foreground"
+          aria-hidden={true}
+        >
+          AH
         </div>
+      )}
 
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-          <Link className={buttonVariants()} href={hero.primary.href}>
-            <Icon icon={Calendar03Icon} />
-            {hero.primary.label}
-          </Link>
-          <a className={buttonVariants({ variant: 'secondary' })} href={`mailto:${email}`}>
-            <Icon icon={Mail01Icon} />
-            {hero.secondary.label}
-          </a>
-        </div>
+      <PageTitle className="mb-4">
+        {hero.greeting} <span className="border-b-[0.09375rem] border-primary">{hero.name}</span>
+      </PageTitle>
+
+      <div className="mb-6 space-y-3 leading-relaxed text-foreground">
+        {hero.intro.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
       </div>
 
-      <div className="order-first ml-2 sm:order-none sm:ml-0">
-        <HeroPortrait alt={hero.portraitAlt} />
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+        <Link className={buttonVariants()} href={hero.primary.href}>
+          <Icon icon={Calendar03Icon} />
+          {hero.primary.label}
+        </Link>
+        <a className={buttonVariants({ variant: 'secondary' })} href={`mailto:${email}`}>
+          <Icon icon={Mail01Icon} />
+          {hero.secondary.label}
+        </a>
       </div>
     </section>
   )
