@@ -85,11 +85,11 @@ function HeroPortrait({ alt }: { alt: string }) {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="absolute bottom-0 left-1/2 w-[135%] max-w-none -translate-x-1/2"
+          className="absolute bottom-0 left-1/2 w-[120%] max-w-none -translate-x-1/2"
           src="/portrait.webp"
           alt={alt}
-          width={600}
-          height={501}
+          width={490}
+          height={470}
         />
       </div>
     </div>
