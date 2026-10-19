@@ -541,8 +541,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
 .slide.active.beat-slide.plain > .lede{ animation-delay:1.2s; }
 @media (prefers-reduced-motion: reduce){ .slide.active .cp-card, .slide.active .flow > *, .slide.active .disc-list li, .slide.active .tl .cur, .slide.active .cost-curve, .slide.active .cost-mark, .slide.active .cy-node, .slide.active .cy-panel > *, .slide.active .as-list li, .slide.active.beat-slide.plain > *, .slide.active table.deck-table td.fill{ animation:none !important; } }
 
-/* presenter view (press P) — opens a separate popup window; never shown on the live slide */
-.slide-notes{ display:none; }
 </style>
 </head>
 <body>
@@ -563,13 +561,11 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1>Incident response and business continuity</h1>
       <div class="title-rule"></div>
       <p class="title-meta"><b>Anton Holmstr&ouml;m</b><br>Lule&aring; University of Technology</p>
-      <div class="slide-notes"><p>TITLE</p><p>Incident response and business continuity.</p><p>Builds directly on the assignment: BIA + incident response plan for EsacOmed.</p></div>
     </section>
 
     <section class="slide beat-slide plain" aria-label="Wake-up">
       <h1>Monday, 07:40. Nothing works.</h1>
       <p class="lede">What do you do first?</p>
-      <div class="slide-notes"><p>WAKE-UP</p><p>ASK THE ROOM: you are the IT manager. Every screen shows a ransom note. What is the first thing you do?</p><p>Collect a few answers. Come back to them in the live case.</p></div>
     </section>
 
     <section class="slide" aria-label="Goals">
@@ -580,7 +576,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <li><span class="goal-num">2</span><span>explain the incident response cycle</span></li>
         <li><span class="goal-num">3</span><span>turn your analysis into an incident response plan</span></li>
       </ol>
-      <div class="slide-notes"><p>GOALS</p><p>Same three things the assignment asks for.</p><p>1. BIA. 2. The cycle. 3. From BIA to plan.</p></div>
     </section>
 
     <section class="slide" aria-label="Agenda">
@@ -593,7 +588,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <div class="roadmap-item"><div class="roadmap-num">4</div><div><div class="roadmap-label">Live case</div><div class="roadmap-desc">A ransomware attack, step by step along the kill chain</div></div></div>
         <div class="roadmap-item"><div class="roadmap-num">5</div><div><div class="roadmap-label">Your assignment</div><div class="roadmap-desc">BIA and incident response plan for EsacOmed</div></div></div>
       </div>
-      <div class="slide-notes"><p>AGENDA</p><p>Five parts.</p><p>Part 4: same kill chain as last lecture, now from the defender's side.</p></div>
     </section>
 
     <section class="slide" aria-label="Contingency planning">
@@ -605,7 +599,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <div class="cp-card later"><span class="card-tag">Course book</span><span class="cp-abbr">DR</span><span class="cp-name">Disaster recovery</span><span class="cp-q">The damage is too big for IR. How do we rebuild?</span></div>
         <div class="cp-card later"><span class="card-tag">Course book</span><span class="cp-abbr">BC</span><span class="cp-name">Business continuity</span><span class="cp-q">How does the business keep running while IT is gone?</span></div>
       </div>
-      <div class="slide-notes"><p>COMPONENTS OF CONTINGENCY PLANNING</p><p>BIA, IR, DR, BC.</p><p>Today: BIA and IR. That is what the assignment needs.</p><p>Not covered today: digital forensics, disaster and crisis recovery. Read more in the course book.</p><p>BC comes back briefly in the live case: manual routines while systems are down.</p></div>
     </section>
 
     <section class="slide" aria-label="Incident">
@@ -613,7 +606,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1>What is an incident?</h1>
       <div class="box statement">An adverse event that could result in a loss of information assets, but does not threaten the viability of the entire organisation.</div>
       <p class="lede">If it does threaten the whole organisation, it is a disaster.</p>
-      <div class="slide-notes"><p>INCIDENT</p><p>Definition from last year's slides (course book wording).</p><p>Incident: handled by IR. Disaster: DR and BC take over.</p><p>Incidents will happen. IR is about protecting key assets and limiting disruption.</p></div>
     </section>
 
     <section class="slide" aria-label="BIA">
@@ -623,7 +615,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <div class="compare-card"><span class="card-tag">Risk management asks</span><h3>How likely is it?</h3><p>Threats, vulnerabilities, probability.</p></div>
         <div class="compare-card hl"><span class="card-tag">A BIA asks</span><h3>It has happened. What now?</h3><p>Which business functions stop, what that costs, and how long we can live without them.</p></div>
       </div>
-      <div class="slide-notes"><p>BIA</p><p>Identify and prioritise critical business functions.</p><p>Not risk management: we assume the threat has been realised.</p><p>Goal: understand the consequences, so we know what to protect and restore first.</p></div>
     </section>
 
     <section class="slide" aria-label="Critical processes">
@@ -635,7 +626,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <li>Which laws or contracts set a deadline?</li>
         <li>Which systems, people and suppliers does the process depend on?</li>
       </ul>
-      <div class="slide-notes"><p>STEP 1</p><p>Start from the business, not from the IT systems.</p><p>Process first, then the systems it depends on.</p><p>EXAMPLE: a health centre. Appointment booking depends on the booking system, the network, staff accounts, the phone line.</p><p>Assignment: three processes for EsacOmed.</p></div>
     </section>
 
     <section class="slide" aria-label="Timeline">
@@ -643,7 +633,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1 class="wide">How long can it be down?</h1>
       <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class="cur"><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="future"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="future"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
       <p class="step-cap" style="min-height:2.9em">The system goes down. From this moment the clock is running.</p>
-      <div class="slide-notes"><p>TIMELINE</p><p>Normal operations, last backup, then the system goes down.</p><p>Everything after the incident is measured from here.</p></div>
     </section>
 
     <section class="slide" aria-label="Timeline 2">
@@ -651,7 +640,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1 class="wide">How long can it be down?</h1>
       <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="cur"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="future"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
       <p class="step-cap" style="min-height:2.9em"><b>Recovery point objective (RPO).</b> How much data can we afford to lose? Counted back to the last backup we can use.</p>
-      <div class="slide-notes"><p>RPO</p><p>Recovery Point Objective.</p><p>Maximum amount of data we can lose, measured in time.</p><p>Backup every 24 h = up to 24 h of data lost.</p><p>Short RPO = frequent backups or replication = cost.</p></div>
     </section>
 
     <section class="slide" aria-label="Timeline 3">
@@ -659,7 +647,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1 class="wide">How long can it be down?</h1>
       <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="past"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="cur"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
       <p class="step-cap" style="min-height:2.9em"><b>Recovery time objective (RTO).</b> The longest the system may be down before it runs again.</p>
-      <div class="slide-notes"><p>RTO</p><p>Recovery Time Objective.</p><p>Maximum time until the system is back up.</p><p>The technical part: restore servers, applications, network.</p></div>
     </section>
 
     <section class="slide" aria-label="Timeline 4">
@@ -667,7 +654,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1 class="wide">How long can it be down?</h1>
       <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="past"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="past"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="cur"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
       <p class="step-cap" style="min-height:2.9em"><b>Work recovery time (WRT).</b> The system runs, but data must be restored, checked and caught up before people can work normally.</p>
-      <div class="slide-notes"><p>WRT</p><p>Work Recovery Time.</p><p>System is up but not usable yet: restore data, check integrity, re-enter what was done on paper, test.</p><p>Often forgotten. Often longer than people think.</p></div>
     </section>
 
     <section class="slide" aria-label="Timeline 5">
@@ -675,7 +661,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1 class="wide">How long can it be down?</h1>
       <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class=""><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class=""><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class=""><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="cur"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
       <p class="step-cap" style="min-height:2.9em"><b>Maximum tolerable downtime (MTD).</b> The total time the business can be without the function. RTO and WRT together must fit inside it.</p>
-      <div class="slide-notes"><p>MTD</p><p>Maximum Tolerable Downtime.</p><p>The business limit. Set by the business, not by IT.</p><p>RULE: RTO + WRT &le; MTD. If it does not fit, the plan does not work.</p></div>
     </section>
 
     <section class="slide" aria-label="Together">
@@ -688,7 +673,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><td class="num">3</td><td class="empty">?</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td></tr>
       </table>
       <p class="step-cap" style="min-height:2.9em">A health centre. We start with appointment booking. What else must keep working?</p>
-      <div class="slide-notes"><p>TOGETHER: ASK THE ROOM</p><p>Fjällvik Health Centre (fictional, same as the live case).</p><p>Row 2 given: appointment booking. Ask: MTD? How long can patients not book?</p><p>Then: two more critical functions? (Patient records, invoicing, prescriptions, lab results...)</p></div>
     </section>
 
     <section class="slide" aria-label="Together 2">
@@ -701,7 +685,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><td class="num">3</td><td>Invoicing</td><td class="num fill">72</td><td class="num fill">48</td><td class="num fill">24</td><td class="num fill">24</td></tr>
       </table>
       <p class="step-cap" style="min-height:2.9em">One possible answer. Patient records come first: without them the health centre cannot treat anyone safely.</p>
-      <div class="slide-notes"><p>ONE POSSIBLE ANSWER</p><p>Values are an example, not the truth. Discuss.</p><p>Patient records: MTD 4 h, RPO 15 min (care decisions need current data).</p><p>Booking: MTD 8 h, paper booking works for a day.</p><p>Invoicing: MTD 72 h, can wait.</p><p>CHECK: RTO + WRT &le; MTD in every row.</p></div>
     </section>
 
     <section class="slide" aria-label="Cost balancing">
@@ -724,7 +707,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
           <p>The BIA tells you where the balance is for each function.</p>
         </div>
       </div>
-      <div class="slide-notes"><p>COST BALANCING</p><p>Red: cost of disruption grows the longer the function is down.</p><p>Blue: cost of recovery options (hot site, replication, staff) is higher the faster we want to recover.</p><p>Balance point = the RTO worth paying for.</p><p>Not every function needs a 1-hour RTO. The BIA shows which do.</p></div>
     </section>
 
     <section class="slide" aria-label="Cycle">
@@ -733,7 +715,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc1)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc1)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node "><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node "><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node "><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node "><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
         <div class="cy-panel"><h3>Four phases, in a loop</h3><p>What you learn after one incident goes back into preparing for the next.</p><p>The dashed arrow: during containment you often find new things to analyse.</p></div></div>
       <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
-      <div class="slide-notes"><p>THE CYCLE</p><p>PLACEHOLDER: replace with Anton's own figure of the incident management cycle.</p><p>Phases after NIST SP 800-61 Rev. 2.</p><p>Old slides: 1 Preparation, 2 Identification, 3 Analysis, 4 Containment, 5 Eradication, 6 Recovery. Same content, grouped differently.</p></div>
     </section>
 
     <section class="slide" aria-label="Cycle 2">
@@ -742,7 +723,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc2)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc2)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node cur"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
         <div class="cy-panel"><span class="card-tag">Phase 1</span><h3>Preparation</h3><p>Before anything happens.</p><ul><li>An incident response plan with roles and contact lists</li><li>Backups that are tested, and kept where an attacker cannot reach them</li><li>Logging and monitoring</li><li>Exercises, so people know the plan</li></ul></div></div>
       <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
-      <div class="slide-notes"><p>PREPARATION</p><p>Most of the work happens before the incident.</p><p>Plan, roles, contacts, tools, backups, logging, training.</p><p>The BIA belongs here: it sets the priorities in the plan.</p></div>
     </section>
 
     <section class="slide" aria-label="Cycle 3">
@@ -751,7 +731,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc3)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc3)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node cur"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
         <div class="cy-panel"><span class="card-tag">Phase 2</span><h3>Detection and analysis</h3><p>Is this an incident, and how bad is it?</p><ul><li><b>Confirm</b> the incident</li><li><b>Classify</b> it: type and severity</li><li><b>Document</b> everything and keep evidence</li><li><b>Prioritise and report</b>, internally and to authorities</li></ul></div></div>
       <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
-      <div class="slide-notes"><p>DETECTION AND ANALYSIS</p><p>Confirm incident. Classify incident. Document and evidence. Prioritise and report.</p><p>Prioritise using the BIA: which affected function has the shortest MTD?</p><p>Reporting: e.g. personal data breach to IMY within 72 h (GDPR art. 33).</p></div>
     </section>
 
     <section class="slide" aria-label="Cycle 4">
@@ -760,7 +739,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc4)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc4)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node cur"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
         <div class="cy-panel"><span class="card-tag">Phase 3</span><h3>Containment, eradication and recovery</h3><p>Stop it, remove it, get back.</p><ul><li><b>Contain:</b> stop the spread. Isolate machines, block addresses, disable accounts</li><li><b>Eradicate:</b> find the root cause and remove the threat</li><li><b>Recover:</b> restore systems in priority order and watch for the attacker coming back</li></ul></div></div>
       <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
-      <div class="slide-notes"><p>CONTAINMENT, ERADICATION, RECOVERY</p><p>Containment: actions and containment strategies (isolate, block, disable).</p><p>Eradication: identify root cause, remove threats.</p><p>Recovery: restore systems, monitor for recurrence.</p><p>Can loop back to detection and analysis when new things are found.</p></div>
     </section>
 
     <section class="slide" aria-label="Cycle 5">
@@ -769,7 +747,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc5)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc5)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node cur"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
         <div class="cy-panel"><span class="card-tag">Phase 4</span><h3>Post-incident activity</h3><p>What do we learn?</p><ul><li><b>Document</b> what happened and what was done</li><li><b>Lessons learned:</b> what worked, what did not</li><li><b>Update the plan</b>, and feed it back into preparation</li></ul></div></div>
       <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
-      <div class="slide-notes"><p>POST-INCIDENT ACTIVITY</p><p>Documentation. Lessons learned. Recovery planning.</p><p>Closes the cycle: the lessons go back into preparation.</p></div>
     </section>
 
     <section class="slide" aria-label="Bridge">
@@ -782,7 +759,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <div class="flow-arrow">&rarr;</div>
         <div class="flow-node hl"><b>During the incident</b>No discussion at 07:40. Follow the order.</div>
       </div>
-      <div class="slide-notes"><p>BRIDGE</p><p>BIA output = the priority list in the IR plan.</p><p>Function with the shortest MTD is contained and restored first.</p><p>This is exactly the assignment: BIA first, then the plan built on it.</p></div>
     </section>
 
     <section class="slide" aria-label="Case">
@@ -795,7 +771,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
           <p><span class="flag">Patients are already in the waiting room.</span> Let&rsquo;s go back and see how the attacker got here.</p>
         </div>
       </div>
-      <div class="slide-notes"><p>LIVE CASE</p><p>Fictional health centre, around 40 staff. Same as the BIA table.</p><p>Back to the wake-up question: what do you do first?</p><p>Now: walk the attack along the kill chain, then the response.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case">
@@ -810,7 +785,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 1. The attacker studies the target from the outside.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>1 RECONNAISSANCE</p><p>Attacker finds vpn.fjallvik... login page and staff names/roles on the website.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 2">
@@ -825,7 +799,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 2. A trap is built for this target.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>2 WEAPONIZATION</p><p>Fake login page that looks like the staff portal. Email: 'New staff rota for November, log in to see your shifts'.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 3">
@@ -840,7 +813,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 3. The trap is sent.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>3 DELIVERY</p><p>Thursday afternoon, phishing email to about 40 staff.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 4">
@@ -855,7 +827,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 4. One person falls for it. One missing control lets the attacker in.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>4 EXPLOITATION</p><p>One nurse enters username and password on the fake page.</p><p>VPN only needs a password. No MFA. Attacker logs in as the nurse.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 5">
@@ -870,7 +841,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 5. The attacker makes sure they can come back.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>5 INSTALLATION</p><p>Over VPN to a server. Installs a legitimate remote access tool, so antivirus stays quiet.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 6">
@@ -885,7 +855,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 6. Three days of quiet contact with the attacker. Nobody looks.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>6 COMMAND AND CONTROL</p><p>Server contacts the attacker's server every 5 minutes, Friday to Monday.</p><p>Nobody watches outbound traffic over the weekend.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 7">
@@ -900,7 +869,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Step 7. Monday 07:40. This is where we started.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>7 ACTIONS ON OBJECTIVES</p><p>Deletes the backups reachable from the network. Copies patient data out (double extortion). Encrypts Monday 03:00.</p><p>07:40: reception discovers it.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 8">
@@ -915,7 +883,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Signals at almost every step. Where would you have caught it?</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>COULD HAVE NOTICED</p><p>ASK THE ROOM before clicking: where could we have seen it?</p><p>3: staff report the email. 4: VPN login from another country. 5: new software on a server. 6: outbound traffic at night. 7: alert on backup deletion.</p><p>Detection = phase 2 of the cycle. Each signal needs someone or something watching.</p></div>
     </section>
 
     <section class="slide" aria-label="Live case 9">
@@ -930,7 +897,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       </div>
       <p class="step-cap" style="min-height:2.9em">Each response breaks the chain at one step. Recovery order comes from the BIA.</p>
       <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
-      <div class="slide-notes"><p>OUR RESPONSE</p><p>Contain: block sender, purge email; reset the nurse's password, MFA on VPN; block C2 address.</p><p>Eradicate: isolate the server, remove the remote access tool.</p><p>Recover: restore from the offline backup. In BIA order: patient records first.</p><p>Earlier break = less damage. Breaking at 3 or 4 means no ransomware at all.</p></div>
     </section>
 
     <section class="slide" aria-label="Response">
@@ -940,7 +906,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
         <tr class="cur"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="future"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="future"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
       </table>
-      <div class="slide-notes"><p>DETECTION AND ANALYSIS</p><p>07:40&ndash;08:30.</p><p>Confirm: ransom note, encrypted files. Classify: critical, patient data affected.</p><p>Incident log from minute one: who did what, when.</p><p>Report: IMY (personal data breach, 72 h, GDPR art. 33). Police report.</p></div>
     </section>
 
     <section class="slide" aria-label="Response 2">
@@ -950,7 +915,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
         <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="cur"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="future"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
       </table>
-      <div class="slide-notes"><p>CONTAINMENT</p><p>Stop the spread first, then investigate.</p><p>Do not turn machines off if forensics is needed: disconnect them instead.</p><p>Keep logs and evidence.</p></div>
     </section>
 
     <section class="slide" aria-label="Response 3">
@@ -960,7 +924,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
         <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="past"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="cur"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
       </table>
-      <div class="slide-notes"><p>ERADICATION</p><p>Root cause from the kill chain: phishing + VPN without MFA.</p><p>Without removing the root cause, the attacker comes back.</p></div>
     </section>
 
     <section class="slide" aria-label="Response 4">
@@ -970,7 +933,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
         <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="past"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="past"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="cur"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
       </table>
-      <div class="slide-notes"><p>RECOVERY</p><p>Patient records, then booking, then invoicing. From the BIA table.</p><p>Monitor closely in the weeks after.</p></div>
     </section>
 
     <section class="slide" aria-label="Recovery order">
@@ -983,7 +945,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <tr><td class="num">3</td><td>Invoicing</td><td class="num">72 h</td><td>Wait. Send invoices when the system is back.</td></tr>
       </table>
       <p class="lede">The right column is business continuity: how the work goes on without the system.</p>
-      <div class="slide-notes"><p>RECOVERY ORDER</p><p>Same numbers as the BIA we did together.</p><p>Shortest MTD first.</p><p>Right column: manual workarounds = business continuity. Must be planned and practised before, not invented on Monday.</p><p>Assignment: 'maintain business continuity and minimise damage'. This column is that part.</p></div>
     </section>
 
     <section class="slide" aria-label="Lessons learned">
@@ -996,7 +957,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <li>Print the patient list every evening</li>
         <li>A phishing exercise for all staff</li>
       </ul>
-      <div class="slide-notes"><p>POST-INCIDENT</p><p>Lessons learned go back into preparation. The cycle closes.</p><p>Each item maps to a step in the kill chain: 4, 7, 6, continuity, 3.</p></div>
     </section>
 
     <section class="slide" aria-label="Assignment">
@@ -1008,7 +968,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <li><span class="goal-num">3</span><span>Write an incident response plan<span class="as-sub">Concrete steps per phase that keep the business running and limit the damage.</span></span></li>
       </ol>
       <p class="as-foot">Use the template. Questions: <b>anton.holmstrom@ltu.se</b></p>
-      <div class="slide-notes"><p>ASSIGNMENT</p><p>Revisit the EsacOmed case description.</p><p>Three critical processes, BIA, IR plan.</p><p>Template provided. Contact anton.holmstrom@ltu.se.</p></div>
     </section>
 
     <section class="slide" aria-label="Good plan">
@@ -1021,7 +980,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
         <li>How does the work go on while systems are down?</li>
         <li>Who tells staff, customers and authorities, and when?</li>
       </ul>
-      <div class="slide-notes"><p>CHECKLIST FOR THE PLAN</p><p>Roles and contacts. Triggers. Priority order from the BIA. Continuity workarounds. Communication.</p><p>Test: could a new employee follow it on a Monday morning?</p></div>
     </section>
 
     <section class="slide title-slide" aria-label="Questions">
@@ -1029,7 +987,6 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
       <h1>Questions?</h1>
       <div class="title-rule"></div>
       <p class="title-meta"><b>Thank you for today.</b><br>Anton Holmstr&ouml;m, Lule&aring; University of Technology</p>
-      <div class="slide-notes"><p>QUESTIONS</p><p>Thank you for today.</p></div>
     </section>
 
   </main>
@@ -1204,273 +1161,7 @@ table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-
     });
   })();
 
-  // presenter view: a separate, draggable popup window (press P)
-  var presenterWin = null;
-  var notesStore = {};
-  var notesFontSize = 1.05;
-var previewPct = 100; // width of the preview row in % — smaller previews give a taller notes box
-  var deckStyleHTML = document.querySelector('style').outerHTML;
-  var fontLinkHTML = '<link rel="preconnect" href="https://fonts.googleapis.com">'
-    + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">';
-
-  // Notes persistence across devices, via this artifact's shared db capability.
-  var notesDb = null;
-  var notesSaveTimers = {};
-  // Notes are keyed by a stable id derived from each slide's aria-label — NOT by slide index.
-  function noteKey(i){
-    var l = (slides[i] && slides[i].getAttribute('aria-label')) || ('slide-' + i);
-    return l.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  }
-  var keyToIndex = {};
-  slides.forEach(function(_, i){ keyToIndex[noteKey(i)] = i; });
-  function initNotesDb(){
-    if (typeof window.claude === 'undefined' || !window.claude.use) return;
-    window.claude.use('db').then(function(db){
-      if (!db) return;
-      notesDb = db;
-      db.collection('notes').get().then(function(snap){
-        snap.docs.forEach(function(d){
-          var data = d.data();
-          var idx = keyToIndex[d.id];
-          if (idx !== undefined && data && typeof data.text === 'string') notesStore[idx] = data.text;
-        });
-        updatePresenterWindow();
-      }).catch(function(){ /* best-effort */ });
-    }).catch(function(){ /* best-effort */ });
-  }
-  function scheduleNotesSave(slideIndex, text){
-    if (!notesDb) return;
-    clearTimeout(notesSaveTimers[slideIndex]);
-    notesSaveTimers[slideIndex] = setTimeout(function(){
-      notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){ /* best-effort */ });
-    }, 600);
-  }
-  function flushNotesSave(slideIndex, text){
-    if (!notesDb) return;
-    clearTimeout(notesSaveTimers[slideIndex]);
-    notesDb.doc('notes/' + noteKey(slideIndex)).set({ text: text }).catch(function(){ /* best-effort */ });
-  }
-  initNotesDb();
-
-  // Every var(--token) in the popup's HTML is resolved to its literal hex value
-  // before writing — the popup document does not reliably resolve :root custom properties.
-  var cssVarMap = {
-    '--paper':'#f7f2e6', '--ink':'#1e1b16', '--muted':'#77705f', '--line':'#2a2620',
-    '--card':'#eae4d5', '--accent':'#e0604a', '--accent-deep':'#a33325',
-    '--lavender':'#cdc4f5', '--lavender-deep':'#4d3fa0', '--navy':'#1c3149',
-    '--good':'#2f8f52', '--good-soft':'#dcefdf', '--bad-soft':'#f6dedb',
-    '--on-dark-muted':'#a49c86', '--on-dark-line':'#55503f',
-    '--mono':'ui-monospace, "SF Mono", Menlo, Consolas, monospace'
-  };
-  function resolveCssVars(html){
-    return html.replace(/var\(\s*(--[a-zA-Z0-9-]+)\s*\)/g, function(m, name){
-      return cssVarMap.hasOwnProperty(name) ? cssVarMap[name] : m;
-    });
-  }
-
-  function seedNotes(i){
-    var el = slides[i] && slides[i].querySelector('.slide-notes');
-    if (!el) return '';
-    var paras = Array.prototype.slice.call(el.querySelectorAll('p'));
-    if (!paras.length) return (el.textContent || '').trim();
-    return paras.map(function(p){ return p.textContent.trim(); }).join('\n\n');
-  }
-  function getNotes(i){
-    if (!(i in notesStore)) notesStore[i] = seedNotes(i);
-    return notesStore[i];
-  }
-
-  function buildPresenterDoc(){
-    return '<!DOCTYPE html><html lang="' + LANG + '"><head><meta charset="UTF-8"><title>' + T.presenter + '</title>'
-      + fontLinkHTML
-      + deckStyleHTML
-      + '<style>'
-      + '  html,body{ height:100%; }'
-      + '  body.presenter-body{ margin:0; background:var(--ink); color:var(--paper); font-family:"EB Garamond", Georgia, serif; display:flex; flex-direction:column; height:100vh; overflow:hidden; }'
-      + '  .p-topbar{ display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid #3a352c; flex:none; }'
-      + '  .p-frame{ font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--card); font-style:italic; }'
-      + '  .p-fontctrls button{ all:unset; cursor:pointer; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center; border:1px solid #55503f; border-radius:50%; color:var(--card); font-size:.75rem; margin-left:6px; }'
-      + '  .p-fontctrls button:hover{ border-color:var(--accent); color:var(--accent); }'
-      + '  .p-previews{ display:flex; gap:16px; padding:16px 20px 6px; flex:none; }'
-    + '  .p-fontctrls button.p-wide{ width:auto; padding:0 10px; border-radius:13px; }'
-    + '  .p-splitter{ flex:none; height:24px; margin:0 20px; cursor:row-resize; display:flex; align-items:center; justify-content:center; touch-action:none; }'
-    + '  .p-splitter::before{ content:""; width:64px; height:4px; border-radius:2px; background:#55503f; }'
-    + '  .p-splitter:hover::before, .p-splitter:focus-visible::before, .p-splitter.dragging::before{ background:var(--accent); }'
-    + '  .p-splitter:focus-visible{ outline:1.5px solid var(--accent); outline-offset:-4px; }'
-      + '  .p-preview-col{ flex:1; min-width:0; }'
-      + '  .p-preview-col.p-next{ flex:0 0 34%; }'
-      + '  .p-preview-label{ font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#a49c86; margin-bottom:6px; }'
-      + '  .p-preview-frame{ position:relative; width:100%; aspect-ratio:16/9; background:var(--paper); border:1.5px solid #3a352c; overflow:hidden; }'
-      + '  .p-preview-scale{ position:absolute; top:0; left:0; transform-origin:top left; pointer-events:none; color:var(--ink); }'
-      + '  .p-notes-wrap{ flex:1; min-height:0; padding:10px 20px 14px; display:flex; }'
-      + '  .p-notes-area{ flex:1; min-height:0; resize:none; width:100%; background:#211e18; color:var(--paper); border:1.5px solid #3a352c; padding:14px 16px; font-family:"EB Garamond", Georgia, serif; line-height:1.6; }'
-      + '  .p-navbar{ display:flex; gap:10px; justify-content:center; padding:0 20px 18px; flex:none; }'
-      + '  .p-navbar button{ all:unset; cursor:pointer; padding:8px 18px; border:1.5px solid #55503f; color:var(--card); font-size:.85rem; }'
-      + '  .p-navbar button:hover{ border-color:var(--accent); color:var(--accent); }'
-      + '  .p-navbar button:disabled{ opacity:.3; cursor:default; }'
-      + '</style>'
-      + '</head><body class="presenter-body">'
-      + '  <div class="p-topbar">'
-      + '    <span class="p-frame" id="pFrameNum"></span>'
-      + '    <div class="p-fontctrls"><button id="pBoxDown" class="p-wide" title="' + T.boxSmaller + '">' + T.box + ' &minus;</button><button id="pBoxUp" class="p-wide" title="' + T.boxLarger + '">' + T.box + ' +</button><button id="pFontDown" title="' + T.smaller + '">A&minus;</button><button id="pFontUp" title="' + T.larger + '">A+</button></div>'
-      + '  </div>'
-      + '  <div class="p-previews" id="pPreviews">'
-      + '    <div class="p-preview-col p-current"><div class="p-preview-label">' + T.now + '</div><div class="p-preview-frame" id="pCurrentFrame"></div></div>'
-      + '    <div class="p-preview-col p-next"><div class="p-preview-label">' + T.next + '</div><div class="p-preview-frame" id="pNextFrame"></div></div>'
-      + '  </div>'
-      + '  <div class="p-splitter" id="pSplitter" role="separator" aria-orientation="horizontal" tabindex="0" title="' + T.resize + '" aria-label="' + T.resize + '"></div>'
-    + '  <div class="p-notes-wrap"><textarea class="p-notes-area" id="pNotesArea" placeholder="' + T.notesPh + '"></textarea></div>'
-      + '  <div class="p-navbar"><button id="pPrevBtn">&lsaquo; ' + T.prev + '</button><button id="pNextBtn">' + T.next + ' &rsaquo;</button></div>'
-      + '</body></html>';
-  }
-
-  function buildPreviewNode(win, slideIndex){
-    // Built as native nodes of the POPUP document (importNode), not cloned across documents.
-    var doc = win.document;
-    var wrap = doc.createElement('div');
-    wrap.className = 'p-preview-scale deck';
-    wrap.style.minHeight = '0';
-    var main = doc.createElement('main');
-    main.className = 'slides';
-    main.style.display = 'flex';
-    var clone = doc.importNode(slides[slideIndex], true);
-    clone.classList.add('active');
-    if (clone.hasAttribute && clone.hasAttribute('style')){
-      clone.setAttribute('style', resolveCssVars(clone.getAttribute('style')));
-    }
-    Array.prototype.slice.call(clone.querySelectorAll('[style]')).forEach(function(el){
-      el.setAttribute('style', resolveCssVars(el.getAttribute('style')));
-    });
-    main.appendChild(clone);
-    wrap.appendChild(main);
-    return wrap;
-  }
-
-  function paintPreview(win, frameId, slideIndex){
-    var frame = win.document.getElementById(frameId);
-    if (!frame) return;
-    frame.innerHTML = '';
-    if (slideIndex < 0 || slideIndex >= slides.length) return;
-    var node = buildPreviewNode(win, slideIndex);
-    frame.appendChild(node);
-    var refWidth = 1280, refHeight = 720;
-    var w = frame.clientWidth || 320, h = frame.clientHeight || 180;
-    var scale = Math.min(w / refWidth, h / refHeight);
-    node.style.width = refWidth + 'px';
-    node.style.height = refHeight + 'px';
-    node.style.transform = 'scale(' + scale + ')';
-  }
-
-  // Rescale an already-painted preview in place. Used while resizing the notes box:
-// rebuilding the clone there would restart the slide's entrance animations on every pointer move.
-function rescalePreview(win, frameId){
-  var frame = win.document.getElementById(frameId);
-  var node = frame && frame.firstElementChild;
-  if (!node) return;
-  var scale = Math.min((frame.clientWidth || 320) / 1280, (frame.clientHeight || 180) / 720);
-  node.style.transform = 'scale(' + scale + ')';
-}
-
-function updatePresenterWindow(){
-    if (!presenterWin || presenterWin.closed) return;
-    var doc = presenterWin.document;
-    var frameNum = doc.getElementById('pFrameNum');
-    if (frameNum) frameNum.textContent = T.slide + ' ' + (current + 1) + ' / ' + slides.length;
-    paintPreview(presenterWin, 'pCurrentFrame', current);
-    paintPreview(presenterWin, 'pNextFrame', current + 1);
-    var ta = doc.getElementById('pNotesArea');
-    if (ta) ta.value = getNotes(current);
-    var pPrev = doc.getElementById('pPrevBtn');
-    var pNext = doc.getElementById('pNextBtn');
-    if (pPrev) pPrev.disabled = current === 0;
-    if (pNext) pNext.disabled = current === slides.length - 1;
-  }
-
-  function openPresenterWindow(){
-    if (presenterWin && !presenterWin.closed){
-      presenterWin.focus();
-      return;
-    }
-    presenterWin = window.open('', 'presenterWindow', 'width=820,height=760,resizable=yes');
-    if (!presenterWin){
-      alert(T.popup);
-      return;
-    }
-    presenterWin.document.open();
-    presenterWin.document.write(resolveCssVars(buildPresenterDoc()));
-    presenterWin.document.close();
-
-    presenterWin.document.getElementById('pPrevBtn').addEventListener('click', function(){ goTo(current - 1); });
-    presenterWin.document.getElementById('pNextBtn').addEventListener('click', function(){ goTo(current + 1); });
-    var ta = presenterWin.document.getElementById('pNotesArea');
-    ta.style.fontSize = notesFontSize + 'rem';
-    ta.addEventListener('input', function(e){
-      notesStore[current] = e.target.value;
-      scheduleNotesSave(current, e.target.value);
-    });
-    presenterWin.document.getElementById('pFontUp').addEventListener('click', function(){
-      notesFontSize = Math.min(2, notesFontSize + 0.1);
-      ta.style.fontSize = notesFontSize + 'rem';
-    });
-    presenterWin.document.getElementById('pFontDown').addEventListener('click', function(){
-      notesFontSize = Math.max(0.7, notesFontSize - 0.1);
-      ta.style.fontSize = notesFontSize + 'rem';
-    });
-    // resizable notes box: drag the splitter, use Box −/+ or arrow keys on the splitter.
-// Shrinking the preview row is what gives the notes textarea (flex:1) more height.
-var pv = presenterWin.document.getElementById('pPreviews');
-var sp = presenterWin.document.getElementById('pSplitter');
-function setPreviewPct(v){
-  previewPct = Math.max(25, Math.min(100, v));
-  pv.style.width = previewPct + '%';
-  rescalePreview(presenterWin, 'pCurrentFrame');
-  rescalePreview(presenterWin, 'pNextFrame');
-}
-setPreviewPct(previewPct);
-presenterWin.document.getElementById('pBoxUp').addEventListener('click', function(){ setPreviewPct(previewPct - 10); });
-presenterWin.document.getElementById('pBoxDown').addEventListener('click', function(){ setPreviewPct(previewPct + 10); });
-var drag = null;
-sp.addEventListener('pointerdown', function(e){
-  drag = { y: e.clientY, pct: previewPct, h: pv.getBoundingClientRect().height || 1 };
-  sp.classList.add('dragging');
-  if (sp.setPointerCapture) sp.setPointerCapture(e.pointerId);
-  e.preventDefault();
-});
-sp.addEventListener('pointermove', function(e){
-  if (drag) setPreviewPct(drag.pct * (drag.h + (e.clientY - drag.y)) / drag.h);
-});
-function endDrag(){ drag = null; sp.classList.remove('dragging'); }
-sp.addEventListener('pointerup', endDrag);
-sp.addEventListener('pointercancel', endDrag);
-sp.addEventListener('keydown', function(e){
-  if (e.key === 'ArrowUp'){ setPreviewPct(previewPct - 5); e.preventDefault(); }
-  if (e.key === 'ArrowDown'){ setPreviewPct(previewPct + 5); e.preventDefault(); }
-});
-presenterWin.addEventListener('resize', function(){ setPreviewPct(previewPct); });
-
-presenterWin.document.addEventListener('keydown', function(e){
-      var tag = (presenterWin.document.activeElement && presenterWin.document.activeElement.tagName) || '';
-      if (tag === 'TEXTAREA') return;
-      if (e.key === 'ArrowRight') goTo(current + 1);
-      if (e.key === 'ArrowLeft') goTo(current - 1);
-    });
-    presenterWin.addEventListener('beforeunload', function(){
-      var liveTa = presenterWin.document.getElementById('pNotesArea');
-      if (liveTa){
-        notesStore[current] = liveTa.value;
-        flushNotesSave(current, liveTa.value);
-      }
-    });
-
-    updatePresenterWindow();
-  }
-
-  document.addEventListener('keydown', function(e){
-    if (e.key !== 'p' && e.key !== 'P') return;
-    var tag = (document.activeElement && document.activeElement.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-    openPresenterWindow();
-  });
+  function updatePresenterWindow(){}
 
   render();
 })();
