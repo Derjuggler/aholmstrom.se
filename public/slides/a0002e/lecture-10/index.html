@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incident Response</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<style>
+:root{
+  --paper:#f7f2e6;
+  --ink:#1e1b16;
+  --muted:#77705f;
+  --line:#2a2620;
+  --card:#eae4d5;
+  --accent:#e0604a;
+  --accent-deep:#a33325;
+  --lavender:#cdc4f5;
+  --lavender-deep:#4d3fa0;
+  --navy:#1c3149;
+  --good:#2f8f52;
+  --good-soft:#dcefdf;
+  --bad-soft:#f6dedb;
+  --on-dark-muted:#a49c86;
+  --on-dark-line:#55503f;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"EB Garamond", Georgia, "Times New Roman", serif;
+  -webkit-font-smoothing:antialiased;
+}
+.deck{ min-height:100vh; height:100vh; display:flex; flex-direction:column; }
+
+.deck-header{ display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px clamp(16px,4vw,56px) 0; }
+.course-tag{ font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-style:italic; }
+.header-right{ display:flex; align-items:center; gap:20px; }
+.slide-number{ font-size:.85rem; letter-spacing:.06em; color:var(--muted); font-variant-numeric:tabular-nums; }
+.progress-track{ width:180px; height:3px; background:var(--card); }
+.progress-fill{ height:100%; background:var(--ink); width:3.33%; transition:width .25s ease; }
+.ltu-logo{ height:40px; width:auto; display:block; opacity:.92; }
+.ltu-logo.on-dark{ display:none; }
+
+/* flex:1 + min-height:0 + overflow:hidden on BOTH .slides and .slide is load-bearing */
+.slides{ flex:1; min-height:0; display:flex; align-items:stretch; padding:10px clamp(16px,4vw,56px) 14px; overflow:hidden; }
+.slide{ display:none; width:100%; max-width:1140px; margin:0 auto; min-height:0; flex-direction:column; justify-content:center; gap:24px; padding-block:6px; overflow:hidden; }
+.slide.active{ display:flex; }
+
+.slide-eyebrow{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-style:italic; }
+.slide h1{ font-size:clamp(2rem,4vw,2.9rem); font-weight:600; line-height:1.14; margin:0; max-width:22ch; text-wrap:balance; }
+.slide .lede{ font-size:1.45rem; color:var(--muted); max-width:70ch; margin:0; line-height:1.5; }
+.slide h2.inline{ font-size:1.4rem; font-weight:600; margin:0 0 4px; }
+
+/* title slide */
+.title-slide h1{ font-size:clamp(3rem,7vw,5.2rem); line-height:1.04; max-width:14ch; }
+.title-rule{ width:72px; height:3px; background:var(--accent); }
+.title-meta{ font-size:1.3rem; color:var(--muted); line-height:1.5; }
+.title-meta b{ color:var(--ink); font-weight:600; }
+.slide.active.title-slide > *{ animation:tFade .6s ease-out both; }
+.slide.active.title-slide > *:nth-child(2){ animation-delay:.15s; }
+.slide.active.title-slide > *:nth-child(3){ animation-delay:.3s; }
+.slide.active.title-slide > *:nth-child(4){ animation-delay:.45s; }
+@keyframes tFade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce){ .slide.active.title-slide > *{ animation:none !important; } }
+
+/* goals — a few large numbered statements */
+.goal-list{ display:flex; flex-direction:column; gap:26px; margin:0; padding:0; list-style:none; }
+.goal-list li{ display:grid; grid-template-columns:64px 1fr; align-items:baseline; gap:8px; font-size:1.9rem; line-height:1.3; }
+.goal-num{ font-size:2.4rem; font-weight:600; color:var(--accent); font-variant-numeric:lining-nums; }
+.slide.active .goal-list li{ animation:tFade .5s ease-out both; }
+.slide.active .goal-list li:nth-child(2){ animation-delay:.25s; }
+.slide.active .goal-list li:nth-child(3){ animation-delay:.5s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .goal-list li{ animation:none !important; } }
+
+/* roadmap / agenda — numbered list with connecting line */
+.roadmap{ display:flex; flex-direction:column; }
+.roadmap-item{ display:grid; grid-template-columns:40px 1fr; gap:16px; padding-block:11px; position:relative; }
+.roadmap-item:not(:last-child)::after{ content:""; position:absolute; left:19px; top:48px; bottom:-11px; width:1px; background:var(--line); }
+.roadmap-num{ width:38px; height:38px; border-radius:50%; border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:.92rem; background:var(--paper); position:relative; z-index:1; }
+.roadmap-label{ font-size:1.3rem; font-weight:600; }
+.roadmap-desc{ color:var(--muted); font-size:1.15rem; margin-top:2px; }
+
+/* agenda mapped to goals — roadmap rows on the left, each goal bracketing the parts that serve it */
+.agenda-map{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); column-gap:44px; }
+.agenda-map .roadmap-item{ grid-column:1; }
+.agenda-map .ar5::after{ display:none; }
+.ar1{ grid-row:1; } .ar2{ grid-row:2; } .ar3{ grid-row:3; } .ar4{ grid-row:4; } .ar5{ grid-row:5; }
+.goal-span{ grid-column:2; display:flex; align-items:center; gap:18px; border-left:3px solid var(--accent); padding-left:22px; margin-block:12px; }
+.goal-span.ga{ grid-row:1 / span 2; } .goal-span.gb{ grid-row:3 / span 2; } .goal-span.gc{ grid-row:5; }
+.goal-tag{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--muted); }
+.goal-text{ font-size:1.35rem; line-height:1.3; }
+.slide.active .goal-span{ animation:tFade .5s ease-out both; }
+.slide.active .goal-span.ga{ animation-delay:.3s; } .slide.active .goal-span.gb{ animation-delay:.6s; } .slide.active .goal-span.gc{ animation-delay:.9s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .goal-span{ animation:none !important; } }
+@media (max-width: 760px){ .agenda-map{ grid-template-columns:1fr; } .agenda-map > *{ grid-row:auto; grid-column:auto; } }
+
+/* network-style diagrams (inline SVG) */
+.net-diagram{ width:100%; }
+.net-diagram svg{ display:block; width:100%; height:auto; overflow:visible; }
+.net-edge{ fill:none; stroke:var(--line); stroke-width:1.5; }
+.net-edge.arc{ stroke:var(--lavender-deep); stroke-width:2.5; }
+.net-head{ fill:var(--line); }
+.net-head.arc{ fill:var(--lavender-deep); }
+.net-node-box{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; }
+.net-node-box.hl{ fill:var(--card); }
+.net-node-box.bad{ fill:var(--bad-soft); stroke:var(--accent-deep); }
+.net-node-box.def{ stroke:var(--navy); stroke-width:2; }
+.net-node-box.pill{ fill:var(--lavender); stroke:none; }
+.net-node-label{ font-family:"EB Garamond", serif; font-size:26px; font-weight:600; fill:var(--ink); text-anchor:middle; }
+.net-node-label.bad{ fill:var(--accent-deep); }
+.net-node-label.def{ fill:var(--navy); }
+.net-node-sub{ font-family:"EB Garamond", serif; font-size:18px; font-style:italic; fill:var(--muted); text-anchor:middle; }
+.net-node-sub.on-pill{ fill:var(--lavender-deep); }
+.net-caption{ font-family:"EB Garamond", serif; font-size:18px; fill:var(--muted); text-anchor:middle; font-style:italic; }
+.net-packet{ fill:var(--accent); }
+.net-packet.deep{ fill:var(--accent-deep); }
+.net-packet.lav{ fill:var(--lavender-deep); }
+.net-future{ visibility:hidden; }
+.slide.active .net-draw{ stroke-dasharray:1; animation:tDraw .7s ease-out both; }
+.slide.active .net-draw.d2{ animation-delay:1s; }
+.slide.active .net-fade{ animation:tFade .5s ease-out both; }
+.slide.active .net-fade.d1{ animation-delay:.6s; }
+.slide.active .net-fade.d3{ animation-delay:1.6s; }
+@keyframes tDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+@media (prefers-reduced-motion: reduce){ .net-packet{ display:none; } .slide.active .net-draw, .slide.active .net-fade{ animation:none !important; } }
+
+/* three views of CTI — cumulative card build; the lavender chip ties back to the pill in the previous diagram */
+.ti-chip{ background:var(--lavender); border-radius:16px; padding:0 .28em; white-space:nowrap; }
+.slide h1.wide{ max-width:28ch; }
+.view-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; align-items:stretch; }
+.view-card{ border:1.5px solid var(--line); display:flex; flex-direction:column; min-width:0; transition:opacity .4s ease; }
+.view-head{ padding:14px 20px; border-bottom:1.5px solid var(--line); background:var(--card); }
+.view-who{ display:block; font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--muted); }
+.view-title{ font-size:1.4rem; font-weight:600; line-height:1.2; }
+.view-body{ padding:18px 20px; font-size:1.18rem; line-height:1.45; flex:1; display:flex; flex-direction:column; gap:8px; justify-content:center; }
+.view-body .mono{ font-family:var(--mono); font-size:1rem; line-height:1.7; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.view-body .src{ font-size:1rem; color:var(--muted); }
+.view-body ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+.view-body li b{ display:block; font-weight:600; }
+.view-card.future{ visibility:hidden; }
+.view-card.past{ opacity:.45; }
+.view-card.all{ border-color:var(--lavender-deep); box-shadow:inset 0 0 0 1.5px var(--lavender-deep); }
+.view-card.all .view-head{ background:var(--lavender); border-bottom-color:var(--lavender-deep); }
+.slide.active .view-card.cur{ animation:tFade .5s ease-out both; }
+.slide .lede.strong{ color:var(--ink); font-weight:600; }
+@media (prefers-reduced-motion: reduce){ .slide.active .view-card.cur{ animation:none !important; } }
+@media (max-width: 760px){ .view-grid{ grid-template-columns:1fr; } }
+
+/* generic boxes, comparisons, callouts */
+.box{ border:1.5px solid var(--line); padding:20px 24px; font-size:1.18rem; line-height:1.5; }
+.box.filled{ background:var(--card); }
+.box.statement{ font-size:2rem; line-height:1.3; font-weight:500; padding:28px 32px; }
+.box .cite{ display:block; margin-top:10px; font-size:1.05rem; font-weight:400; color:var(--muted); }
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.compare-card{ border:1.5px solid var(--line); padding:22px; }
+.compare-card.hl{ background:var(--lavender); border-color:var(--lavender-deep); }
+.card-tag{ display:block; margin-bottom:10px; font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--muted); }
+.compare-card.hl .card-tag{ color:var(--lavender-deep); }
+.compare-card h3{ margin:0 0 10px; font-size:1.5rem; }
+.compare-card p{ margin:0; color:var(--ink); font-size:1.3rem; line-height:1.5; }
+.dashed{ border:1.5px dashed var(--line); padding:18px 22px; font-size:1.2rem; line-height:1.5; }
+.dashed b{ display:block; margin-bottom:4px; }
+.dashed .cite{ color:var(--muted); }
+
+/* term breakdown — three words, one definition per click */
+.term-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:28px; }
+.term{ display:flex; flex-direction:column; gap:14px; min-width:0; transition:opacity .4s ease; }
+.term-word{ font-size:clamp(2.4rem,5vw,3.6rem); font-weight:600; line-height:1.1; padding-bottom:10px; border-bottom:3px solid var(--card); }
+.term-def{ font-size:1.35rem; line-height:1.45; margin:0; }
+.term.cur .term-word{ border-bottom-color:var(--accent); }
+.term.past{ opacity:.5; }
+.term.future .term-word{ color:var(--muted); opacity:.55; }
+.term.future .term-def{ visibility:hidden; }
+.slide.active .term.cur .term-def{ animation:tFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .term.cur .term-def{ animation:none !important; } }
+@media (max-width: 760px){ .term-grid, .two-col{ grid-template-columns:1fr; } }
+
+/* question grid — six question words, each with what it covers */
+.q-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:26px 32px; }
+.q-item{ display:flex; flex-direction:column; gap:8px; min-width:0; border-top:3px solid var(--card); padding-top:12px; }
+.q-word{ font-size:2.3rem; font-weight:600; line-height:1.1; color:var(--accent-deep); }
+.q-text{ font-size:1.28rem; line-height:1.4; margin:0; }
+.slide.active .q-item{ animation:tFade .45s ease-out both; }
+.slide.active .q-item:nth-child(2){ animation-delay:.15s; } .slide.active .q-item:nth-child(3){ animation-delay:.3s; }
+.slide.active .q-item:nth-child(4){ animation-delay:.45s; } .slide.active .q-item:nth-child(5){ animation-delay:.6s; } .slide.active .q-item:nth-child(6){ animation-delay:.75s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .q-item{ animation:none !important; } }
+@media (max-width: 760px){ .q-grid{ grid-template-columns:1fr; } }
+
+/* funnel — operational environment narrows to data, information, intelligence (cumulative build) */
+.funnel svg{ max-width:960px; }
+.fz{ fill:var(--card); }
+.fz.int{ fill:var(--lavender); }
+.f-lens{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; }
+.f-future{ visibility:hidden; }
+.f-past{ opacity:.45; }
+.slide.active .f-cur{ animation:tFade .55s ease-out both; }
+.step-cap{ font-size:1.4rem; line-height:1.45; margin:0; max-width:64ch; min-height:4.35em; } /* three lines reserved so the layout does not jump between steps */
+.step-cap b{ font-weight:600; }
+.src-line{ font-size:1rem; color:var(--muted); margin:0; }
+@media (prefers-reduced-motion: reduce){ .slide.active .f-cur{ animation:none !important; } }
+
+/* levels — three stacked levels on the left, the current one explained on the right (highlight sequence) */
+.lv{ display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr); gap:32px; align-items:stretch; }
+.lv-stack{ display:flex; flex-direction:column; }
+.lv-row{ flex:1; border:1.5px solid var(--line); margin-top:-1.5px; padding:18px 22px; display:flex; flex-direction:column; justify-content:center; gap:2px; background:var(--paper); transition:opacity .4s ease; min-height:112px; }
+.lv-row:first-child{ margin-top:0; }
+.lv-name{ font-size:1.6rem; font-weight:600; line-height:1.2; }
+.lv-q{ font-size:1.15rem; font-style:italic; color:var(--muted); }
+.lv-row.dim{ opacity:.4; }
+.lv-row.cur{ background:var(--lavender); border-color:var(--lavender-deep); position:relative; z-index:1; }
+.lv-row.cur .lv-q{ color:var(--lavender-deep); }
+.lv-detail{ border:1.5px solid var(--line); padding:24px 28px; display:flex; flex-direction:column; gap:18px; justify-content:center; }
+.lv-for{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.lv-chip{ border:1.5px solid var(--line); padding:4px 14px; font-size:1.12rem; background:var(--card); }
+.lv-desc{ font-size:1.4rem; line-height:1.4; margin:0; }
+.lv-say{ border:1.5px dashed var(--line); padding:14px 20px; font-size:1.3rem; line-height:1.4; }
+.lv-quotes{ display:flex; flex-direction:column; gap:0; }
+.lv-quotes .lv-say{ flex:1; display:flex; flex-direction:column; justify-content:center; margin-top:-1.5px; min-height:112px; }
+.lv-quotes .lv-say:first-child{ margin-top:0; }
+.slide.active .lv-detail, .slide.active .lv-quotes{ animation:tFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .lv-detail, .slide.active .lv-quotes{ animation:none !important; } }
+@media (max-width: 760px){ .lv{ grid-template-columns:1fr; } }
+
+/* sources — three source cards that merge into one lavender bar on the last click */
+.view-q{ font-size:1.2rem; font-style:italic; color:var(--muted); margin:0; }
+.chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.view-body:has(.view-q){ justify-content:flex-start; gap:12px; }
+.merge{ display:flex; flex-direction:column; gap:6px; }
+.merge-arrows{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; text-align:center; font-size:1.5rem; line-height:1; color:var(--lavender-deep); }
+.merge-bar{ background:var(--lavender); border-radius:16px; padding:14px 20px; text-align:center; font-size:1.5rem; font-weight:600; }
+.merge.future{ visibility:hidden; }
+.slide.active .merge.cur{ animation:tFade .5s ease-out .2s both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .merge.cur{ animation:none !important; } }
+
+/* screenshot examples — one real screenshot, one line saying what you are looking at */
+.shot{ display:block; max-width:100%; max-height:52vh; width:auto; height:auto; border:1.5px solid var(--line); align-self:flex-start; }
+.shot-side{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:32px; align-items:center; }
+.shot-side .shot{ max-height:62vh; }
+.shot-cap{ font-size:1.5rem; line-height:1.4; margin:0; max-width:60ch; }
+.slide.active .shot{ animation:tFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .shot{ animation:none !important; } }
+@media (max-width: 760px){ .shot-side{ grid-template-columns:1fr; } }
+
+/* indicators of compromise: an indicator from a feed next to our own log, then the common types */
+.ioc-pair{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:20px; align-items:stretch; }
+.ioc-box{ border:1.5px solid var(--line); display:flex; flex-direction:column; min-width:0; }
+.ioc-box .view-body{ justify-content:center; }
+.ioc-ip{ font-family:var(--mono); font-size:1.7rem; color:var(--accent-deep); }
+.ioc-log{ font-family:var(--mono); font-size:1.02rem; line-height:1.9; margin:0; white-space:pre; overflow:hidden; }
+.ioc-log span{ display:block; padding:0 8px; }
+.ioc-log .hit{ background:var(--bad-soft); outline:1.5px solid var(--accent-deep); color:var(--accent-deep); font-weight:600; }
+.slide.active .ioc-log .hit{ animation:tFade .5s ease-out .2s both; }
+.ioc-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:22px 32px; }
+.ioc-item{ display:flex; flex-direction:column; gap:6px; min-width:0; border-top:3px solid var(--card); padding-top:12px; }
+.ioc-name{ font-size:1.55rem; font-weight:600; line-height:1.15; }
+.ioc-ex{ font-family:var(--mono); font-size:1rem; color:var(--accent-deep); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ioc-what{ font-size:1.2rem; line-height:1.4; margin:0; color:var(--ink); }
+.slide.active .ioc-item{ animation:tFade .45s ease-out both; }
+.slide.active .ioc-item:nth-child(2){ animation-delay:.15s; } .slide.active .ioc-item:nth-child(3){ animation-delay:.3s; }
+.slide.active .ioc-item:nth-child(4){ animation-delay:.45s; } .slide.active .ioc-item:nth-child(5){ animation-delay:.6s; } .slide.active .ioc-item:nth-child(6){ animation-delay:.75s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .ioc-item, .slide.active .ioc-log .hit{ animation:none !important; } }
+@media (max-width: 760px){ .ioc-pair, .ioc-grid{ grid-template-columns:1fr; } }
+
+/* indicators in use: the levels layout with four rows and a monospace example */
+.lv.four .lv-row{ min-height:92px; padding:12px 22px; }
+.lv.four .lv-quotes .lv-say{ min-height:92px; padding:10px 20px; }
+.lv-mono{ font-family:var(--mono); font-size:1.05rem; line-height:1.6; display:block; }
+
+/* example: the Hungry Flamingos, built up one finding per click */
+.ex-svg{ width:100%; height:auto; max-height:47vh; display:block; }
+.ex-svg text{ font-family:"EB Garamond", Georgia, serif; fill:var(--ink); }
+.ex-svg .ex-mono{ font-family:var(--mono); font-size:19px; }
+.ex-svg .ex-lbl{ font-size:22px; font-weight:600; }
+.ex-svg .ex-sm{ font-size:17px; font-style:italic; fill:var(--muted); }
+.ex-svg .ex-box{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; }
+.ex-svg .ex-zone{ fill:var(--card); stroke:var(--line); stroke-width:1.5; }
+.ex-svg .ex-ours{ fill:var(--lavender); stroke:var(--lavender-deep); stroke-width:1.5; }
+.ex-svg .ex-bad{ fill:var(--bad-soft); stroke:var(--accent-deep); stroke-width:1.5; }
+.ex-svg .ex-line{ stroke:var(--line); stroke-width:1.5; fill:none; }
+.ex-svg .ex-hot{ stroke:var(--accent-deep); stroke-width:2.5; fill:none; }
+.ex-svg .ex-future{ visibility:hidden; }
+.slide.active .ex-svg .ex-cur{ animation:tFade .6s ease-out both; }
+.ex-cap{ display:flex; flex-direction:column; gap:6px; min-height:6.6em; }
+.ex-cap p{ margin:0; font-size:1.35rem; line-height:1.4; max-width:66ch; }
+.ex-cap .ex-q{ font-size:1.7rem; font-style:italic; font-weight:500; color:var(--accent-deep); }
+.ex-qs{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; min-height:6.6em; align-items:start; }
+.ex-qs div{ border:1.5px dashed var(--line); padding:14px 20px; font-size:1.5rem; font-style:italic; color:var(--accent-deep); }
+.slide.active .ex-cap, .slide.active .ex-qs{ animation:tFade .5s ease-out .2s both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .ex-svg .ex-cur, .slide.active .ex-cap, .slide.active .ex-qs{ animation:none !important; } }
+@media (max-width: 760px){ .ex-qs{ grid-template-columns:1fr; } }
+
+/* bridge: the findings from the example as loose notes */
+.loose{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px; padding:18px 12px 10px; }
+.loose-note{ border:1.5px solid var(--line); background:var(--card); padding:20px 20px 24px; font-size:1.35rem; line-height:1.35; min-height:130px; display:flex; flex-direction:column; gap:8px; }
+.loose-note .ex-m{ font-family:var(--mono); font-size:1.05rem; color:var(--accent-deep); }
+.loose-note:nth-child(1){ rotate:-2deg; } .loose-note:nth-child(2){ rotate:1.5deg; translate:0 14px; }
+.loose-note:nth-child(3){ rotate:-1deg; translate:0 -6px; } .loose-note:nth-child(4){ rotate:2.5deg; translate:0 10px; }
+.slide.active .loose-note{ animation:tFade .45s ease-out both; }
+.slide.active .loose-note:nth-child(2){ animation-delay:.15s; } .slide.active .loose-note:nth-child(3){ animation-delay:.3s; } .slide.active .loose-note:nth-child(4){ animation-delay:.45s; }
+/* diamond model: four corners around a diamond, filled in one per click */
+.dm{ display:grid; grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr); grid-template-rows:auto 150px auto; gap:10px 18px; align-items:center; justify-items:center; }
+.dm-card{ width:100%; max-width:380px; border:1.5px dashed var(--line); padding:10px 18px 12px; display:flex; flex-direction:column; gap:2px; transition:opacity .4s ease; }
+.dm-top{ grid-column:1 / 4; grid-row:1; } .dm-bot{ grid-column:1 / 4; grid-row:3; }
+.dm-left{ grid-column:1; grid-row:2; justify-self:end; } .dm-right{ grid-column:3; grid-row:2; justify-self:start; }
+.dm-svg{ grid-column:2; grid-row:2; width:190px; height:150px; }
+.dm-svg path{ fill:none; stroke:var(--line); stroke-width:1.5; }
+.dm-name{ font-size:1.45rem; font-weight:600; line-height:1.2; }
+.dm-q{ font-size:1.1rem; font-style:italic; color:var(--muted); }
+.dm-val{ font-size:1.22rem; line-height:1.35; margin-top:4px; min-height:2.7em; }
+.dm-val.mt{ visibility:hidden; }
+.dm-card.done{ border-style:solid; }
+.dm-card.cur{ border-style:solid; border-color:var(--lavender-deep); background:var(--lavender); }
+.dm-card.cur .dm-q{ color:var(--lavender-deep); }
+.slide.active .dm-card.cur .dm-val{ animation:tFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .loose-note, .slide.active .dm-card.cur .dm-val{ animation:none !important; } }
+@media (max-width: 760px){ .loose{ grid-template-columns:1fr 1fr; } .dm{ grid-template-columns:1fr; grid-template-rows:none; } .dm-card{ grid-column:1 !important; grid-row:auto !important; justify-self:center !important; } .dm-svg{ display:none; } }
+
+/* kill chain: seven chevrons in time order, the case under them, then where the chain can be broken */
+.kc{ display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:10px 6px; }
+.kc-head{ background:var(--lavender); padding:12px 8px 12px 22px; min-height:92px; display:flex; flex-direction:column; justify-content:center; gap:2px; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%); }
+.kc-head:first-child{ clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); padding-left:14px; }
+.kc-num{ font-size:.95rem; font-weight:600; color:var(--lavender-deep); }
+.kc-name{ font-size:1.08rem; font-weight:600; line-height:1.15; hyphens:auto; overflow-wrap:anywhere; }
+.kc-case{ border:1.5px solid var(--line); padding:10px 10px; font-size:1.08rem; line-height:1.3; min-height:106px; }
+.kc-case.unk{ border-style:dashed; color:var(--muted); font-style:italic; }
+.kc-def{ border:1.5px solid var(--accent-deep); background:var(--bad-soft); color:var(--accent-deep); padding:8px 10px; font-size:1.08rem; font-weight:600; line-height:1.25; min-height:64px; display:flex; align-items:center; }
+.kc-def.none{ visibility:hidden; }
+.kc-row-tag{ grid-column:1 / 8; font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--muted); margin-top:6px; }
+.kc .hid{ visibility:hidden; }
+.slide.active .kc .cur{ animation:tFade .45s ease-out both; }
+.slide.active .kc .cur.n2{ animation-delay:.1s; } .slide.active .kc .cur.n3{ animation-delay:.2s; } .slide.active .kc .cur.n4{ animation-delay:.3s; }
+.slide.active .kc .cur.n5{ animation-delay:.4s; } .slide.active .kc .cur.n6{ animation-delay:.5s; } .slide.active .kc .cur.n7{ animation-delay:.6s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .kc .cur{ animation:none !important; } }
+@media (max-width: 760px){ .kc{ grid-template-columns:1fr 1fr; } .kc-row-tag{ grid-column:1 / 3; } .kc-head, .kc-head:first-child{ clip-path:none; padding-left:14px; } }
+
+/* ATT&CK: the tactics as a grid, then one technique looked up, then what to do about it */
+.at-grid{ display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:10px; }
+.at-tac{ border:1.5px solid var(--line); padding:10px 16px; min-height:60px; display:flex; align-items:center; gap:12px; font-size:1.25rem; font-weight:600; line-height:1.15; }
+.at-n{ font-size:.95rem; color:var(--muted); font-variant-numeric:tabular-nums lining-nums; }
+.slide.active .at-tac{ animation:tFade .4s ease-out both; animation-delay:calc(var(--i) * 50ms); }
+.at{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr); gap:28px; align-items:stretch; }
+.at-tech{ border:1.5px solid var(--lavender-deep); background:var(--lavender); padding:20px 26px; display:flex; flex-direction:column; gap:8px; justify-content:center; }
+.at-tag{ font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; font-style:italic; color:var(--lavender-deep); }
+.at-id{ font-family:var(--mono); font-size:1.1rem; color:var(--lavender-deep); }
+.at-name{ font-size:2.3rem; font-weight:600; line-height:1.1; }
+.at-desc{ font-size:1.25rem; line-height:1.4; margin:0; }
+.at-case{ border-top:1.5px solid var(--lavender-deep); padding-top:10px; margin-top:4px; font-size:1.2rem; line-height:1.4; }
+.at-ask{ border:1.5px dashed var(--line); padding:24px 32px; display:flex; align-items:center; justify-content:center; text-align:center; font-size:2rem; font-style:italic; font-weight:500; color:var(--accent-deep); }
+.at-mit{ border:1.5px solid var(--line); padding:12px 24px 14px; display:flex; flex-direction:column; gap:8px; justify-content:center; }
+.at-mit .at-tag{ color:var(--muted); }
+.at-mlist{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px 28px; }
+.at-m{ display:flex; flex-direction:column; gap:1px; border-top:3px solid var(--card); padding-top:5px; min-width:0; }
+.at-m b{ font-size:1.3rem; font-weight:600; line-height:1.2; }
+.at-m .at-id{ font-size:.95rem; color:var(--muted); }
+.at-m span.at-what{ font-size:1.15rem; line-height:1.35; }
+.slide.active .at-ask, .slide.active .at-mit{ animation:tFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce){ .slide.active .at-tac, .slide.active .at-ask, .slide.active .at-mit{ animation:none !important; } }
+@media (max-width: 760px){ .at-grid{ grid-template-columns:1fr 1fr; } .at, .at-mlist{ grid-template-columns:1fr; } }
+
+/* group exercise: instructions on the left, the link and its QR code on the right */
+.exr{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:48px; align-items:center; }
+.exr-list{ margin:0; padding-left:1.2em; font-size:1.5rem; line-height:1.4; display:flex; flex-direction:column; gap:14px; }
+.exr-go{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+.ex-qr{ width:min(100%, 250px); height:auto; border:1.5px solid var(--line); }
+.exr-url{ font-family:var(--mono); font-size:1.15rem; color:var(--ink); text-align:center; overflow-wrap:anywhere; }
+@media (max-width: 760px){ .exr{ grid-template-columns:1fr; } }
+
+/* dramatic beat — one dark, full-bleed slide; darkens the whole page while it is active */
+.deck-header, .deck-nav{ position:relative; z-index:2; }
+.beat-slide{ color:var(--paper); }
+.beat-slide > *:not(.wall){ position:relative; z-index:1; }
+.beat-slide h1{ font-size:clamp(2.4rem,5vw,3.8rem); max-width:16ch; }
+.beat-slide .lede{ font-size:1.9rem; color:var(--card); }
+.wall{ position:fixed; inset:0; z-index:0; background:var(--ink); overflow:hidden; padding-top:6px; }
+.wall-row{ white-space:nowrap; font-family:var(--mono); font-size:15px; line-height:1.9; color:var(--on-dark-muted); opacity:.75; }
+.wall::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(30,27,22,1) 0, rgba(30,27,22,1) 70px, rgba(30,27,22,0) 130px, rgba(30,27,22,0) calc(100% - 130px), rgba(30,27,22,1) calc(100% - 70px), rgba(30,27,22,1) 100%), linear-gradient(90deg, rgba(30,27,22,1) 0%, rgba(30,27,22,.94) 32%, rgba(30,27,22,.3) 68%, rgba(30,27,22,0) 100%); }
+.slide.active .wall-row{ animation:wallDrift 60s linear infinite alternate; }
+.slide.active .wall-row:nth-child(even){ animation-direction:alternate-reverse; }
+@keyframes wallDrift{ from{ transform:translateX(0); } to{ transform:translateX(-260px); } }
+.wall.dim .wall-row{ opacity:.3; }
+.wall-hot{ position:absolute; z-index:1; left:66%; top:46%; font-family:var(--mono); font-size:1.6rem; color:var(--accent); background:var(--ink); border:1.5px solid var(--accent); padding:8px 16px; }
+.slide.active .wall-hot{ animation:hotIn .7s ease-out both, hotPulse 2s ease-in-out .7s infinite; }
+@keyframes hotIn{ from{ opacity:0; transform:scale(.92); } to{ opacity:1; transform:none; } }
+@keyframes hotPulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(224,96,74,.55); } 50%{ box-shadow:0 0 0 14px rgba(224,96,74,0); } }
+@media (prefers-reduced-motion: reduce){ .slide.active .wall-row, .slide.active .wall-hot{ animation:none !important; } }
+body:has(.beat-slide.active){ background:var(--ink); }
+body:has(.beat-slide.active) .course-tag, body:has(.beat-slide.active) .slide-number{ color:var(--on-dark-muted); }
+body:has(.beat-slide.active) .progress-track{ background:var(--on-dark-line); }
+body:has(.beat-slide.active) .progress-fill{ background:var(--paper); }
+body:has(.beat-slide.active) .ltu-logo{ display:none; }
+body:has(.beat-slide.active) .ltu-logo.on-dark{ display:block; }
+body:has(.beat-slide.active) .nav-btn{ border-color:var(--on-dark-line); color:var(--card); }
+body:has(.beat-slide.active) .dot{ background:transparent; border-color:var(--on-dark-muted); }
+body:has(.beat-slide.active) .dot.active{ background:var(--accent); border-color:var(--accent); }
+
+/* nav */
+.deck-nav{ display:flex; align-items:center; justify-content:center; gap:14px; padding:12px 0 22px; }
+.nav-btn{ all:unset; cursor:pointer; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:1.5px solid var(--line); border-radius:50%; color:var(--ink); font-size:1.1rem; }
+.nav-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.nav-btn:focus-visible, .dot:focus-visible{ outline:2px solid var(--accent-deep); outline-offset:3px; }
+.nav-btn:disabled{ opacity:.3; cursor:default; }
+.dots{ display:flex; gap:7px; flex-wrap:wrap; max-width:900px; justify-content:center; }
+.dot{ all:unset; cursor:pointer; width:8px; height:8px; border-radius:50%; background:var(--card); border:1px solid var(--line); }
+.dot.active{ background:var(--accent); width:18px; border-radius:5px; border-color:var(--accent); }
+
+
+/* ---- Lecture 10 additions ---- */
+.slide h1.xwide{ max-width:34ch; }
+/* contingency planning: four components, today's two highlighted */
+.cp-grid{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:16px; }
+.cp-card{ border:1.5px solid var(--line); padding:20px; display:flex; flex-direction:column; gap:8px; }
+.cp-card.today{ background:var(--lavender); border-color:var(--lavender-deep); }
+.cp-card.later{ border-style:dashed; color:var(--muted); }
+.cp-abbr{ font-size:2.4rem; font-weight:600; line-height:1; }
+.cp-name{ font-size:1.2rem; font-weight:600; }
+.cp-q{ font-size:1.2rem; line-height:1.4; }
+.cp-card .card-tag{ margin:0; }
+.cp-card.today .card-tag{ color:var(--lavender-deep); }
+.slide.active .cp-card{ animation:tFade .45s ease-out both; }
+.slide.active .cp-card:nth-child(2){ animation-delay:.12s; } .slide.active .cp-card:nth-child(3){ animation-delay:.24s; } .slide.active .cp-card:nth-child(4){ animation-delay:.36s; }
+@media (max-width: 760px){ .cp-grid{ grid-template-columns:1fr 1fr; } }
+
+/* flow — box-and-arrow chain */
+.flow{ display:flex; align-items:stretch; gap:6px; flex-wrap:wrap; }
+.flow-node{ border:1.5px solid var(--line); padding:20px 22px; font-size:1.25rem; line-height:1.4; flex:1; min-width:180px; background:var(--paper); }
+.flow-node.hl{ background:var(--lavender); border-color:var(--lavender-deep); }
+.flow-node b{ display:block; font-size:1.35rem; margin-bottom:6px; }
+.flow-arrow{ font-size:1.6rem; padding:0 6px; color:var(--ink); flex:0 0 auto; align-self:center; }
+.slide.active .flow > *{ animation:tFade .45s ease-out both; }
+.slide.active .flow > *:nth-child(2){ animation-delay:.15s; } .slide.active .flow > *:nth-child(3){ animation-delay:.3s; } .slide.active .flow > *:nth-child(4){ animation-delay:.45s; } .slide.active .flow > *:nth-child(5){ animation-delay:.6s; }
+
+/* question list — what to ask when finding critical functions */
+.disc-list{ display:flex; flex-direction:column; gap:15px; font-size:1.45rem; padding:0; margin:0; list-style:none; max-width:74ch; }
+.disc-list li{ padding-left:22px; position:relative; line-height:1.45; }
+.disc-list li::before{ content:"\2013"; color:var(--accent); position:absolute; left:0; }
+.slide.active .disc-list li{ animation:tFade .45s ease-out both; }
+.slide.active .disc-list li:nth-child(2){ animation-delay:.12s; } .slide.active .disc-list li:nth-child(3){ animation-delay:.24s; } .slide.active .disc-list li:nth-child(4){ animation-delay:.36s; } .slide.active .disc-list li:nth-child(5){ animation-delay:.48s; } .slide.active .disc-list li:nth-child(6){ animation-delay:.6s; }
+
+/* timeline: RPO, RTO, WRT and MTD built up one per click */
+.tl svg{ display:block; width:100%; height:auto; overflow:visible; }
+.tl-line{ stroke:var(--ink); stroke-width:3; fill:none; }
+.tl-line.down{ stroke:var(--accent-deep); stroke-width:6; }
+.tl-line.rec{ stroke-dasharray:8 6; }
+.tl-tick{ stroke:var(--ink); stroke-width:1.5; }
+.tl-ev{ font-family:"EB Garamond", serif; font-size:21px; font-weight:600; fill:var(--ink); text-anchor:middle; }
+.tl-ev.bad{ fill:var(--accent-deep); }
+.tl-br{ fill:none; stroke-width:2.5; }
+.tl-lab{ font-family:"EB Garamond", serif; font-size:26px; font-weight:700; text-anchor:middle; }
+.tl-sub{ font-family:"EB Garamond", serif; font-size:17px; font-style:italic; fill:var(--muted); text-anchor:middle; }
+.c-rpo{ stroke:var(--navy); fill:var(--navy); } .c-rto{ stroke:var(--accent-deep); fill:var(--accent-deep); } .c-wrt{ stroke:var(--lavender-deep); fill:var(--lavender-deep); } .c-mtd{ stroke:var(--ink); fill:var(--ink); }
+.tl-br.c-rpo, .tl-br.c-rto, .tl-br.c-wrt, .tl-br.c-mtd{ fill:none; }
+.tl .future{ visibility:hidden; }
+.tl .past{ opacity:.45; }
+.slide.active .tl .cur{ animation:tFade .5s ease-out both; }
+
+/* data tables */
+table.deck-table{ width:100%; border-collapse:collapse; font-size:1.3rem; }
+table.deck-table th, table.deck-table td{ border:1.5px solid var(--line); padding:12px 16px; text-align:left; vertical-align:top; line-height:1.35; }
+table.deck-table th{ background:var(--card); font-weight:600; }
+table.deck-table td.num, table.deck-table th.num{ text-align:center; font-variant-numeric:lining-nums tabular-nums; white-space:nowrap; }
+table.deck-table td.empty{ color:var(--muted); font-style:italic; }
+table.deck-table td.fill{ background:var(--lavender); }
+.slide.active table.deck-table td.fill{ animation:tFade .45s ease-out both; }
+table.deck-table tr.past{ opacity:.45; }
+table.deck-table tr.future{ opacity:.25; }
+table.deck-table tr.cur td{ background:var(--lavender); }
+table.deck-table tr.cur td:first-child{ box-shadow:inset 4px 0 0 var(--lavender-deep); }
+
+/* cost balancing chart */
+.cost{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:40px; align-items:center; }
+.cost svg{ display:block; width:100%; height:auto; overflow:visible; }
+.cost-axis{ stroke:var(--ink); stroke-width:1.5; fill:none; }
+.cost-curve{ fill:none; stroke-width:3.5; }
+.cost-curve.dis{ stroke:var(--accent-deep); } .cost-curve.rec{ stroke:var(--navy); }
+.slide.active .cost-curve{ stroke-dasharray:1; animation:tDraw 1.1s ease-out both; }
+.slide.active .cost-curve.rec{ animation-delay:.5s; }
+@keyframes tDraw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+.cost-lab{ font-family:"EB Garamond", serif; font-size:21px; font-weight:600; }
+.cost-ax{ font-family:"EB Garamond", serif; font-size:18px; font-style:italic; fill:var(--muted); }
+.cost-dot{ fill:var(--lavender); stroke:var(--lavender-deep); stroke-width:2.5; }
+.slide.active .cost-mark{ animation:tFade .5s ease-out 1.5s both; }
+.cost-text p{ font-size:1.35rem; line-height:1.5; margin:0 0 14px; }
+.cost-text p:last-child{ margin:0; }
+
+/* incident response cycle: four phases, one highlighted per click */
+.cy{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:44px; align-items:center; }
+.cy svg{ display:block; width:100%; height:auto; overflow:visible; }
+.cy-node rect{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; transition:opacity .4s ease; }
+.cy-node text{ font-family:"EB Garamond", serif; font-size:21px; font-weight:600; fill:var(--ink); text-anchor:middle; }
+.cy-node .cy-n{ font-size:15px; font-weight:500; fill:var(--lavender-deep); letter-spacing:.06em; }
+.cy-node.cur rect{ fill:var(--lavender); stroke:var(--lavender-deep); stroke-width:3; }
+.cy-node.dim{ opacity:.35; }
+.slide.active .cy-node.cur{ animation:tFade .5s ease-out both; }
+.cy-arrow{ fill:none; stroke:var(--muted); stroke-width:2; }
+.cy-arrow.back{ stroke-dasharray:6 5; }
+.cy-mid{ font-family:"EB Garamond", serif; font-size:20px; font-style:italic; fill:var(--muted); text-anchor:middle; }
+.cy-panel{ display:flex; flex-direction:column; gap:14px; }
+.cy-panel h3{ margin:0; font-size:1.8rem; line-height:1.2; }
+.cy-panel p{ margin:0; font-size:1.35rem; line-height:1.45; color:var(--muted); }
+.cy-panel ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+.cy-panel li{ font-size:1.35rem; line-height:1.4; padding-left:22px; position:relative; }
+.cy-panel li::before{ content:"\2013"; color:var(--accent); position:absolute; left:0; }
+.cy-panel li b{ font-weight:600; }
+.slide.active .cy-panel > *{ animation:tFade .45s ease-out both; }
+.slide.active .cy-panel > *:nth-child(2){ animation-delay:.12s; } .slide.active .cy-panel > *:nth-child(3){ animation-delay:.24s; }
+@media (max-width: 760px){ .cy, .cost{ grid-template-columns:1fr; } }
+
+/* case card — the live case */
+.case-card{ border:1.5px solid var(--line); max-width:900px; }
+.case-head{ display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 24px; border-bottom:1.5px solid var(--line); }
+.case-year{ font-size:2.1rem; font-weight:600; }
+.case-name{ font-size:1.2rem; color:var(--muted); }
+.case-badge{ background:var(--navy); color:#fff; font-size:.85rem; padding:6px 14px; border-radius:20px; letter-spacing:.03em; white-space:nowrap; }
+.case-body{ padding:22px 24px; font-size:1.4rem; line-height:1.55; }
+.case-body p{ margin:0 0 12px; }
+.case-body p:last-child{ margin-bottom:0; }
+.case-body .flag{ color:var(--accent-deep); font-weight:600; }
+
+/* kill chain in the live case: notice and response rows reuse the defence style */
+.kc-case{ min-height:0; }
+.kc-def.see{ border-color:var(--navy); background:#dfe5ee; color:var(--navy); }
+.kc-def.act{ border-color:var(--lavender-deep); background:var(--lavender); color:var(--ink); font-weight:500; flex-direction:column; align-items:flex-start; justify-content:center; gap:2px; }
+.kc-def.act b{ font-weight:700; color:var(--lavender-deep); display:block; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; }
+
+/* assignment: three numbered steps */
+.as-list{ display:flex; flex-direction:column; gap:22px; margin:0; padding:0; list-style:none; }
+.as-list li{ display:grid; grid-template-columns:64px 1fr; align-items:baseline; gap:8px; font-size:1.6rem; line-height:1.35; }
+.as-list li span.as-sub{ display:block; font-size:1.25rem; color:var(--muted); margin-top:4px; }
+.slide.active .as-list li{ animation:tFade .5s ease-out both; }
+.slide.active .as-list li:nth-child(2){ animation-delay:.2s; } .slide.active .as-list li:nth-child(3){ animation-delay:.4s; }
+.as-foot{ font-size:1.25rem; color:var(--muted); margin:0; }
+.as-foot b{ color:var(--ink); }
+
+/* short screens (1280x720 projectors): tighter vertical rhythm */
+@media (max-height: 760px){ .slide{ gap:14px; } .kc-def{ min-height:0; padding:6px 8px; } .kc-head{ min-height:76px; } .kc .step-cap, .slide .step-cap{ min-height:0 !important; } .cy svg{ max-height:48vh; } }
+/* beat slide without the indicator wall */
+.beat-slide.plain h1{ font-size:clamp(3rem,6vw,4.6rem); max-width:14ch; }
+.slide.active.beat-slide.plain > *{ animation:tFade .7s ease-out both; }
+.slide.active.beat-slide.plain > .lede{ animation-delay:1.2s; }
+@media (prefers-reduced-motion: reduce){ .slide.active .cp-card, .slide.active .flow > *, .slide.active .disc-list li, .slide.active .tl .cur, .slide.active .cost-curve, .slide.active .cost-mark, .slide.active .cy-node, .slide.active .cy-panel > *, .slide.active .as-list li, .slide.active.beat-slide.plain > *, .slide.active table.deck-table td.fill{ animation:none !important; } }
+
+</style>
+</head>
+<body>
+<div class="deck">
+  <header class="deck-header">
+    <span class="course-tag">A0002E &middot; Lecture 10</span>
+    <div class="header-right">
+      <span class="slide-number" id="slideNumber"></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <img class="ltu-logo" src="ltu-logo.png" alt="Lule&aring; University of Technology">
+      <img class="ltu-logo on-dark" src="ltu-logo-white.png" alt="Lule&aring; University of Technology">
+    </div>
+  </header>
+  <main class="slides" id="slides">
+
+    <section class="slide title-slide active" aria-label="Title">
+      <span class="slide-eyebrow">A0002E &middot; Lecture 10</span>
+      <h1>Incident response and business continuity</h1>
+      <div class="title-rule"></div>
+      <p class="title-meta"><b>Anton Holmstr&ouml;m</b><br>Lule&aring; University of Technology</p>
+    </section>
+
+    <section class="slide beat-slide plain" aria-label="Wake-up">
+      <h1>Monday, 07:40. Nothing works.</h1>
+      <p class="lede">What do you do first?</p>
+    </section>
+
+    <section class="slide" aria-label="Goals">
+      <span class="slide-eyebrow">Today&rsquo;s goals</span>
+      <h1>After today, you can&hellip;</h1>
+      <ol class="goal-list">
+        <li><span class="goal-num">1</span><span>do a business impact analysis of critical business processes</span></li>
+        <li><span class="goal-num">2</span><span>explain the incident response cycle</span></li>
+        <li><span class="goal-num">3</span><span>turn your analysis into an incident response plan</span></li>
+      </ol>
+    </section>
+
+    <section class="slide" aria-label="Agenda">
+      <span class="slide-eyebrow">Agenda</span>
+      <h1>Today&rsquo;s lecture</h1>
+      <div class="roadmap">
+        <div class="roadmap-item"><div class="roadmap-num">1</div><div><div class="roadmap-label">Contingency planning</div><div class="roadmap-desc">The big picture, and where today fits</div></div></div>
+        <div class="roadmap-item"><div class="roadmap-num">2</div><div><div class="roadmap-label">Business impact analysis</div><div class="roadmap-desc">Critical processes, MTD, RTO, RPO and WRT</div></div></div>
+        <div class="roadmap-item"><div class="roadmap-num">3</div><div><div class="roadmap-label">The incident response cycle</div><div class="roadmap-desc">Four phases, from preparation to lessons learned</div></div></div>
+        <div class="roadmap-item"><div class="roadmap-num">4</div><div><div class="roadmap-label">Live case</div><div class="roadmap-desc">A ransomware attack, step by step along the kill chain</div></div></div>
+        <div class="roadmap-item"><div class="roadmap-num">5</div><div><div class="roadmap-label">Your assignment</div><div class="roadmap-desc">BIA and incident response plan for EsacOmed</div></div></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Contingency planning">
+      <span class="slide-eyebrow">Part 1 &middot; Contingency planning</span>
+      <h1>Contingency planning has four parts</h1>
+      <div class="cp-grid">
+        <div class="cp-card today"><span class="card-tag">Today</span><span class="cp-abbr">BIA</span><span class="cp-name">Business impact analysis</span><span class="cp-q">What must keep working, and for how long can it be down?</span></div>
+        <div class="cp-card today"><span class="card-tag">Today</span><span class="cp-abbr">IR</span><span class="cp-name">Incident response</span><span class="cp-q">An incident is happening. How do we stop it and recover?</span></div>
+        <div class="cp-card later"><span class="card-tag">Course book</span><span class="cp-abbr">DR</span><span class="cp-name">Disaster recovery</span><span class="cp-q">The damage is too big for IR. How do we rebuild?</span></div>
+        <div class="cp-card later"><span class="card-tag">Course book</span><span class="cp-abbr">BC</span><span class="cp-name">Business continuity</span><span class="cp-q">How does the business keep running while IT is gone?</span></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Incident">
+      <span class="slide-eyebrow">Part 1 &middot; Contingency planning</span>
+      <h1>What is an incident?</h1>
+      <div class="box statement">An adverse event that could result in a loss of information assets, but does not threaten the viability of the entire organisation.</div>
+      <p class="lede">If it does threaten the whole organisation, it is a disaster.</p>
+    </section>
+
+    <section class="slide" aria-label="BIA">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1>Business impact analysis</h1>
+      <div class="two-col">
+        <div class="compare-card"><span class="card-tag">Risk management asks</span><h3>How likely is it?</h3><p>Threats, vulnerabilities, probability.</p></div>
+        <div class="compare-card hl"><span class="card-tag">A BIA asks</span><h3>It has happened. What now?</h3><p>Which business functions stop, what that costs, and how long we can live without them.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Critical processes">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1>Step 1: find the critical business processes</h1>
+      <ul class="disc-list">
+        <li>What does the organisation exist to do?</li>
+        <li>What stops if this process stops? Money, care, safety, reputation?</li>
+        <li>Which laws or contracts set a deadline?</li>
+        <li>Which systems, people and suppliers does the process depend on?</li>
+      </ul>
+    </section>
+
+    <section class="slide" aria-label="Timeline">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1 class="wide">How long can it be down?</h1>
+      <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class="cur"><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="future"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="future"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
+      <p class="step-cap" style="min-height:2.9em">The system goes down. From this moment the clock is running.</p>
+    </section>
+
+    <section class="slide" aria-label="Timeline 2">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1 class="wide">How long can it be down?</h1>
+      <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="cur"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="future"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
+      <p class="step-cap" style="min-height:2.9em"><b>Recovery point objective (RPO).</b> How much data can we afford to lose? Counted back to the last backup we can use.</p>
+    </section>
+
+    <section class="slide" aria-label="Timeline 3">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1 class="wide">How long can it be down?</h1>
+      <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="past"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="cur"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="future"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
+      <p class="step-cap" style="min-height:2.9em"><b>Recovery time objective (RTO).</b> The longest the system may be down before it runs again.</p>
+    </section>
+
+    <section class="slide" aria-label="Timeline 4">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1 class="wide">How long can it be down?</h1>
+      <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class="past"><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class="past"><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class="cur"><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="future"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
+      <p class="step-cap" style="min-height:2.9em"><b>Work recovery time (WRT).</b> The system runs, but data must be restored, checked and caught up before people can work normally.</p>
+    </section>
+
+    <section class="slide" aria-label="Timeline 5">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1 class="wide">How long can it be down?</h1>
+      <div class="tl"><svg viewBox="0 0 1100 322" role="img" aria-label="Timeline with RPO, RTO, WRT and MTD"><g class=""><path class="tl-line" d="M40 110 H360"/><path class="tl-line down" d="M360 110 H620"/><line class="tl-tick" x1="200" y1="96" x2="200" y2="124"/><text class="tl-ev" x="200" y="84">Last backup</text><line class="tl-tick" x1="360" y1="96" x2="360" y2="124"/><text class="tl-ev bad" x="360" y="60">System down</text></g><g class=""><path class="tl-br c-rpo" d="M200 140 V154 H360 V140"/><text class="tl-lab c-rpo" x="280" y="186">RPO</text><text class="tl-sub" x="280" y="208">data we can lose</text></g><g class=""><line class="tl-tick" x1="620" y1="96" x2="620" y2="124"/><text class="tl-ev" x="620" y="84">System running</text><path class="tl-br c-rto" d="M362 140 V154 H618 V140"/><text class="tl-lab c-rto" x="490" y="186">RTO</text><text class="tl-sub" x="490" y="208">time to get the system back</text></g><g class=""><path class="tl-line rec" d="M620 110 H840"/><path class="tl-line" d="M840 110 H1060"/><line class="tl-tick" x1="840" y1="96" x2="840" y2="124"/><text class="tl-ev" x="850" y="84">Normal work</text><path class="tl-br c-wrt" d="M622 140 V154 H840 V140"/><text class="tl-lab c-wrt" x="731" y="186">WRT</text><text class="tl-sub" x="731" y="208">data checked, work caught up</text></g><g class="cur"><path class="tl-br c-mtd" d="M360 240 V256 H840 V240"/><text class="tl-lab c-mtd" x="600" y="290">MTD = RTO + WRT</text><text class="tl-sub" x="600" y="314">the longest the business can be without the function</text></g></svg></div>
+      <p class="step-cap" style="min-height:2.9em"><b>Maximum tolerable downtime (MTD).</b> The total time the business can be without the function. RTO and WRT together must fit inside it.</p>
+    </section>
+
+    <section class="slide" aria-label="Together">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1>Let&rsquo;s do this together</h1>
+      <table class="deck-table">
+        <tr><th class="num">#</th><th>Business function</th><th class="num">MTD (h)</th><th class="num">RTO (h)</th><th class="num">RPO (h)</th><th class="num">WRT (h)</th></tr>
+        <tr><td class="num">1</td><td class="empty">?</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td></tr>
+        <tr><td class="num">2</td><td>Appointment booking</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td></tr>
+        <tr><td class="num">3</td><td class="empty">?</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td><td class="num empty">&ndash;</td></tr>
+      </table>
+      <p class="step-cap" style="min-height:2.9em">A health centre. We start with appointment booking. What else must keep working?</p>
+    </section>
+
+    <section class="slide" aria-label="Together 2">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1>Let&rsquo;s do this together</h1>
+      <table class="deck-table">
+        <tr><th class="num">#</th><th>Business function</th><th class="num">MTD (h)</th><th class="num">RTO (h)</th><th class="num">RPO (h)</th><th class="num">WRT (h)</th></tr>
+        <tr><td class="num">1</td><td>Patient records</td><td class="num fill">4</td><td class="num fill">2</td><td class="num fill">0.25</td><td class="num fill">2</td></tr>
+        <tr><td class="num">2</td><td>Appointment booking</td><td class="num fill">8</td><td class="num fill">4</td><td class="num fill">1</td><td class="num fill">4</td></tr>
+        <tr><td class="num">3</td><td>Invoicing</td><td class="num fill">72</td><td class="num fill">48</td><td class="num fill">24</td><td class="num fill">24</td></tr>
+      </table>
+      <p class="step-cap" style="min-height:2.9em">One possible answer. Patient records come first: without them the health centre cannot treat anyone safely.</p>
+    </section>
+
+    <section class="slide" aria-label="Cost balancing">
+      <span class="slide-eyebrow">Part 2 &middot; Business impact analysis</span>
+      <h1>Faster recovery costs more</h1>
+      <div class="cost">
+        <svg viewBox="0 0 680 420" role="img" aria-label="Cost of disruption rises with time, cost of recovery falls">
+          <path class="cost-axis" d="M70 20 V360 H640"/>
+          <text class="cost-ax" x="60" y="14" text-anchor="end">Cost</text>
+          <text class="cost-ax" x="640" y="392" text-anchor="end">Time to recover &rarr;</text>
+          <path class="cost-curve dis" pathLength="1" d="M70 340 C300 330, 430 250, 610 50"/>
+          <path class="cost-curve rec" pathLength="1" d="M70 50 C220 260, 380 330, 610 340"/>
+          <text class="cost-lab" x="600" y="40" text-anchor="end" style="fill:var(--accent-deep)">Cost of disruption</text>
+          <text class="cost-lab" x="96" y="44" style="fill:var(--navy)">Cost of the recovery solution</text>
+          <g class="cost-mark"><line x1="331" y1="280" x2="331" y2="360" stroke="var(--lavender-deep)" stroke-width="1.5" stroke-dasharray="5 4"/><circle class="cost-dot" cx="331" cy="280" r="10"/><text class="cost-lab" x="331" y="258" text-anchor="middle" style="fill:var(--lavender-deep)">Balance</text></g>
+        </svg>
+        <div class="cost-text">
+          <p>A short RTO needs standby systems, frequent backups and people on call.</p>
+          <p>A long RTO is cheap until the incident happens. Then the business pays.</p>
+          <p>The BIA tells you where the balance is for each function.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Cycle">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1 class="wide">The incident response cycle</h1>
+      <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc1)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc1)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc1)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node "><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node "><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node "><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node "><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
+        <div class="cy-panel"><h3>Four phases, in a loop</h3><p>What you learn after one incident goes back into preparing for the next.</p><p>The dashed arrow: during containment you often find new things to analyse.</p></div></div>
+      <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
+    </section>
+
+    <section class="slide" aria-label="Cycle 2">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1 class="wide">The incident response cycle</h1>
+      <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc2)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc2)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc2)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node cur"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
+        <div class="cy-panel"><span class="card-tag">Phase 1</span><h3>Preparation</h3><p>Before anything happens.</p><ul><li>An incident response plan with roles and contact lists</li><li>Backups that are tested, and kept where an attacker cannot reach them</li><li>Logging and monitoring</li><li>Exercises, so people know the plan</li></ul></div></div>
+      <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
+    </section>
+
+    <section class="slide" aria-label="Cycle 3">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1 class="wide">The incident response cycle</h1>
+      <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc3)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc3)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc3)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node cur"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
+        <div class="cy-panel"><span class="card-tag">Phase 2</span><h3>Detection and analysis</h3><p>Is this an incident, and how bad is it?</p><ul><li><b>Confirm</b> the incident</li><li><b>Classify</b> it: type and severity</li><li><b>Document</b> everything and keep evidence</li><li><b>Prioritise and report</b>, internally and to authorities</li></ul></div></div>
+      <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
+    </section>
+
+    <section class="slide" aria-label="Cycle 4">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1 class="wide">The incident response cycle</h1>
+      <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc4)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc4)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc4)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node cur"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node dim"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
+        <div class="cy-panel"><span class="card-tag">Phase 3</span><h3>Containment, eradication and recovery</h3><p>Stop it, remove it, get back.</p><ul><li><b>Contain:</b> stop the spread. Isolate machines, block addresses, disable accounts</li><li><b>Eradicate:</b> find the root cause and remove the threat</li><li><b>Recover:</b> restore systems in priority order and watch for the attacker coming back</li></ul></div></div>
+      <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
+    </section>
+
+    <section class="slide" aria-label="Cycle 5">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1 class="wide">The incident response cycle</h1>
+      <div class="cy"><svg viewBox="-20 0 670 500" role="img" aria-label="Incident response cycle with four phases"><defs><marker id="cyAc5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker></defs><path class="cy-arrow" marker-end="url(#cyAc5)" d="M420 60 Q505 70 505 180"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M505 290 Q505 400 425 420"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M195 440 Q115 430 115 310"/><path class="cy-arrow" marker-end="url(#cyAc5)" d="M115 200 Q115 70 190 60"/><path class="cy-arrow back" marker-end="url(#cyAc5)" d="M360 380 Q440 330 445 280"/><text class="cy-mid" x="310" y="245">Incident response</text><g class="cy-node dim"><rect x="182" y="18" width="256" height="84" rx="14"/><text class="cy-n" x="310" y="42">1</text><text x="310" y="74">Preparation</text></g><g class="cy-node dim"><rect x="377" y="180" width="256" height="110" rx="14"/><text class="cy-n" x="505" y="204">2</text><text x="505" y="236">Detection</text><text x="505" y="262">and analysis</text></g><g class="cy-node dim"><rect x="182" y="375" width="256" height="110" rx="14"/><text class="cy-n" x="310" y="399">3</text><text x="310" y="431">Containment, eradication</text><text x="310" y="457">and recovery</text></g><g class="cy-node cur"><rect x="-13" y="200" width="256" height="110" rx="14"/><text class="cy-n" x="115" y="224">4</text><text x="115" y="256">Post-incident</text><text x="115" y="282">activity</text></g></svg>
+        <div class="cy-panel"><span class="card-tag">Phase 4</span><h3>Post-incident activity</h3><p>What do we learn?</p><ul><li><b>Document</b> what happened and what was done</li><li><b>Lessons learned:</b> what worked, what did not</li><li><b>Update the plan</b>, and feed it back into preparation</li></ul></div></div>
+      <p class="src-line">Phases after NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide.</p>
+    </section>
+
+    <section class="slide" aria-label="Bridge">
+      <span class="slide-eyebrow">Part 3 &middot; The incident response cycle</span>
+      <h1>The BIA decides what you save first</h1>
+      <div class="flow">
+        <div class="flow-node"><b>BIA</b>Which functions are critical, and how long each can be down</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node"><b>Incident response plan</b>Who does what, and in which order systems are restored</div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node hl"><b>During the incident</b>No discussion at 07:40. Follow the order.</div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Case">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>Fj&auml;llvik Health Centre</h1>
+      <div class="case-card">
+        <div class="case-head"><span class="case-year">Monday, 07:40</span><span class="case-name">A fictional case</span><span class="case-badge">Ransomware</span></div>
+        <div class="case-body">
+          <p>Reception cannot open the booking system. Every computer shows the same ransom note.</p>
+          <p><span class="flag">Patients are already in the waiting room.</span> Let&rsquo;s go back and see how the attacker got here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Live case">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case cur">Finds the VPN login page and staff names on the website</div><div class="kc-case hid">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case hid">Phishing email to 40 staff, Thursday</div><div class="kc-case hid">A nurse types their password. The VPN has no MFA</div><div class="kc-case hid">Logs in over VPN, installs a remote access tool</div><div class="kc-case hid">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 1. The attacker studies the target from the outside.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 2">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case cur">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case hid">Phishing email to 40 staff, Thursday</div><div class="kc-case hid">A nurse types their password. The VPN has no MFA</div><div class="kc-case hid">Logs in over VPN, installs a remote access tool</div><div class="kc-case hid">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 2. A trap is built for this target.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 3">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case cur">Phishing email to 40 staff, Thursday</div><div class="kc-case hid">A nurse types their password. The VPN has no MFA</div><div class="kc-case hid">Logs in over VPN, installs a remote access tool</div><div class="kc-case hid">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 3. The trap is sent.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 4">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case cur">A nurse types their password. The VPN has no MFA</div><div class="kc-case hid">Logs in over VPN, installs a remote access tool</div><div class="kc-case hid">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 4. One person falls for it. One missing control lets the attacker in.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 5">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case ">A nurse types their password. The VPN has no MFA</div><div class="kc-case cur">Logs in over VPN, installs a remote access tool</div><div class="kc-case hid">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 5. The attacker makes sure they can come back.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 6">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case ">A nurse types their password. The VPN has no MFA</div><div class="kc-case ">Logs in over VPN, installs a remote access tool</div><div class="kc-case cur">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case hid">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 6. Three days of quiet contact with the attacker. Nobody looks.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 7">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case ">A nurse types their password. The VPN has no MFA</div><div class="kc-case ">Logs in over VPN, installs a remote access tool</div><div class="kc-case ">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case cur">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag hid">We could have noticed</div>
+        <div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div><div class="kc-def none hid"></div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Step 7. Monday 07:40. This is where we started.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 8">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case ">A nurse types their password. The VPN has no MFA</div><div class="kc-case ">Logs in over VPN, installs a remote access tool</div><div class="kc-case ">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case ">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag">We could have noticed</div>
+        <div class="kc-def none"></div><div class="kc-def none"></div><div class="kc-def see cur n3">Staff report the odd email</div><div class="kc-def see cur n4">VPN login from abroad</div><div class="kc-def see cur n5">New software on a server</div><div class="kc-def see cur n6">Outbound traffic at night</div><div class="kc-def see cur n7">Backups being deleted</div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Signals at almost every step. Where would you have caught it?</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Live case 9">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1 class="wide">The attack, step by step</h1>
+      <div class="kc">
+        <div class="kc-head"><span class="kc-num">1</span><span class="kc-name">Reconnais&shy;sance</span></div><div class="kc-head"><span class="kc-num">2</span><span class="kc-name">Weaponi&shy;zation</span></div><div class="kc-head"><span class="kc-num">3</span><span class="kc-name">Delivery</span></div><div class="kc-head"><span class="kc-num">4</span><span class="kc-name">Exploitation</span></div><div class="kc-head"><span class="kc-num">5</span><span class="kc-name">Installation</span></div><div class="kc-head"><span class="kc-num">6</span><span class="kc-name">Command and control</span></div><div class="kc-head"><span class="kc-num">7</span><span class="kc-name">Actions on objectives</span></div>
+        <div class="kc-row-tag">What happened</div>
+        <div class="kc-case ">Finds the VPN login page and staff names on the website</div><div class="kc-case ">Builds a fake &ldquo;new staff rota&rdquo; login page</div><div class="kc-case ">Phishing email to 40 staff, Thursday</div><div class="kc-case ">A nurse types their password. The VPN has no MFA</div><div class="kc-case ">Logs in over VPN, installs a remote access tool</div><div class="kc-case ">Server calls the attacker every 5 minutes, all weekend</div><div class="kc-case ">Deletes backups, copies patient data, encrypts at 03:00</div>
+        <div class="kc-row-tag">Our response</div>
+        <div class="kc-def none"></div><div class="kc-def none"></div><div class="kc-def act cur n3"><b>Contain</b>Block sender, remove the email</div><div class="kc-def act cur n4"><b>Contain</b>Reset password, turn on MFA</div><div class="kc-def act cur n5"><b>Eradicate</b>Isolate server, remove the tool</div><div class="kc-def act cur n6"><b>Contain</b>Block the attacker&rsquo;s address</div><div class="kc-def act cur n7"><b>Recover</b>Restore from offline backup</div>
+      </div>
+      <p class="step-cap" style="min-height:2.9em">Each response breaks the chain at one step. Recovery order comes from the BIA.</p>
+      <p class="src-line">Model: Lockheed Martin, Cyber Kill Chain. Case is fictional.</p>
+    </section>
+
+    <section class="slide" aria-label="Response">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>The response, phase by phase</h1>
+      <table class="deck-table">
+        <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
+        <tr class="cur"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="future"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="future"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" aria-label="Response 2">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>The response, phase by phase</h1>
+      <table class="deck-table">
+        <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
+        <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="cur"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="future"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" aria-label="Response 3">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>The response, phase by phase</h1>
+      <table class="deck-table">
+        <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
+        <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="past"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="cur"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="future"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" aria-label="Response 4">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>The response, phase by phase</h1>
+      <table class="deck-table">
+        <tr><th style="width:30%">Phase</th><th>What Fj&auml;llvik does on Monday</th></tr>
+        <tr class="past"><td><b>Detection and analysis</b></td><td>Confirm it is ransomware. Classify it as critical. Start an incident log. Call the incident lead. Report the data breach to IMY within 72 hours.</td></tr><tr class="past"><td><b>Containment</b></td><td>Cut the internet connection. Turn off the VPN. Isolate the infected servers. Keep the evidence.</td></tr><tr class="past"><td><b>Eradication</b></td><td>Root cause: a stolen VPN password. Remove the remote access tool. Reset all passwords. Turn on MFA.</td></tr><tr class="cur"><td><b>Recovery</b></td><td>Restore from the offline backup, in the order the BIA set. Watch for the attacker coming back.</td></tr>
+      </table>
+    </section>
+
+    <section class="slide" aria-label="Recovery order">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>Recovery order comes from the BIA</h1>
+      <table class="deck-table">
+        <tr><th class="num">Order</th><th>Business function</th><th class="num">MTD</th><th>While it is down</th></tr>
+        <tr><td class="num">1</td><td>Patient records</td><td class="num">4 h</td><td>Printed list of today&rsquo;s patients. Urgent cases to the regional hospital.</td></tr>
+        <tr><td class="num">2</td><td>Appointment booking</td><td class="num">8 h</td><td>Paper booking and a phone list printed every evening.</td></tr>
+        <tr><td class="num">3</td><td>Invoicing</td><td class="num">72 h</td><td>Wait. Send invoices when the system is back.</td></tr>
+      </table>
+      <p class="lede">The right column is business continuity: how the work goes on without the system.</p>
+    </section>
+
+    <section class="slide" aria-label="Lessons learned">
+      <span class="slide-eyebrow">Part 4 &middot; Live case</span>
+      <h1>Back to preparation</h1>
+      <ul class="disc-list">
+        <li>MFA on all remote access</li>
+        <li>Backups the attacker cannot delete, and a restore test every quarter</li>
+        <li>Alerts on night-time outbound traffic and on deleted backups</li>
+        <li>Print the patient list every evening</li>
+        <li>A phishing exercise for all staff</li>
+      </ul>
+    </section>
+
+    <section class="slide" aria-label="Assignment">
+      <span class="slide-eyebrow">Part 5 &middot; Your assignment</span>
+      <h1>Your assignment: EsacOmed</h1>
+      <ol class="as-list">
+        <li><span class="goal-num">1</span><span>Identify three critical business processes<span class="as-sub">From the case description. Start from what EsacOmed exists to do.</span></span></li>
+        <li><span class="goal-num">2</span><span>Do a business impact analysis<span class="as-sub">MTD, RTO, RPO and WRT for each process, with your reasons.</span></span></li>
+        <li><span class="goal-num">3</span><span>Write an incident response plan<span class="as-sub">Concrete steps per phase that keep the business running and limit the damage.</span></span></li>
+      </ol>
+      <p class="as-foot">Use the template. Questions: <b>anton.holmstrom@ltu.se</b></p>
+    </section>
+
+    <section class="slide" aria-label="Good plan">
+      <span class="slide-eyebrow">Part 5 &middot; Your assignment</span>
+      <h1>A plan someone can follow at 07:40</h1>
+      <ul class="disc-list">
+        <li>Who is called first, and who decides?</li>
+        <li>What starts the plan?</li>
+        <li>In which order are systems restored? Your BIA answers this.</li>
+        <li>How does the work go on while systems are down?</li>
+        <li>Who tells staff, customers and authorities, and when?</li>
+      </ul>
+    </section>
+
+    <section class="slide title-slide" aria-label="Questions">
+      <span class="slide-eyebrow">Incident response and business continuity</span>
+      <h1>Questions?</h1>
+      <div class="title-rule"></div>
+      <p class="title-meta"><b>Thank you for today.</b><br>Anton Holmstr&ouml;m, Lule&aring; University of Technology</p>
+    </section>
+
+  </main>
+  <nav class="deck-nav">
+    <button class="nav-btn" id="prevBtn" aria-label="Previous">&#8249;</button>
+    <div class="dots" id="dotsWrap"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="Next">&#8250;</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsWrap = document.getElementById('dotsWrap');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var progressFill = document.getElementById('progressFill');
+  var slideNumber = document.getElementById('slideNumber');
+  var current = 0;
+
+  // UI strings — the language follows <html lang="…">
+  var I18N = {
+    en: { goTo:'Go to slide ', correct:'Correct — this is exactly what the right answer demonstrates.', wrong:'Not quite — the correct answer is highlighted above.',
+          presenter:'Presenter view', slide:'Slide', now:'Now', next:'Next', prev:'Prev', notesPh:'Notes for this slide...',
+          smaller:'Smaller notes text', larger:'Larger notes text', box:'Box', boxSmaller:'Smaller notes box', boxLarger:'Larger notes box', resize:'Drag to resize the notes box (or use the arrow keys)', popup:'Please allow pop-ups for this page to use the presenter view.' },
+    sv: { goTo:'Gå till bild ', correct:'Rätt — det här är precis vad rätt svar visar.', wrong:'Inte riktigt — rätt svar är markerat ovan.',
+          presenter:'Presentatörsvy', slide:'Bild', now:'Nu', next:'Nästa', prev:'Föregående', notesPh:'Anteckningar för den här bilden...',
+          smaller:'Mindre anteckningstext', larger:'Större anteckningstext', box:'Ruta', boxSmaller:'Mindre anteckningsruta', boxLarger:'Större anteckningsruta', resize:'Dra för att ändra anteckningsrutans storlek (eller använd piltangenterna)', popup:'Tillåt popup-fönster för den här sidan för att använda presentatörsvyn.' }
+  };
+  var LANG = (document.documentElement.lang || 'en').slice(0, 2);
+  var T = I18N[LANG] || I18N.en;
+
+  // one dot per slide group: a step sequence ("Levels", "Levels 2", ...) shares a dot,
+  // so the row stays on one line however many clicks a sequence has
+  var groupOf = [];
+  var lastBase = null, groupCount = 0;
+  slides.forEach(function(s, i){
+    var base = (s.getAttribute('aria-label') || '').replace(/\s+\d+$/, '');
+    if (i === 0 || base !== lastBase){
+      var dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.setAttribute('aria-label', T.goTo + (i+1) + (base ? ': ' + base : ''));
+      dot.title = base;
+      dot.addEventListener('click', function(){ goTo(i); });
+      dotsWrap.appendChild(dot);
+      groupCount++;
+      lastBase = base;
+    }
+    groupOf[i] = groupCount - 1;
+  });
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  function render(){
+    slides.forEach(function(s, i){ s.classList.toggle('active', i === current); });
+    dots.forEach(function(d, g){ d.classList.toggle('active', g === groupOf[current]); });
+    progressFill.style.width = (((current + 1) / slides.length) * 100) + '%';
+    slideNumber.textContent = (current + 1) + ' / ' + slides.length;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    updatePresenterWindow();
+  }
+  // fly transition: elements marked data-fly="<key>" on one slide travel to the element
+  // with class "dm-<key>" on the next slide (used for the loose notes into the Diamond Model)
+  var flyGhosts = [];
+  function clearFly(){ flyGhosts.forEach(function(g){ if (g.parentNode) g.parentNode.removeChild(g); }); flyGhosts = []; }
+  function goTo(i){
+    var prev = current;
+    var next = Math.max(0, Math.min(slides.length - 1, i));
+    clearFly();
+    var sources = [];
+    var canFly = next === prev + 1 && typeof document.body.animate === 'function' &&
+      !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (canFly){
+      Array.prototype.forEach.call(slides[prev].querySelectorAll('[data-fly]'), function(el){
+        var r = el.getBoundingClientRect();
+        sources.push({ el:el, key:el.getAttribute('data-fly'), cx:r.left + r.width/2, cy:r.top + r.height/2,
+          w:el.offsetWidth, h:el.offsetHeight, rot:getComputedStyle(el).rotate || '0deg' });
+      });
+    }
+    current = next;
+    render();
+    if (!sources.length) return;
+    var D = 950;
+    sources.forEach(function(src, n){
+      var target = slides[current].querySelector('.dm-' + src.key);
+      if (!target) return;
+      var t = target.getBoundingClientRect();
+      var ghost = src.el.cloneNode(true);
+      ghost.removeAttribute('data-fly');
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.style.cssText = 'position:fixed; z-index:60; margin:0; pointer-events:none; box-sizing:border-box; translate:none; animation:none;' +
+        'left:' + (src.cx - src.w/2) + 'px; top:' + (src.cy - src.h/2) + 'px; width:' + src.w + 'px; height:' + src.h + 'px; min-height:0; rotate:' + src.rot + ';';
+      document.body.appendChild(ghost);
+      flyGhosts.push(ghost);
+      var dx = (t.left + t.width/2) - src.cx, dy = (t.top + t.height/2) - src.cy;
+      var delay = n * 90;
+      var a = ghost.animate([
+        { transform:'translate(0,0) scale(1,1)', rotate:src.rot, opacity:1 },
+        { transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + (t.width/src.w) + ',' + (t.height/src.h) + ')', rotate:'0deg', opacity:1, offset:.72 },
+        { transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + (t.width/src.w) + ',' + (t.height/src.h) + ')', rotate:'0deg', opacity:0 }
+      ], { duration:D, delay:delay, easing:'cubic-bezier(.6,0,.2,1)', fill:'both' });
+      a.onfinish = function(){ if (ghost.parentNode) ghost.parentNode.removeChild(ghost); };
+      target.animate([{ opacity:0 }, { opacity:0, offset:.6 }, { opacity:1 }], { duration:D + delay, easing:'ease-out', fill:'backwards' });
+    });
+    var mid = slides[current].querySelector('.dm-svg');
+    if (mid) mid.animate([{ opacity:0 }, { opacity:0, offset:.5 }, { opacity:1 }], { duration:D + 300, easing:'ease-out', fill:'backwards' });
+  }
+  prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  // quiz interaction — one <div class="quiz" data-answer="N"> per quiz slide
+  document.querySelectorAll('.quiz').forEach(function(quiz){
+    var answer = parseInt(quiz.getAttribute('data-answer'), 10);
+    var opts = Array.prototype.slice.call(quiz.querySelectorAll('.quiz-opt'));
+    var feedback = quiz.querySelector('.quiz-feedback');
+    opts.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        var idx = parseInt(opt.getAttribute('data-idx'), 10);
+        opts.forEach(function(o){ o.disabled = true; });
+        if (idx === answer){
+          opt.classList.add('correct');
+          feedback.textContent = T.correct;
+        } else {
+          opt.classList.add('wrong');
+          opts[answer].classList.add('correct');
+          feedback.textContent = T.wrong;
+        }
+      });
+    });
+  });
+
+  // mode toggle — click-to-compare diagrams
+  document.querySelectorAll('.mode-tabs').forEach(function(tabs){
+    var wrap = tabs.closest('.toggle-diagram') || tabs.parentElement;
+    var buttons = Array.prototype.slice.call(tabs.querySelectorAll('.mode-tab'));
+    var scenes = Array.prototype.slice.call(wrap.querySelectorAll('.mode-scene'));
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var mode = btn.getAttribute('data-mode');
+        buttons.forEach(function(b){ b.classList.toggle('active', b === btn); });
+        scenes.forEach(function(s){ s.classList.toggle('active', s.getAttribute('data-mode') === mode); });
+      });
+    });
+  });
+
+  // indicator wall (wake-up slides) — the same seeded rows in every .wall, so steps do not jump.
+  // IPs use the RFC 5737 documentation ranges and domains use reserved TLDs: nothing here is real.
+  (function(){
+    var seed = 9;
+    function rnd(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+    function pick(a){ return a[Math.floor(rnd() * a.length)]; }
+    var nets = ['192.0.2.', '198.51.100.', '203.0.113.'];
+    var w1 = ['cdn', 'login', 'update', 'mail', 'secure', 'portal', 'files', 'api', 'sync', 'auth', 'static', 'vpn'];
+    var w2 = ['check', 'service', 'cloud', 'gate', 'support', 'storage', 'verify', 'node', 'relay', 'office'];
+    var tlds = ['.example', '.test', '.invalid'];
+    function hex(n){ var h = ''; for (var i = 0; i < n; i++) h += '0123456789abcdef'[Math.floor(rnd() * 16)]; return h; }
+    function item(){
+      var r = rnd();
+      if (r < 0.5) return pick(nets) + (1 + Math.floor(rnd() * 254));
+      if (r < 0.78) return pick(w1) + '-' + pick(w2) + pick(tlds);
+      return hex(rnd() < 0.7 ? 32 : 64);
+    }
+    var rows = [];
+    for (var i = 0; i < 64; i++){ var parts = []; for (var j = 0; j < 26; j++) parts.push(item()); rows.push(parts.join('   ')); }
+    document.querySelectorAll('.wall').forEach(function(wall){
+      var hot = wall.firstChild;
+      rows.forEach(function(text){ var d = document.createElement('div'); d.className = 'wall-row'; d.textContent = text; wall.insertBefore(d, hot); });
+    });
+  })();
+
+  function updatePresenterWindow(){}
+
+  render();
+})();
+</script>
+</body>
+</html>
